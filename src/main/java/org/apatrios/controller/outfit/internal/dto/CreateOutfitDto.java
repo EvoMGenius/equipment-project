@@ -1,17 +1,33 @@
 package org.apatrios.controller.outfit.internal.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import org.apatrios.model.OutfitStatus;
-import org.apatrios.model.dictoinary.OutfitModel;
+import lombok.experimental.FieldDefaults;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = PRIVATE)
+@Schema(description = "DTO создания экипировки")
 public class CreateOutfitDto {
-    private OutfitModel model;
-    private Integer invNumber;
-    private OutfitStatus status;
-    private String comment;
+
+    @NotNull
+    @Schema(description = "id Модели экипировки")
+    UUID outfitModelId;
+
+    @NotNull
+    @Schema(description = "Инвентарный номер экипировки")
+    Integer invNumber;
+
+    @NotBlank
+    @Schema(description = "Комментарий", example = "Выдана на сезонное использование")
+    String comment;
 }

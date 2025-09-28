@@ -1,33 +1,49 @@
 package org.apatrios.controller.bike.internal.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.apatrios.controller.iot.internal.dto.IotDto;
 import org.apatrios.model.BikeStatus;
 import org.apatrios.model.dictoinary.ModelBike;
 
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = PRIVATE)
+@Schema(description = "DTO велосипеда")
 public class BikeDto {
-    private UUID id;
 
-    private ModelBike modelBike;
+    @Schema(description = "Уникальный идентификатор велосипеда")
+    UUID id;
 
-    private Integer seqNumber;
+    @Schema(description = "Модель велосипеда (из справочника)")
+    ModelBike modelBike;
 
-    private Integer invNumber;
+    @Schema(description = "Порядковый номер внутри модели")
+    Integer seqNumber;
 
-    private String vin;
+    @Schema(description = "Инвентарный номер велосипеда")
+    Integer invNumber;
 
-    private String motorWheel;
+    @Schema(description = "VIN — уникальный идентификатор транспортного средства")
+    String vin;
 
-    private IotDto iot;
+    @Schema(description = "Марка/модель моторного колеса")
+    String motorWheel;
 
-    private BikeStatus status;
+    @Schema(description = "Привязанное IoT-устройство (SIM/IOT модуль)")
+    IotDto iot;
 
-    private String comment;
+    @Schema(description = "Статус велосипеда")
+    BikeStatus status;
+
+    @Schema(description = "Комментарий или дополнительная информация")
+    String comment;
 }

@@ -1,19 +1,36 @@
 package org.apatrios.controller.iot.internal.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import org.apatrios.model.BikeStatus;
-import org.apatrios.model.Sim;
-import org.apatrios.model.dictoinary.IotModel;
+import lombok.experimental.FieldDefaults;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = PRIVATE)
+@Schema(description = "DTO создания IoT-устройств")
 public class CreateIotDto {
-    private IotModel model;
-    private String invNumber;
-    private Sim sim;
-    private BikeStatus status;
-    private String comment;
+    @NotNull
+    @Schema(description = "id модели IoT-устройства")
+    UUID iotModelId;
+
+    @NotBlank
+    @Schema(description = "Инвентарный номер IoT-устройства")
+    String invNumber;
+
+    @NotNull
+    @Schema(description = "id SIM-карты")
+    UUID simId;
+
+    @NotBlank
+    @Schema(description = "Комментарий или примечание", example = "Устройство установлено на велосипед №12")
+    String comment;
 }

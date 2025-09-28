@@ -1,10 +1,12 @@
 package org.apatrios.model;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.apatrios.model.dictoinary.OutfitModel;
 
 import javax.persistence.*;
-import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Getter
@@ -12,21 +14,22 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Outfit {
+@FieldDefaults(level = PRIVATE)
+public class Outfit extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private UUID id;
+    /** Справочник моделей экипировки */
+    @ManyToOne(fetch = FetchType.EAGER)
+    OutfitModel model;
 
-    @ManyToOne
-    private OutfitModel model;
+    /** Инвентарный номер */
+    @Column(nullable = false)
+    Integer invNumber;
 
-    // Инвентарный номер
-    private Integer invNumber;
+    /** Статус */
+    @Column(nullable = false)
+    OutfitStatus status;
 
-    private OutfitStatus status;
-
+    /** Комментарий */
     @Column(columnDefinition = "text")
-    private String comment;
+    String comment;
 }

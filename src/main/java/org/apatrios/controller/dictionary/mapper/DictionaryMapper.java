@@ -1,16 +1,13 @@
 package org.apatrios.controller.dictionary.mapper;
 
-import org.apatrios.model.dictoinary.BaseDictionary;
-import org.apatrios.controller.dictionary.dto.DictionaryDto;
+import org.apatrios.controller.dictionary.dto.BaseDictionarySearchDto;
+import org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface DictionaryMapper {
+    DictionaryMapper DICTIONARY_MAPPER = Mappers.getMapper(DictionaryMapper.class);
 
-//    @Mapping(target = "id", ignore = true)
-//    @Mapping(target = "createDate", ignore = true)
-//    BaseDictionary toEntity(DictionaryDto dto);
-//
-//    DictionaryDto toDto(BaseDictionary entity);
+    BaseDictionarySearchArgument toArgument(BaseDictionarySearchDto dto);
 }

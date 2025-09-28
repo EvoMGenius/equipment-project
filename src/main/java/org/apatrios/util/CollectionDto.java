@@ -3,6 +3,7 @@ package org.apatrios.util;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,5 +22,9 @@ public class CollectionDto<T> {
 
     public static <T> CollectionDto<T> empty() {
         return new CollectionDto<>();
+    }
+
+    public static <T> CollectionDto<T> of(Page<T> page) {
+        return new CollectionDto<>(page.getContent(), page.getTotalElements());
     }
 }

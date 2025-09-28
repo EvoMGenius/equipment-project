@@ -1,8 +1,8 @@
 package org.apatrios.repository.dictionary;
 
-import org.apatrios.model.dictoinary.ModelBike;
+import org.apatrios.model.dictoinary.OutfitModel;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OutfitModelRepository extends DictionaryRepository<ModelBike> {
+public interface OutfitModelRepository extends BaseDictionaryRepository<OutfitModel> {
 }

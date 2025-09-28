@@ -1,10 +1,12 @@
 package org.apatrios.model;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.apatrios.model.dictoinary.ModelBike;
 
 import javax.persistence.*;
-import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Getter
@@ -12,31 +14,38 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Bike {
+@FieldDefaults(level = PRIVATE)
+public class Bike extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private UUID id;
+    /** Модель велосипеда */
+    @ManyToOne(fetch = FetchType.EAGER)
+    ModelBike modelBike;
 
-    @ManyToOne
-    private ModelBike modelBike;
+    /** Порядковый номер внутри модели */
+    @Column(nullable = false)
+    Integer seqNumber;
 
-    //Порядковый номер внутри модели
-    private Integer seqNumber;
+    /** Инвентарный номер */
+    @Column(nullable = false)
+    Integer invNumber;
 
-    // Инвентарный номер
-    private Integer invNumber;
+    /** VIN — уникальный идентификатор транспортного средства */
+    @Column(nullable = false)
+    String vin;
 
-    private String vin;
+    /** Марка/модель моторного колеса */
+    @Column(nullable = false)
+    String motorWheel;
 
-    private String motorWheel;
+    /** Ссылка на SIM/IOT устройство, привязанное к этому Bike */
+    @OneToOne(fetch = FetchType.EAGER)
+    Iot iot;
 
-    @OneToOne()
-    private Iot iot;
+    /** Статус велосипеда */
+    @Column(nullable = false)
+    BikeStatus status;
 
-    private BikeStatus status;
-
+    /** Комментарий */
     @Column(columnDefinition = "text")
-    private String comment;
+    String comment;
 }

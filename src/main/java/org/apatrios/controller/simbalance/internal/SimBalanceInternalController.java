@@ -1,17 +1,22 @@
 package org.apatrios.controller.simbalance.internal;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.apatrios.action.sim_balance.create.CreateSimBalanceAction;
+import org.apatrios.action.sim_balance.update.UpdateSimBalanceAction;
 import org.apatrios.controller.simbalance.internal.dto.SimBalanceDto;
 import org.apatrios.controller.simbalance.internal.dto.CreateSimBalanceDto;
 import org.apatrios.controller.simbalance.internal.dto.SearchSimBalanceDto;
 import org.apatrios.controller.simbalance.internal.dto.UpdateSimBalanceDto;
-import org.apatrios.service.simbalance.SimBalanceService;
-import org.apatrios.service.simbalance.argument.CreateSimBalanceArgument;
-import org.apatrios.service.simbalance.argument.SearchSimBalanceArgument;
-import org.apatrios.service.simbalance.argument.UpdateSimBalanceArgument;
+import org.apatrios.service.sim_balance.SimBalanceService;
+import org.apatrios.service.sim_balance.argument.SearchSimBalanceArgument;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,20 +25,21 @@ import static org.apatrios.controller.simbalance.internal.mapper.SimBalanceMappe
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("internal/simbalance")
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class SimBalanceInternalController {
 
-    private final SimBalanceService service;
+    SimBalanceService service;
+    CreateSimBalanceAction createSimBalanceAction;
+    UpdateSimBalanceAction updateSimBalanceAction;
 
     @PostMapping("create")
-    public SimBalanceDto create(@RequestBody CreateSimBalanceDto dto) {
-        CreateSimBalanceArgument argument = SIM_BALANCE_MAPPER.toCreateArgument(dto);
-        return SIM_BALANCE_MAPPER.toDto(service.create(argument));
+    public SimBalanceDto create(@Valid @RequestBody CreateSimBalanceDto dto) {
+        return SIM_BALANCE_MAPPER.toDto(createSimBalanceAction.execute(SIM_BALANCE_MAPPER.toCreateArgument(dto)));
     }
 
-    @PutMapping("update/{id}")
-    public SimBalanceDto update(@RequestBody UpdateSimBalanceDto dto, @PathVariable UUID id) {
-        UpdateSimBalanceArgument argument = SIM_BALANCE_MAPPER.toUpdateArgument(dto);
-        return SIM_BALANCE_MAPPER.toDto(service.update(id, argument));
+    @PutMapping("update")
+    public SimBalanceDto update(@Valid @RequestBody UpdateSimBalanceDto dto) {
+        return SIM_BALANCE_MAPPER.toDto(updateSimBalanceAction.execute(SIM_BALANCE_MAPPER.toUpdateArgument(dto)));
     }
 
     @GetMapping("list")
@@ -43,5 +49,15 @@ public class SimBalanceInternalController {
                       .stream()
                       .map(SIM_BALANCE_MAPPER::toDto)
                       .toList();
+    }
+
+    @GetMapping("page")
+    public CollectionDto<SimBalanceDto> page(SearchSimBalanceDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(SIM_BALANCE_MAPPER.toSearchArgument(dto), pageable).map(SIM_BALANCE_MAPPER::toDto));
+    }
+
+    @DeleteMapping("{id}/delete")
+    public void delete(@PathVariable UUID id) {
+        service.delete(id);
     }
 }

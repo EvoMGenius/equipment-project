@@ -1,10 +1,12 @@
 package org.apatrios.model;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.apatrios.model.dictoinary.IotModel;
 
 import javax.persistence.*;
-import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Getter
@@ -12,23 +14,26 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Iot {
+@FieldDefaults(level = PRIVATE)
+public class Iot extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private UUID id;
+    /** Справочник моделей IoT-устройств */
+    @ManyToOne(fetch = FetchType.EAGER)
+    IotModel model;
 
-    @ManyToOne
-    private IotModel model;
+    /** Инвентарный номер */
+    @Column(nullable = false)
+    String invNumber;
 
-    private String invNumber;
+    /** SIM-карта */
+    @OneToOne(fetch = FetchType.EAGER)
+    Sim sim;
 
-    @OneToOne
-    private Sim sim;
+    /** Статус */
+    @Column(nullable = false)
+    BikeStatus status;
 
-    private BikeStatus status;
-
+    /** Комментарий */
     @Column(columnDefinition = "text")
-    private String comment;
+    String comment;
 }

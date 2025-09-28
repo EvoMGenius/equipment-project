@@ -1,17 +1,22 @@
 package org.apatrios.controller.iot.internal;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.apatrios.action.iot.create.CreateIotAction;
+import org.apatrios.action.iot.update.UpdateIotAction;
 import org.apatrios.controller.iot.internal.dto.IotDto;
 import org.apatrios.controller.iot.internal.dto.CreateIotDto;
 import org.apatrios.controller.iot.internal.dto.SearchIotDto;
 import org.apatrios.controller.iot.internal.dto.UpdateIotDto;
 import org.apatrios.service.iot.IotService;
-import org.apatrios.service.iot.argument.CreateIotArgument;
 import org.apatrios.service.iot.argument.SearchIotArgument;
-import org.apatrios.service.iot.argument.UpdateIotArgument;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,20 +25,21 @@ import static org.apatrios.controller.iot.internal.mapper.IotMapper.IOT_MAPPER;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("internal/iot")
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class IotInternalController {
 
-    private final IotService service;
+    IotService service;
+    CreateIotAction createIotAction;
+    UpdateIotAction updateIotAction;
 
     @PostMapping("create")
-    public IotDto create(@RequestBody CreateIotDto dto) {
-        CreateIotArgument argument = IOT_MAPPER.toCreateArgument(dto);
-        return IOT_MAPPER.toDto(service.create(argument));
+    public IotDto create(@Valid @RequestBody CreateIotDto dto) {
+        return IOT_MAPPER.toDto(createIotAction.execute(IOT_MAPPER.toCreateArgument(dto)));
     }
 
-    @PutMapping("update/{id}")
-    public IotDto update(@RequestBody UpdateIotDto dto, @PathVariable UUID id) {
-        UpdateIotArgument argument = IOT_MAPPER.toUpdateArgument(dto);
-        return IOT_MAPPER.toDto(service.update(id, argument));
+    @PutMapping("update")
+    public IotDto update(@Valid @RequestBody UpdateIotDto dto) {
+        return IOT_MAPPER.toDto(updateIotAction.execute(IOT_MAPPER.toUpdateArgument(dto)));
     }
 
     @GetMapping("list")
@@ -43,5 +49,16 @@ public class IotInternalController {
                       .stream()
                       .map(IOT_MAPPER::toDto)
                       .toList();
+    }
+
+    @GetMapping("page")
+    public CollectionDto<IotDto> page(SearchIotDto dto, Pageable pageable) {
+        SearchIotArgument searchArgument = IOT_MAPPER.toSearchArgument(dto);
+        return CollectionDto.of(service.page(searchArgument, pageable).map(IOT_MAPPER::toDto));
+    }
+
+    @DeleteMapping("{id}/delete")
+    public void delete(@PathVariable UUID id) {
+        service.delete(id);
     }
 }

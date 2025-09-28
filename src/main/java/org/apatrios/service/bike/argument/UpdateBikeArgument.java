@@ -9,12 +9,11 @@ import org.apatrios.model.dictoinary.ModelBike;
 @Value
 @Builder
 public class UpdateBikeArgument {
+
     ModelBike modelBike;
 
-    //Порядковый номер внутри модели
     Integer seqNumber;
 
-    // Инвентарный номер
     Integer invNumber;
 
     String vin;

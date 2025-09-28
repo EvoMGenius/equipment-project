@@ -1,17 +1,22 @@
 package org.apatrios.controller.sim.internal;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.apatrios.action.sim.create.CreateSimAction;
+import org.apatrios.action.sim.update.UpdateSimAction;
 import org.apatrios.controller.sim.internal.dto.SimDto;
 import org.apatrios.controller.sim.internal.dto.CreateSimDto;
 import org.apatrios.controller.sim.internal.dto.SearchSimDto;
 import org.apatrios.controller.sim.internal.dto.UpdateSimDto;
 import org.apatrios.service.sim.SimService;
-import org.apatrios.service.sim.argument.CreateSimArgument;
 import org.apatrios.service.sim.argument.SearchSimArgument;
-import org.apatrios.service.sim.argument.UpdateSimArgument;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,20 +25,21 @@ import static org.apatrios.controller.sim.internal.mapper.SimMapper.SIM_MAPPER;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("internal/sim")
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class SimInternalController {
 
-    private final SimService service;
+    SimService service;
+    CreateSimAction createSimAction;
+    UpdateSimAction updateSimAction;
 
     @PostMapping("create")
-    public SimDto create(@RequestBody CreateSimDto dto) {
-        CreateSimArgument argument = SIM_MAPPER.toCreateArgument(dto);
-        return SIM_MAPPER.toDto(service.create(argument));
+    public SimDto create(@Valid @RequestBody CreateSimDto dto) {
+        return SIM_MAPPER.toDto(createSimAction.execute(SIM_MAPPER.toCreateArgument(dto)));
     }
 
-    @PutMapping("update/{id}")
-    public SimDto update(@RequestBody UpdateSimDto dto, @PathVariable UUID id) {
-        UpdateSimArgument argument = SIM_MAPPER.toUpdateArgument(dto);
-        return SIM_MAPPER.toDto(service.update(id, argument));
+    @PutMapping("update")
+    public SimDto update(@Valid @RequestBody UpdateSimDto dto) {
+        return SIM_MAPPER.toDto(updateSimAction.execute(SIM_MAPPER.toUpdateArgument(dto)));
     }
 
     @GetMapping("list")
@@ -43,5 +49,15 @@ public class SimInternalController {
                       .stream()
                       .map(SIM_MAPPER::toDto)
                       .toList();
+    }
+
+    @GetMapping("page")
+    public CollectionDto<SimDto> page(SearchSimDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(SIM_MAPPER.toSearchArgument(dto), pageable).map(SIM_MAPPER::toDto));
+    }
+
+    @DeleteMapping("{id}/delete")
+    public void delete(@PathVariable UUID id) {
+        service.delete(id);
     }
 }

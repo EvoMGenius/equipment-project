@@ -1,34 +1,35 @@
 package org.apatrios.model;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Entity
-@Table(name = "movement_compose")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovementCompose {
+@FieldDefaults(level = PRIVATE)
+public class MovementCompose extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private UUID id;
+    /** Перемещение */
+    @ManyToOne(fetch = FetchType.EAGER)
+    Movement movement;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movement_id")
-    private Movement movement;
+    /** ID велосипеда, экипировки или запчасти */
+    @Column(nullable = false)
+    UUID objectId;
 
-    @Column(name = "object_id")
-    private UUID objectId; // ID велосипеда, экипировки или запчасти
+    /** Количество объектов */
+    @Column(nullable = false)
+    Integer amount;
 
-    @Column(name = "amount")
-    private Integer amount;
-
-    @Column(name = "note", columnDefinition = "TEXT")
-    private String note;
+    /** Дополнительная заметка */
+    @Column(columnDefinition = "TEXT")
+    String note;
 }

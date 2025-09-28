@@ -2,32 +2,32 @@ package org.apatrios.model.dictoinary;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+import org.apatrios.model.BaseEntity;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @MappedSuperclass
+@FieldDefaults(level = PRIVATE)
 @Getter
 @Setter
-public abstract class BaseDictionary {
+public abstract class BaseDictionary extends BaseEntity {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    /** Наименование */
+    @Column(nullable = false)
+    String name;
 
-    @Column(name = "name", nullable = false, length = 255)
-    private String name;
-
+    /** Статус */
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private EntityStatus status = EntityStatus.ACTIVE;
+    @Column(nullable = false)
+    EntityStatus status = EntityStatus.ACTIVE;
 
+    /** Дата создания */
     @CreationTimestamp
-    @Column(name = "create_date", nullable = false, updatable = false)
-    private LocalDateTime createDate;
+    @Column(nullable = false, updatable = false)
+    LocalDateTime createDate;
 }

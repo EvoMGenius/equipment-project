@@ -1,5 +1,6 @@
 package org.apatrios.exception;
 
-public class EntityNotFoundException {
-    //todo
+public class EntityNotFoundException extends RuntimeException {
+
+    public EntityNotFoundException(String message) {super(message);}
 }

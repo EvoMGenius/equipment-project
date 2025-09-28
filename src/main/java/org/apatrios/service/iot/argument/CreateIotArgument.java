@@ -2,7 +2,6 @@ package org.apatrios.service.iot.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.BikeStatus;
 import org.apatrios.model.Sim;
 import org.apatrios.model.dictoinary.IotModel;
 
@@ -12,6 +11,5 @@ public class CreateIotArgument {
     IotModel model;
     String invNumber;
     Sim sim;
-    BikeStatus status;
     String comment;
 }

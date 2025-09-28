@@ -12,5 +12,5 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = true)
-public class ModelBike extends BaseDictionary{
+public class ModelBike extends BaseDictionary {
 }

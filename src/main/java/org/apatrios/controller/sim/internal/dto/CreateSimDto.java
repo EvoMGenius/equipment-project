@@ -1,14 +1,29 @@
 package org.apatrios.controller.sim.internal.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.apatrios.model.dictoinary.Operator;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = PRIVATE)
+@Schema(description = "DTO создания Sim-карты")
 public class CreateSimDto {
-    private String phoneNumber;
-    private Operator operator;
+    @NotBlank
+    @Schema(description = "Номер телефона")
+    String phoneNumber;
+
+    @NotNull
+    @Schema(description = "id оператора")
+    UUID operatorId;
 }

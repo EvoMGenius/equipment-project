@@ -1,6 +1,8 @@
 package org.apatrios.controller.simbalance.internal.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -10,8 +12,16 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SearchSimBalanceDto {
-    private Integer value;
-    private UUID simId;
-    private LocalDateTime createDateFrom;
-    private LocalDateTime createDateTo;
+
+    @Schema(description = "Баланс")
+    Integer value;
+
+    @Schema(description = "id Sim-карты")
+    UUID simId;
+
+    @Schema(description = "Дата создания начало")
+    LocalDateTime createDateFrom;
+
+    @Schema(description = "Дата создания конец")
+    LocalDateTime createDateTo;
 }

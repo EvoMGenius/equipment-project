@@ -1,13 +1,13 @@
 package org.apatrios.model;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Getter
@@ -15,16 +15,18 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SimBalance {
+@FieldDefaults(level = PRIVATE)
+public class SimBalance extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private UUID id;
+    /** Баланс значение */
+    @Column(nullable = false)
+    Integer value;
 
-    private Integer value;
+    /** SIM-карта */
+    @ManyToOne(fetch = FetchType.EAGER)
+    Sim sim;
 
-    private Sim sim;
-
-    private LocalDateTime createDate;
+    /** Дата и время фиксации баланса */
+    @CreationTimestamp
+    LocalDateTime createDate;
 }

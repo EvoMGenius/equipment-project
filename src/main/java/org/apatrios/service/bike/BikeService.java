@@ -2,8 +2,11 @@ package org.apatrios.service.bike;
 
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.Bike;
+import org.apatrios.model.BikeStatus;
 import org.apatrios.model.QBike;
 import org.apatrios.repository.BikeRepository;
 import org.apatrios.service.bike.argument.CreateBikeArgument;
@@ -23,24 +26,26 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class BikeService {
-    private final BikeRepository repository;
 
+    private final BikeRepository repository;
     private final QBike qBike = QBike.bike;
 
     @Transactional
-    public Bike create(CreateBikeArgument argument) {
+    public Bike create(@NonNull CreateBikeArgument argument) {
         return repository.save(Bike.builder()
                                    .iot(argument.getIot())
                                    .vin(argument.getVin())
+                                   .status(BikeStatus.ACTIVE)
                                    .modelBike(argument.getModelBike())
                                    .invNumber(argument.getInvNumber())
                                    .seqNumber(argument.getSeqNumber())
                                    .motorWheel(argument.getMotorWheel())
+                                   .comment(argument.getComment())
                                    .build());
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public Bike update(UUID id, UpdateBikeArgument argument) {
+    public Bike update(@NonNull UUID id, @NonNull UpdateBikeArgument argument) {
         Bike existing = getExisting(id);
 
         existing.setIot(argument.getIot());
@@ -56,13 +61,13 @@ public class BikeService {
     }
 
     @Transactional(readOnly = true)
-    public List<Bike> list(SearchBikeArgument argument, Sort sort) {
+    public List<Bike> list(@NonNull SearchBikeArgument argument, Sort sort) {
         Predicate predicate = buildPredicate(argument);
         return Lists.newArrayList(repository.findAll(predicate, sort));
     }
 
     @Transactional(readOnly = true)
-    public Page<Bike> page(SearchBikeArgument argument, Pageable pageable) {
+    public Page<Bike> page(@NonNull SearchBikeArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
         return repository.findAll(predicate, pageable);
     }
@@ -79,12 +84,12 @@ public class BikeService {
     }
 
     @Transactional(readOnly = true)
-    public Bike getExisting(UUID id) {
-        return repository.findById(id).orElseThrow(RuntimeException::new);
+    public Bike getExisting(@NonNull UUID id) {
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Bike.notFound"));
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    private void delete(UUID id) {
+    public void delete(@NonNull UUID id) {
         repository.deleteById(id);
     }
 }

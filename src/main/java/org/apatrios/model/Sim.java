@@ -1,10 +1,12 @@
 package org.apatrios.model;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.apatrios.model.dictoinary.Operator;
 
 import javax.persistence.*;
-import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Getter
@@ -12,15 +14,14 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Sim {
+@FieldDefaults(level = PRIVATE)
+public class Sim extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private UUID id;
+    /** Номер телефона */
+    @Column(nullable = false)
+    String phoneNumber;
 
-    private String phoneNumber;
-
-    @ManyToOne
-    private Operator operator; // Справочник
+    /** Справочник оператор */
+    @ManyToOne(fetch = FetchType.EAGER)
+    Operator operator;
 }

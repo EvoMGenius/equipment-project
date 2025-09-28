@@ -12,5 +12,5 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = true)
-public class IotModel extends BaseDictionary{
+public class IotModel extends BaseDictionary {
 }

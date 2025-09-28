@@ -1,8 +1,11 @@
 package org.apatrios.controller.simbalance.internal.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import org.apatrios.model.Sim;
+
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -10,7 +13,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateSimBalanceDto {
-    private Integer value;
-    private Sim sim;
-    private LocalDateTime createDate;
+    @NotNull
+    @Schema(description = "Баланс")
+    Integer value;
+
+    @NotNull
+    @Schema(description = "id Sim-карты")
+    UUID simId;
+
+    @NotNull
+    @Schema(description = "Дата создания")
+    LocalDateTime createDate;
 }

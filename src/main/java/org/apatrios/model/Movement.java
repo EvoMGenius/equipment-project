@@ -1,44 +1,45 @@
 package org.apatrios.model;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.apatrios.model.dictoinary.Point;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
-@Table(name = "movement")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Movement {
+@FieldDefaults(level = PRIVATE)
+public class Movement extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private UUID id;
+    /** Дата и время создания записи */
+    @Column(nullable = false, updatable = false)
+    LocalDateTime createDate;
 
-    @CreationTimestamp
-    @Column(name = "create_date", nullable = false, updatable = false)
-    private LocalDateTime createDate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    /** Точка отправления */
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "point_from")
-    private Point pointFrom;
+    Point pointFrom;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /** Точка назначения */
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "point_to")
-    private Point pointTo;
+    Point pointTo;
 
-    @Column(name = "date_end")
-    private LocalDateTime dateEnd;
+    /** Дата и время завершения перемещения */
+    LocalDateTime dateEnd;
 
-    private MovementStatus status;
+    /** Статус */
+    @Column(nullable = false)
+    MovementStatus status;
 
-    @Column(name = "note", columnDefinition = "TEXT")
-    private String note;
+    /** Дополнительная заметка */
+    @Column(columnDefinition = "TEXT")
+    String note;
 }

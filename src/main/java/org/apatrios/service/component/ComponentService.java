@@ -2,6 +2,7 @@ package org.apatrios.service.component;
 
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.model.Component;
 import org.apatrios.model.QComponent;
@@ -17,18 +18,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.apatrios.exception.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ComponentService {
-    private final ComponentRepository repository;
 
+    private final ComponentRepository repository;
     private final QComponent qComponent = QComponent.component;
 
     @Transactional
-    public Component create(CreateComponentArgument argument) {
+    public Component create(@NonNull CreateComponentArgument argument) {
         return repository.save(Component.builder()
                                         .model(argument.getModel())
                                         .invNumber(argument.getInvNumber())
@@ -38,7 +40,7 @@ public class ComponentService {
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public Component update(UUID id, UpdateComponentArgument argument) {
+    public Component update(@NonNull UUID id, @NonNull UpdateComponentArgument argument) {
         Component existing = getExisting(id);
 
         existing.setModel(argument.getModel());
@@ -50,13 +52,13 @@ public class ComponentService {
     }
 
     @Transactional(readOnly = true)
-    public List<Component> list(SearchComponentArgument argument, Sort sort) {
+    public List<Component> list(@NonNull SearchComponentArgument argument, Sort sort) {
         Predicate predicate = buildPredicate(argument);
         return Lists.newArrayList(repository.findAll(predicate, sort));
     }
 
     @Transactional(readOnly = true)
-    public Page<Component> page(SearchComponentArgument argument, Pageable pageable) {
+    public Page<Component> page(@NonNull SearchComponentArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
         return repository.findAll(predicate, pageable);
     }
@@ -71,12 +73,12 @@ public class ComponentService {
     }
 
     @Transactional(readOnly = true)
-    public Component getExisting(UUID id) {
-        return repository.findById(id).orElseThrow(RuntimeException::new);
+    public Component getExisting(@NonNull UUID id) {
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Component.notFound"));
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    private void delete(UUID id) {
+    public void delete(@NonNull UUID id) {
         repository.deleteById(id);
     }
 }

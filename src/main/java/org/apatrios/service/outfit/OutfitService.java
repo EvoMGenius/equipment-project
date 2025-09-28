@@ -2,8 +2,10 @@ package org.apatrios.service.outfit;
 
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.model.Outfit;
+import org.apatrios.model.OutfitStatus;
 import org.apatrios.model.QOutfit;
 import org.apatrios.repository.OutfitRepository;
 import org.apatrios.service.outfit.argument.CreateOutfitArgument;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.apatrios.exception.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,17 +31,17 @@ public class OutfitService {
     private final QOutfit qOutfit = QOutfit.outfit;
 
     @Transactional
-    public Outfit create(CreateOutfitArgument argument) {
+    public Outfit create(@NonNull CreateOutfitArgument argument) {
         return repository.save(Outfit.builder()
                                      .model(argument.getModel())
                                      .invNumber(argument.getInvNumber())
-                                     .status(argument.getStatus())
+                                     .status(OutfitStatus.ACTIVE)
                                      .comment(argument.getComment())
                                      .build());
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public Outfit update(UUID id, UpdateOutfitArgument argument) {
+    public Outfit update(@NonNull UUID id, @NonNull UpdateOutfitArgument argument) {
         Outfit existing = getExisting(id);
 
         existing.setModel(argument.getModel());
@@ -50,13 +53,13 @@ public class OutfitService {
     }
 
     @Transactional(readOnly = true)
-    public List<Outfit> list(SearchOutfitArgument argument, Sort sort) {
+    public List<Outfit> list(@NonNull SearchOutfitArgument argument, Sort sort) {
         Predicate predicate = buildPredicate(argument);
         return Lists.newArrayList(repository.findAll(predicate, sort));
     }
 
     @Transactional(readOnly = true)
-    public Page<Outfit> page(SearchOutfitArgument argument, Pageable pageable) {
+    public Page<Outfit> page(@NonNull SearchOutfitArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
         return repository.findAll(predicate, pageable);
     }
@@ -71,12 +74,12 @@ public class OutfitService {
     }
 
     @Transactional(readOnly = true)
-    public Outfit getExisting(UUID id) {
-        return repository.findById(id).orElseThrow(RuntimeException::new);
+    public Outfit getExisting(@NonNull UUID id) {
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Outfit.notFound"));
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    private void delete(UUID id) {
+    public void delete(@NonNull UUID id) {
         repository.deleteById(id);
     }
 }

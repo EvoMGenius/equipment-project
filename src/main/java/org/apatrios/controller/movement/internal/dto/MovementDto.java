@@ -1,0 +1,43 @@
+package org.apatrios.controller.movement.internal.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.apatrios.model.MovementStatus;
+import org.apatrios.model.dictoinary.Point;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = PRIVATE)
+@Schema(description = "DTO передвижения")
+public class MovementDto {
+
+    @Schema(description = "Идентификатор перемещения", example = "a12f45c7-89d0-4b23-b1a7-1234567890ab")
+    UUID id;
+
+    @Schema(description = "Дата и время создания записи", example = "2025-09-27T14:30:00")
+    LocalDateTime createDate;
+
+    @Schema(description = "Точки отправления")
+    Point pointFrom;
+
+    @Schema(description = "Точки назначения")
+    Point pointTo;
+
+    @Schema(description = "Дата и время завершения перемещения", example = "2025-09-27T16:45:00")
+    LocalDateTime dateEnd;
+
+    @Schema(description = "Статус перемещения")
+    MovementStatus status;
+
+    @Schema(description = "Дополнительная заметка", example = "Доставлен в сервисный центр")
+    String note;
+}
