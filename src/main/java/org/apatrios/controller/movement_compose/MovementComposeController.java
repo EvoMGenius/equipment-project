@@ -3,12 +3,14 @@ package org.apatrios.controller.movement_compose;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.action.movement_compose.create.CreateMovementComposeAction;
-import org.apatrios.action.movement_compose.update.UpdateMovementComposeAction;
+import org.apatrios.action.Action;
+import org.apatrios.action.movement_compose.create.CreateMovementComposeActionArgument;
+import org.apatrios.action.movement_compose.update.UpdateMovementComposeActionArgument;
 import org.apatrios.controller.movement_compose.dto.CreateMovementComposeDto;
 import org.apatrios.controller.movement_compose.dto.MovementComposeDto;
 import org.apatrios.controller.movement_compose.dto.SearchMovementComposeDto;
 import org.apatrios.controller.movement_compose.dto.UpdateMovementComposeDto;
+import org.apatrios.model.MovementCompose;
 import org.apatrios.service.movement_compose.MovementComposeService;
 import org.apatrios.service.movement_compose.argument.SearchMovementComposeArgument;
 import org.apatrios.util.CollectionDto;
@@ -29,8 +31,8 @@ import static org.apatrios.controller.movement_compose.mapper.MovementComposeMap
 public class MovementComposeController {
 
     MovementComposeService service;
-    CreateMovementComposeAction createMovementComposeAction;
-    UpdateMovementComposeAction updateMovementComposeAction;
+    Action<CreateMovementComposeActionArgument, MovementCompose> createMovementComposeAction;
+    Action<UpdateMovementComposeActionArgument, MovementCompose> updateMovementComposeAction;
 
     @PostMapping("create")
     public MovementComposeDto create(@Valid @RequestBody CreateMovementComposeDto dto) {

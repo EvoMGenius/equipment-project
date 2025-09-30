@@ -32,7 +32,7 @@ public class CreateMovementDto {
     @Schema(description = "Дата и время завершения перемещения", example = "2025-09-27T16:45:00")
     LocalDateTime dateEnd;
 
-    @NotBlank
+
     @Schema(description = "Дополнительная заметка", example = "Доставлен в сервисный центр")
     String note;
 }

@@ -27,7 +27,6 @@ public class CreateOutfitDto {
     @Schema(description = "Инвентарный номер экипировки")
     Integer invNumber;
 
-    @NotBlank
     @Schema(description = "Комментарий", example = "Выдана на сезонное использование")
     String comment;
 }

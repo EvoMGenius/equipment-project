@@ -43,7 +43,6 @@ public class CreateBikeDto {
     @Schema(description = "Идентификатор привязанного IoT-устройства")
     UUID iotId;
 
-    @NotBlank
     @Schema(description = "Комментарий или дополнительная информация")
     String comment;
 }

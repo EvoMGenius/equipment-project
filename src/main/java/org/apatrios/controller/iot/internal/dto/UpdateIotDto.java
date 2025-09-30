@@ -40,7 +40,6 @@ public class UpdateIotDto {
     @Schema(description = "Статус IoT-устройства", example = "ACTIVE")
     BikeStatus status;
 
-    @NotBlank
     @Schema(description = "Комментарий или примечание", example = "Устройство установлено на велосипед №12")
     String comment;
 }

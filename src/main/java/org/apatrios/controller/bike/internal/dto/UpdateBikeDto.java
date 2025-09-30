@@ -52,7 +52,6 @@ public class UpdateBikeDto {
     @Schema(description = "Статус велосипеда")
     BikeStatus status;
 
-    @NotBlank
     @Schema(description = "Комментарий или дополнительная информация")
     String comment;
 }

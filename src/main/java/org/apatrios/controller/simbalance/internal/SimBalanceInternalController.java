@@ -3,12 +3,14 @@ package org.apatrios.controller.simbalance.internal;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.action.sim_balance.create.CreateSimBalanceAction;
-import org.apatrios.action.sim_balance.update.UpdateSimBalanceAction;
+import org.apatrios.action.Action;
+import org.apatrios.action.sim_balance.create.CreateSimBalanceActionArgument;
+import org.apatrios.action.sim_balance.update.UpdateSimBalanceActionArgument;
 import org.apatrios.controller.simbalance.internal.dto.SimBalanceDto;
 import org.apatrios.controller.simbalance.internal.dto.CreateSimBalanceDto;
 import org.apatrios.controller.simbalance.internal.dto.SearchSimBalanceDto;
 import org.apatrios.controller.simbalance.internal.dto.UpdateSimBalanceDto;
+import org.apatrios.model.SimBalance;
 import org.apatrios.service.sim_balance.SimBalanceService;
 import org.apatrios.service.sim_balance.argument.SearchSimBalanceArgument;
 import org.apatrios.util.CollectionDto;
@@ -29,8 +31,8 @@ import static org.apatrios.controller.simbalance.internal.mapper.SimBalanceMappe
 public class SimBalanceInternalController {
 
     SimBalanceService service;
-    CreateSimBalanceAction createSimBalanceAction;
-    UpdateSimBalanceAction updateSimBalanceAction;
+    Action<CreateSimBalanceActionArgument, SimBalance> createSimBalanceAction;
+    Action<UpdateSimBalanceActionArgument, SimBalance> updateSimBalanceAction;
 
     @PostMapping("create")
     public SimBalanceDto create(@Valid @RequestBody CreateSimBalanceDto dto) {

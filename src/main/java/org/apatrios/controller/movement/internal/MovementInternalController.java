@@ -3,12 +3,14 @@ package org.apatrios.controller.movement.internal;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.action.movement.create.CreateMovementAction;
-import org.apatrios.action.movement.update.UpdateMovementAction;
+import org.apatrios.action.Action;
+import org.apatrios.action.movement.create.CreateMovementActionArgument;
+import org.apatrios.action.movement.update.UpdateMovementActionArgument;
 import org.apatrios.controller.movement.internal.dto.CreateMovementDto;
 import org.apatrios.controller.movement.internal.dto.MovementDto;
 import org.apatrios.controller.movement.internal.dto.SearchMovementDto;
 import org.apatrios.controller.movement.internal.dto.UpdateMovementDto;
+import org.apatrios.model.Movement;
 import org.apatrios.service.movement.MovementService;
 import org.apatrios.service.movement.argument.SearchMovementArgument;
 import org.apatrios.util.CollectionDto;
@@ -28,8 +30,8 @@ import static org.apatrios.controller.movement.internal.mapper.MovementMapper.MO
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class MovementInternalController {
 
-    CreateMovementAction createMovementAction;
-    UpdateMovementAction updateMovementAction;
+    Action<CreateMovementActionArgument, Movement> createMovementAction;
+    Action<UpdateMovementActionArgument, Movement> updateMovementAction;
     MovementService service;
 
     @PostMapping("create")

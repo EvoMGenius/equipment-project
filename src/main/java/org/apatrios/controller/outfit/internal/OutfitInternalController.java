@@ -3,12 +3,14 @@ package org.apatrios.controller.outfit.internal;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.action.outfit.create.CreateOutfitAction;
-import org.apatrios.action.outfit.update.UpdateOutfitAction;
+import org.apatrios.action.Action;
+import org.apatrios.action.outfit.create.CreateOutfitActionArgument;
+import org.apatrios.action.outfit.update.UpdateOutfitActionArgument;
 import org.apatrios.controller.outfit.internal.dto.OutfitDto;
 import org.apatrios.controller.outfit.internal.dto.CreateOutfitDto;
 import org.apatrios.controller.outfit.internal.dto.SearchOutfitDto;
 import org.apatrios.controller.outfit.internal.dto.UpdateOutfitDto;
+import org.apatrios.model.Outfit;
 import org.apatrios.service.outfit.OutfitService;
 import org.apatrios.service.outfit.argument.SearchOutfitArgument;
 import org.apatrios.util.CollectionDto;
@@ -29,8 +31,8 @@ import static org.apatrios.controller.outfit.internal.mapper.OutfitMapper.OUTFIT
 public class OutfitInternalController {
 
     OutfitService service;
-    CreateOutfitAction createOutfitAction;
-    UpdateOutfitAction updateOutfitAction;
+    Action<CreateOutfitActionArgument, Outfit> createOutfitAction;
+    Action<UpdateOutfitActionArgument, Outfit> updateOutfitAction;
 
     @PostMapping("create")
     public OutfitDto create(@Valid @RequestBody CreateOutfitDto dto) {

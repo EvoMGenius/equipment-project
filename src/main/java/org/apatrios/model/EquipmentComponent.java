@@ -15,7 +15,8 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class Component extends BaseEntity {
+@Table(name = "component")
+public class EquipmentComponent extends BaseEntity {
 
     /** Справочник моделей компонентов */
     @ManyToOne(fetch = FetchType.EAGER)

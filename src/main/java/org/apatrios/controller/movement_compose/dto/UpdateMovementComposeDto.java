@@ -35,7 +35,6 @@ public class UpdateMovementComposeDto {
     @Schema(description = "Количество объектов в составе перемещения", example = "10")
     Integer amount;
 
-    @NotBlank
     @Schema(description = "Комментарий к записи состава перемещения", example = "Переданы вместе с запчастями")
     String note;
 }

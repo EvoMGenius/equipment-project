@@ -1,4 +1,4 @@
-package org.apatrios.action.component.create;
+package org.apatrios.action.equipment_component.create;
 
 import lombok.Builder;
 import lombok.Value;
@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Value
 @Builder
-public class CreateComponentActionArgument {
+public class CreateEquipmentComponentActionArgument {
     UUID componentModelId;
     Integer invNumber;
     String status;

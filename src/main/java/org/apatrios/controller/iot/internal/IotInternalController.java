@@ -3,12 +3,14 @@ package org.apatrios.controller.iot.internal;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.action.iot.create.CreateIotAction;
-import org.apatrios.action.iot.update.UpdateIotAction;
+import org.apatrios.action.Action;
+import org.apatrios.action.iot.create.CreateIotActionArgument;
+import org.apatrios.action.iot.update.UpdateIotActionArgument;
 import org.apatrios.controller.iot.internal.dto.IotDto;
 import org.apatrios.controller.iot.internal.dto.CreateIotDto;
 import org.apatrios.controller.iot.internal.dto.SearchIotDto;
 import org.apatrios.controller.iot.internal.dto.UpdateIotDto;
+import org.apatrios.model.Iot;
 import org.apatrios.service.iot.IotService;
 import org.apatrios.service.iot.argument.SearchIotArgument;
 import org.apatrios.util.CollectionDto;
@@ -29,8 +31,8 @@ import static org.apatrios.controller.iot.internal.mapper.IotMapper.IOT_MAPPER;
 public class IotInternalController {
 
     IotService service;
-    CreateIotAction createIotAction;
-    UpdateIotAction updateIotAction;
+    Action<CreateIotActionArgument, Iot> createIotAction;
+    Action<UpdateIotActionArgument, Iot> updateIotAction;
 
     @PostMapping("create")
     public IotDto create(@Valid @RequestBody CreateIotDto dto) {

@@ -1,15 +1,13 @@
-package org.apatrios.action.component.update;
+package org.apatrios.service.equipment_component.argument;
 
 import lombok.Builder;
 import lombok.Value;
-
 import java.util.UUID;
 
 @Value
 @Builder
-public class UpdateComponentActionArgument {
-    UUID id;
-    UUID componentModelId;
+public class SearchEquipmentComponentArgument {
+    UUID modelId;
     Integer invNumber;
     String status;
     String comment;

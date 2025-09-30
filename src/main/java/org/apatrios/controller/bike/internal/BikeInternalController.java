@@ -3,12 +3,14 @@ package org.apatrios.controller.bike.internal;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.action.bike.create.CreateBikeAction;
-import org.apatrios.action.bike.update.UpdateBikeAction;
+import org.apatrios.action.Action;
+import org.apatrios.action.bike.create.CreateBikeActionArgument;
+import org.apatrios.action.bike.update.UpdateBikeActionArgument;
 import org.apatrios.controller.bike.internal.dto.BikeDto;
 import org.apatrios.controller.bike.internal.dto.CreateBikeDto;
 import org.apatrios.controller.bike.internal.dto.SearchBikeDto;
 import org.apatrios.controller.bike.internal.dto.UpdateBikeDto;
+import org.apatrios.model.Bike;
 import org.apatrios.service.bike.BikeService;
 import org.apatrios.service.bike.argument.SearchBikeArgument;
 import org.apatrios.util.CollectionDto;
@@ -29,8 +31,8 @@ import static org.apatrios.controller.bike.internal.mapper.BikeMapper.BIKE_MAPPE
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class BikeInternalController {
 
-    CreateBikeAction createBikeAction;
-    UpdateBikeAction updateBikeAction;
+    Action<CreateBikeActionArgument, Bike> createBikeAction;
+    Action<UpdateBikeActionArgument, Bike> updateBikeAction;
     BikeService service;
 
     @PostMapping("create")

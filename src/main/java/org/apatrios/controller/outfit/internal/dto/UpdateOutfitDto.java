@@ -36,7 +36,6 @@ public class UpdateOutfitDto {
     @Schema(description = "Текущий статус экипировки")
     OutfitStatus status;
 
-    @NotBlank
     @Schema(description = "Комментарий", example = "Выдана на сезонное использование")
     String comment;
 }

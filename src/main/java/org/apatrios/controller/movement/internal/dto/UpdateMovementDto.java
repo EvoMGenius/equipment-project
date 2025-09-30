@@ -41,7 +41,6 @@ public class UpdateMovementDto {
     @Schema(description = "Статус перемещения")
     MovementStatus status;
 
-    @NotBlank
     @Schema(description = "Дополнительная заметка", example = "Доставлен в сервисный центр")
     String note;
 }

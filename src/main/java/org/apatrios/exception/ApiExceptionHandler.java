@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,7 +29,7 @@ public class ApiExceptionHandler {
     @ResponseBody
     public ErrorDto handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         return buildErrorResponse(exception, HttpStatus.BAD_REQUEST.value(), exception.getBindingResult().getAllErrors().stream()
-                                                                                      .map(error -> resolveMessage(error, Locale.getDefault()))
+                                                                                      .map(error -> messageSource.getMessage(error, Locale.getDefault()))
                                                                                       .collect(Collectors.joining(";")));
     }
 
@@ -59,19 +58,11 @@ public class ApiExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     public ErrorDto handleEntityNotFound(EntityNotFoundException ex) {
-        return buildErrorResponse(ex, HttpStatus.NOT_FOUND.value(), ex.getMessage());
+        return buildErrorResponse(ex, HttpStatus.NOT_FOUND.value(), messageSource.getMessage(ex.getMessage(), null, Locale.getDefault()));
     }
 
     private ErrorDto buildErrorResponse(Throwable e, int code, String message) {
         log.error("Handle exception:", e);
         return new ErrorDto(code, message);
-    }
-
-    private String resolveMessage(ObjectError error, Locale locale) {
-        try {
-            return messageSource.getMessage(error, locale);
-        } catch (Exception e) {
-            return error.getDefaultMessage();
-        }
     }
 }
