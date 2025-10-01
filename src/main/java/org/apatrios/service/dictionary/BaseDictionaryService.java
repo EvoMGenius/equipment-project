@@ -18,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class BaseDictionaryService<T extends BaseDictionary, SearchArgumentT extends BaseDictionarySearchArgument, QT extends QBaseDictionary> {
+public abstract class BaseDictionaryService<T extends BaseDictionary,
+        SearchArgumentT extends BaseDictionarySearchArgument,
+        QT extends QBaseDictionary> {
 
     protected abstract BaseDictionaryRepository<T> getRepository();
 

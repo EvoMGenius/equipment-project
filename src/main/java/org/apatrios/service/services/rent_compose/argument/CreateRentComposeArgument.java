@@ -1,0 +1,17 @@
+package org.apatrios.service.services.rent_compose.argument;
+
+import lombok.Builder;
+import lombok.Value;
+import org.apatrios.model.services.Rent;
+
+import java.util.UUID;
+
+@Value
+@Builder
+public class CreateRentComposeArgument {
+    Rent rent;
+
+    Integer amount;
+
+    UUID objectId;
+}

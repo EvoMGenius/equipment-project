@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class IotModelService extends SimpleDictionaryService<IotModel> {
+public class IotModelService extends BaseDictionaryService<IotModel, org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument, QBaseDictionary> {
 
     private final IotModelRepository repository;
 

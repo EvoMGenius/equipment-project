@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ModelBikeService extends SimpleDictionaryService<ModelBike> {
+public class ModelBikeService extends BaseDictionaryService<ModelBike, org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument, QBaseDictionary> {
 
     private final ModelBikeRepository repository;
 

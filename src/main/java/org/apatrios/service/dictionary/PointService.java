@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PointService extends SimpleDictionaryService<Point> {
+public class PointService extends BaseDictionaryService<Point, org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument, QBaseDictionary> {
 
     private final PointRepository repository;
 
