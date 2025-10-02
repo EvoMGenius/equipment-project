@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("component-model")
-public class ComponentModelController extends BaseDictionaryController<ComponentModel, BaseDictionarySearchArgument, BaseDictionarySearchDto, BaseDictionaryDto> {
+public class ComponentModelController extends BaseDictionaryController<ComponentModel, BaseDictionarySearchArgument, SearchComponentModelDto, ComponentModelDto> {
 
     private final BaseDictionaryService<ComponentModel, BaseDictionarySearchArgument, ?> service;
     private final BaseDictionaryMapper<ComponentModel, ComponentModelDto, SearchComponentModelDto, BaseDictionarySearchArgument> mapper;
