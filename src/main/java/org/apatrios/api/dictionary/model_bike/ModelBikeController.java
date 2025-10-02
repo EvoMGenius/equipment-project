@@ -1,8 +1,8 @@
 package org.apatrios.api.dictionary.model_bike;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.api.dictionary.BaseDictionaryController;
-import org.apatrios.api.dictionary.common.dto.BaseDictionarySearchDto;
 import org.apatrios.api.dictionary.common.mapper.BaseDictionaryMapper;
 import org.apatrios.api.dictionary.model_bike.dto.ModelBikeDto;
 import org.apatrios.api.dictionary.model_bike.dto.SearchModelBikeDto;
@@ -17,16 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("model-bike")
 public class ModelBikeController extends BaseDictionaryController<ModelBike, BaseDictionarySearchArgument, SearchModelBikeDto, ModelBikeDto> {
 
+    @Getter
     private final BaseDictionaryService<ModelBike, BaseDictionarySearchArgument, ?> service;
+    @Getter
     private final BaseDictionaryMapper<ModelBike, ModelBikeDto, SearchModelBikeDto, BaseDictionarySearchArgument> mapper;
-
-    @Override
-    protected BaseDictionaryService<ModelBike, BaseDictionarySearchArgument, ?> getService() {
-        return service;
-    }
-
-    @Override
-    protected BaseDictionaryMapper<ModelBike, ModelBikeDto, SearchModelBikeDto, BaseDictionarySearchArgument> getMapper() {
-        return mapper;
-    }
 }
