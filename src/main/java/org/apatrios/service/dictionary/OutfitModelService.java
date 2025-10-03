@@ -6,11 +6,12 @@ import org.apatrios.model.dictoinary.QBaseDictionary;
 import org.apatrios.model.dictoinary.QOutfitModel;
 import org.apatrios.repository.dictionary.BaseDictionaryRepository;
 import org.apatrios.repository.dictionary.OutfitModelRepository;
+import org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class OutfitModelService extends BaseDictionaryService<OutfitModel, org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument, QBaseDictionary> {
+public class OutfitModelService extends BaseDictionaryService<OutfitModel, BaseDictionarySearchArgument, QBaseDictionary> {
 
     private final OutfitModelRepository repository;
 

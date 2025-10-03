@@ -9,7 +9,6 @@ import org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,36 +26,35 @@ public abstract class BaseDictionaryController<
     protected abstract BaseDictionaryMapper<T, DictionaryDtoT, SearchDtoT, SearchArgumentT> getMapper();
 
     @GetMapping("/page")
-    public ResponseEntity<CollectionDto<DictionaryDtoT>> page(@RequestBody SearchDtoT dto, Pageable pageable) {
-        return ResponseEntity.ok(CollectionDto.of(getService().page(pageable, getMapper().toSearchArgument(dto)).map(getMapper()::toDto)));
+    public CollectionDto<DictionaryDtoT> page(@RequestBody SearchDtoT dto, Pageable pageable) {
+        return CollectionDto.of(getService().page(pageable, getMapper().toSearchArgument(dto)).map(getMapper()::toDto));
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<DictionaryDtoT>> getAll(@RequestBody SearchDtoT dto, Sort sort) {
+    public List<DictionaryDtoT> getAll(@RequestBody SearchDtoT dto, Sort sort) {
         SearchArgumentT searchArg = getMapper().toSearchArgument(dto);
-        return ResponseEntity.ok(getService().list(searchArg, sort).stream()
+        return getService().list(searchArg, sort).stream()
                                              .map(getMapper()::toDto)
-                                             .collect(Collectors.toList()));
+                                             .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DictionaryDtoT> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(getMapper().toDto(getService().getExisting(id)));
+    public DictionaryDtoT getById(@PathVariable UUID id) {
+        return getMapper().toDto(getService().getExisting(id));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<DictionaryDtoT> create(@RequestBody T entity) {
-        return ResponseEntity.ok(getMapper().toDto(getService().create(entity)));
+    public DictionaryDtoT create(@RequestBody T entity) {
+        return getMapper().toDto(getService().create(entity));
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<DictionaryDtoT> update(@PathVariable UUID id, @RequestBody T entity) {
-        return ResponseEntity.ok(getMapper().toDto(getService().update(id, entity)));
+    public DictionaryDtoT update(@PathVariable UUID id, @RequestBody T entity) {
+        return getMapper().toDto(getService().update(id, entity));
     }
 
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public void delete(@PathVariable UUID id) {
         getService().delete(id);
-        return ResponseEntity.noContent().build();
     }
 }

@@ -46,6 +46,5 @@ public class UpdatePaymentDto {
     String entityType;
 
     @Schema(description = "Статус оплаты", example = "PAID", required = true)
-    @NotNull
     PaymentStatus status;
 }

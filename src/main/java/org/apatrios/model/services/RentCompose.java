@@ -40,7 +40,6 @@ public class RentCompose extends BaseEntity {
     LocalDateTime createDate;
 
     /** Дата и время обновления */
-    @Column(nullable = false)
     LocalDateTime updateDate;
 
     /** Признак удаления */

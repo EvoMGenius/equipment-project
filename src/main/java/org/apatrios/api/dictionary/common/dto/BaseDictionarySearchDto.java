@@ -12,7 +12,7 @@ import org.apatrios.api.dictionary.operator.dto.OperatorDto;
 import org.apatrios.api.dictionary.payment_type.dto.PaymentTypeDto;
 import org.apatrios.api.dictionary.point.dto.PointDto;
 import org.apatrios.api.dictionary.repair_type.dto.RepairTypeDto;
-import org.apatrios.api.dictionary.service.dto.ServiceDto;
+import org.apatrios.api.dictionary.service_dictionary.dto.ServiceDictionaryDto;
 import org.apatrios.model.dictoinary.EntityStatus;
 import org.apatrios.model.dictoinary.ServiceType;
 
@@ -30,7 +30,7 @@ import org.apatrios.model.dictoinary.ServiceType;
         @JsonSubTypes.Type(value = PaymentTypeDto.class, name = "paymentType"),
         @JsonSubTypes.Type(value = PointDto.class, name = "point"),
         @JsonSubTypes.Type(value = RepairTypeDto.class, name = "repairType"),
-        @JsonSubTypes.Type(value = ServiceDto.class, name = "service"),
+        @JsonSubTypes.Type(value = ServiceDictionaryDto.class, name = "service"),
         @JsonSubTypes.Type(value = ServiceType.class, name = "serviceType"),
 })
 @Schema(description = "Базовый DTO поиска справочника")

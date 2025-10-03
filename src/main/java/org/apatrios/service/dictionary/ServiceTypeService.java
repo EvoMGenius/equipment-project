@@ -6,11 +6,12 @@ import org.apatrios.model.dictoinary.QServiceType;
 import org.apatrios.model.dictoinary.ServiceType;
 import org.apatrios.repository.dictionary.BaseDictionaryRepository;
 import org.apatrios.repository.dictionary.ServiceTypeRepository;
+import org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ServiceTypeService extends BaseDictionaryService<ServiceType, org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument, QBaseDictionary> {
+public class ServiceTypeService extends BaseDictionaryService<ServiceType, BaseDictionarySearchArgument, QBaseDictionary> {
 
     private final ServiceTypeRepository repository;
 

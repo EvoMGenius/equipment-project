@@ -42,7 +42,6 @@ public class UpdateManagementPointDto {
     UUID pointTypeId;
 
     @Schema(description = "Статус точки", example = "ACTIVE", required = true)
-    @NotNull
     PointStatus status;
 
     @Schema(description = "Географическая широта", example = "55.7558", required = true)

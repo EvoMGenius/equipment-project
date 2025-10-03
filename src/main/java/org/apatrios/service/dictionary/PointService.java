@@ -6,11 +6,12 @@ import org.apatrios.model.dictoinary.QBaseDictionary;
 import org.apatrios.model.dictoinary.QPoint;
 import org.apatrios.repository.dictionary.BaseDictionaryRepository;
 import org.apatrios.repository.dictionary.PointRepository;
+import org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PointService extends BaseDictionaryService<Point, org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument, QBaseDictionary> {
+public class PointService extends BaseDictionaryService<Point, BaseDictionarySearchArgument, QBaseDictionary> {
 
     private final PointRepository repository;
 

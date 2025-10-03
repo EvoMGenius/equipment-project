@@ -1,4 +1,4 @@
-package org.apatrios.api.dictionary.service.dto;
+package org.apatrios.api.dictionary.service_dictionary.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -12,5 +12,5 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "DTO модели поиска IOT")
-public class SearchServiceDto extends BaseDictionarySearchDto {
+public class SearchServiceDictionaryDto extends BaseDictionarySearchDto {
 }

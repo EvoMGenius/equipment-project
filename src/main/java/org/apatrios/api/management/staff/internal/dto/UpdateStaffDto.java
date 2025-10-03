@@ -38,6 +38,5 @@ public class UpdateStaffDto {
     UUID franchiseeId;
 
     @Schema(description = "Статус сотрудника", example = "ACTIVE", required = true)
-    @NotNull
     StaffStatus status;
 }

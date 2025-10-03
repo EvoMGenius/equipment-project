@@ -51,7 +51,6 @@ public class Repair extends BaseEntity {
     LocalDateTime dateEnd;
 
     /** Дата и время обновления */
-    @Column(nullable = false)
     LocalDateTime updateDate;
 
     /** Признак удаления */

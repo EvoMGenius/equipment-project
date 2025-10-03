@@ -34,7 +34,6 @@ public class UpdateFranchiseeDto {
     @Schema(description = "Контактная информация франчайзи", required = true)
     FranchiseeProfile franchiseeProfile;
 
-    @NotNull
     @Schema(description = "Статус франчайзи", example = "ACTIVE", required = true)
     FranchiseeStatus status;
 }
