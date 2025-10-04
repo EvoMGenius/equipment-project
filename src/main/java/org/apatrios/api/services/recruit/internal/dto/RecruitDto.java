@@ -3,6 +3,7 @@ package org.apatrios.api.services.recruit.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.service_dictionary.dto.ServiceDictionaryDto;
 import org.apatrios.api.services.client.internal.dto.ClientDto;
 import org.apatrios.model.dictoinary.ServiceDictionary;
 
@@ -24,7 +25,7 @@ public class RecruitDto {
     UUID id;
 
     @Schema(description = "Услуга")
-    ServiceDictionary service;
+    ServiceDictionaryDto service;
 
     @Schema(description = "Клиент")
     ClientDto client;

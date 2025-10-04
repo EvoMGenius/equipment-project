@@ -19,7 +19,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class Bike extends BaseEntity {
 
     /** Модель велосипеда */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     ModelBike modelBike;
 
     /** Порядковый номер внутри модели */

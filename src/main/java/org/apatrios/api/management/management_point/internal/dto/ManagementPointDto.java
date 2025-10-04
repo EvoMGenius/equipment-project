@@ -3,6 +3,8 @@ package org.apatrios.api.management.management_point.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.point_type.dto.PointTypeDto;
+import org.apatrios.api.management.franchisee.internal.dto.FranchiseeDto;
 import org.apatrios.model.management.Franchisee;
 import org.apatrios.model.dictoinary.PointType;
 import org.apatrios.model.management.PointStatus;
@@ -31,10 +33,10 @@ public class ManagementPointDto {
     String address;
 
     @Schema(description = "Франчайзи, владеющий точкой")
-    Franchisee franchisee;
+    FranchiseeDto franchisee;
 
     @Schema(description = "Тип точки", required = true)
-    PointType pointType;
+    PointTypeDto pointType;
 
     @Schema(description = "Статус точки", example = "ACTIVE", required = true)
     PointStatus status;

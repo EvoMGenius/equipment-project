@@ -24,7 +24,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class Recruit extends BaseEntity {
 
     /** Услуга */
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     ServiceDictionary service;
 
     /** Клиент */

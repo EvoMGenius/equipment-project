@@ -32,10 +32,9 @@ public abstract class BaseDictionaryController<
 
     @GetMapping("/list")
     public List<DictionaryDtoT> getAll(@RequestBody SearchDtoT dto, Sort sort) {
-        SearchArgumentT searchArg = getMapper().toSearchArgument(dto);
-        return getService().list(searchArg, sort).stream()
-                                             .map(getMapper()::toDto)
-                                             .collect(Collectors.toList());
+        return getService().list(getMapper().toSearchArgument(dto), sort).stream()
+                           .map(getMapper()::toDto)
+                           .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")

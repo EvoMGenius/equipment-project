@@ -6,11 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table
 @Getter
 @Setter
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "service")
 public class ServiceDictionary extends BaseDictionary {
 }

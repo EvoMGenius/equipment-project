@@ -3,9 +3,9 @@ package org.apatrios.api.equipment.bike.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.model_bike.dto.ModelBikeDto;
 import org.apatrios.api.equipment.iot.internal.dto.IotDto;
 import org.apatrios.model.equipment.BikeStatus;
-import org.apatrios.model.dictoinary.ModelBike;
 
 import java.util.UUID;
 
@@ -24,7 +24,7 @@ public class BikeDto {
     UUID id;
 
     @Schema(description = "Модель велосипеда (из справочника)")
-    ModelBike modelBike;
+    ModelBikeDto modelBike;
 
     @Schema(description = "Порядковый номер внутри модели")
     Integer seqNumber;

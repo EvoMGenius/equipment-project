@@ -31,7 +31,7 @@ public class Payment extends BaseEntity {
     String currency;
 
     /** Тип оплаты */
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     PaymentType paymentType;
 
     /** Статус оплаты */

@@ -3,6 +3,8 @@ package org.apatrios.api.services.request.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.model_bike.dto.ModelBikeDto;
+import org.apatrios.api.dictionary.service_type.dto.ServiceTypeDto;
 import org.apatrios.api.services.client.internal.dto.ClientDto;
 import org.apatrios.model.dictoinary.ModelBike;
 import org.apatrios.model.dictoinary.ServiceType;
@@ -30,10 +32,10 @@ public class RequestDto {
     RequestProfile requestProfile;
 
     @Schema(description = "Тип услуги", example = "REPAIR")
-    ServiceType serviceType;
+    ServiceTypeDto serviceType;
 
     @Schema(description = "Модель велосипеда", example = "ModelX")
-    ModelBike modelBike;
+    ModelBikeDto modelBike;
 
     @Schema(description = "Комментарий к запросу", example = "Необходимо срочно")
     String note;

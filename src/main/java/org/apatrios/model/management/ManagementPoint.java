@@ -33,7 +33,7 @@ public class ManagementPoint extends BaseEntity {
     Franchisee franchisee;
 
     /** Тип точки */
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     PointType pointType;
 
     /** Тип точки */

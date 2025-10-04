@@ -20,7 +20,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class EquipmentComponent extends BaseEntity {
 
     /** Справочник моделей компонентов */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     ComponentModel model;
 
     /** Инвентарный номер компонента */

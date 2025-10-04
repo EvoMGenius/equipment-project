@@ -3,9 +3,9 @@ package org.apatrios.api.equipment.iot.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.iot_model.dto.IotModelDto;
 import org.apatrios.api.equipment.sim.internal.dto.SimDto;
 import org.apatrios.model.equipment.BikeStatus;
-import org.apatrios.model.dictoinary.IotModel;
 
 import java.util.UUID;
 
@@ -23,7 +23,7 @@ public class IotDto {
     UUID id;
 
     @Schema(description = "Модель IoT-устройства")
-    IotModel model;
+    IotModelDto model;
 
     @Schema(description = "Инвентарный номер IoT-устройства", example = "IOT-12345")
     String invNumber;

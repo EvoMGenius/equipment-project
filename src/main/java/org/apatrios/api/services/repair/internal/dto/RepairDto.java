@@ -3,6 +3,7 @@ package org.apatrios.api.services.repair.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.repair_type.dto.RepairTypeDto;
 import org.apatrios.api.management.staff.internal.dto.StaffDto;
 import org.apatrios.model.dictoinary.RepairType;
 import org.apatrios.model.services.RepairStatus;
@@ -28,7 +29,7 @@ public class RepairDto {
     UUID objectId;
 
     @Schema(description = "Тип ремонта")
-    RepairType repairType;
+    RepairTypeDto repairType;
 
     @Schema(description = "Исполнитель")
     StaffDto staff;

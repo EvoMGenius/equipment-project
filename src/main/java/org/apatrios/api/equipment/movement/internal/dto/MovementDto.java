@@ -3,6 +3,7 @@ package org.apatrios.api.equipment.movement.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.point.dto.PointDto;
 import org.apatrios.model.equipment.MovementStatus;
 import org.apatrios.model.dictoinary.Point;
 
@@ -27,10 +28,10 @@ public class MovementDto {
     LocalDateTime createDate;
 
     @Schema(description = "Точки отправления")
-    Point pointFrom;
+    PointDto pointFrom;
 
     @Schema(description = "Точки назначения")
-    Point pointTo;
+    PointDto pointTo;
 
     @Schema(description = "Дата и время завершения перемещения", example = "2025-09-27T16:45:00")
     LocalDateTime dateEnd;

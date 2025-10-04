@@ -3,6 +3,7 @@ package org.apatrios.api.management.payment.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.payment_type.dto.PaymentTypeDto;
 import org.apatrios.model.dictoinary.PaymentType;
 import org.apatrios.model.management.PaymentStatus;
 
@@ -31,7 +32,7 @@ public class PaymentDto {
     String currency;
 
     @Schema(description = "Тип оплаты", example = "CASH", required = true)
-    PaymentType paymentType;
+    PaymentTypeDto paymentType;
 
     @Schema(description = "Статус оплаты", example = "PAID", required = true)
     PaymentStatus status;

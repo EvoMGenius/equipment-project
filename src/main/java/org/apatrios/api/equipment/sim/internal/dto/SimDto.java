@@ -3,6 +3,7 @@ package org.apatrios.api.equipment.sim.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.operator.dto.OperatorDto;
 import org.apatrios.model.dictoinary.Operator;
 
 import java.util.UUID;
@@ -25,5 +26,5 @@ public class SimDto {
     String phoneNumber;
 
     @Schema(description = "Оператор")
-    Operator operator;
+    OperatorDto operator;
 }

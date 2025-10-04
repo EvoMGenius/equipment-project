@@ -3,6 +3,7 @@ package org.apatrios.api.equipment.outfit.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.outfit_model.dto.OutfitModelDto;
 import org.apatrios.model.equipment.OutfitStatus;
 import org.apatrios.model.dictoinary.OutfitModel;
 
@@ -23,7 +24,7 @@ public class OutfitDto {
     UUID id;
 
     @Schema(description = "Модель экипировки")
-    OutfitModel model;
+    OutfitModelDto model;
 
     @Schema(description = "Инвентарный номер экипировки", example = "4521")
     Integer invNumber;

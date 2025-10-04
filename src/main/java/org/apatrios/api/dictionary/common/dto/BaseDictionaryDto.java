@@ -37,7 +37,7 @@ import java.util.UUID;
         @JsonSubTypes.Type(value = ServiceTypeDto.class, name = "serviceType"),
 })
 @Schema(description = "Базовый DTO справочника")
-public class BaseDictionaryDto {
+public abstract class BaseDictionaryDto {
 
     @Schema(description = "Уникальный идентификатор")
     UUID id;

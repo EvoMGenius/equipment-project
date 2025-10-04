@@ -27,7 +27,7 @@ public class Repair extends BaseEntity {
     UUID objectId;
 
     /** Тип ремонта */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     RepairType repairType;
 
     /** Исполнитель */

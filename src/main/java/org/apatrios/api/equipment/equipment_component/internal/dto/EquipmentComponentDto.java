@@ -3,7 +3,7 @@ package org.apatrios.api.equipment.equipment_component.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.model.dictoinary.ComponentModel;
+import org.apatrios.api.dictionary.component_model.dto.ComponentModelDto;
 
 import java.util.UUID;
 
@@ -22,7 +22,7 @@ public class EquipmentComponentDto {
     UUID id;
 
     @Schema(description = "Модель компонента")
-    ComponentModel model;
+    ComponentModelDto model;
 
     @Schema(description = "Инвентарный номер компонента", example = "56789")
     Integer invNumber;

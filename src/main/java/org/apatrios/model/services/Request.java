@@ -26,11 +26,11 @@ public class Request extends BaseEntity {
     RequestProfile requestProfile;
 
     /** Тип услуги */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     ServiceType serviceType;
 
     /** Модель велосипеда */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     ModelBike modelBike;
 
     /** Комментарий */

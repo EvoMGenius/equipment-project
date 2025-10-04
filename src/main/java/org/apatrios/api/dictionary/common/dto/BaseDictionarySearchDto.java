@@ -34,7 +34,7 @@ import org.apatrios.model.dictoinary.ServiceType;
         @JsonSubTypes.Type(value = ServiceType.class, name = "serviceType"),
 })
 @Schema(description = "Базовый DTO поиска справочника")
-public class BaseDictionarySearchDto {
+public abstract class BaseDictionarySearchDto {
 
     @Schema(description = "Наименование")
     String name;

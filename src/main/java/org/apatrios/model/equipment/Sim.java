@@ -23,6 +23,6 @@ public class Sim extends BaseEntity {
     String phoneNumber;
 
     /** Справочник оператор */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     Operator operator;
 }

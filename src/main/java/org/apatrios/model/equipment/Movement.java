@@ -24,12 +24,12 @@ public class Movement extends BaseEntity {
     LocalDateTime createDate;
 
     /** Точка отправления */
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "point_from")
     Point pointFrom;
 
     /** Точка назначения */
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "point_to")
     Point pointTo;
 

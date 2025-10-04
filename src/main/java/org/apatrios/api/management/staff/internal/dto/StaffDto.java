@@ -3,6 +3,7 @@ package org.apatrios.api.management.staff.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.management.franchisee.internal.dto.FranchiseeDto;
 import org.apatrios.model.management.StaffProfile;
 import org.apatrios.model.management.Position;
 import org.apatrios.model.management.StaffStatus;
@@ -31,7 +32,7 @@ public class StaffDto {
     Position position;
 
     @Schema(description = "Франчайзинговая точка сотрудника", required = true)
-    Franchisee franchisee;
+    FranchiseeDto franchisee;
 
     @Schema(description = "Статус сотрудника", example = "ACTIVE", required = true)
     StaffStatus status;

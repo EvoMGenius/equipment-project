@@ -19,7 +19,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class Outfit extends BaseEntity {
 
     /** Справочник моделей экипировки */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     OutfitModel model;
 
     /** Инвентарный номер */

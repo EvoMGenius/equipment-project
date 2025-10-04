@@ -19,7 +19,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class Iot extends BaseEntity {
 
     /** Справочник моделей IoT-устройств */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     IotModel model;
 
     /** Инвентарный номер */
