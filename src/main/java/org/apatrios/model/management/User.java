@@ -7,6 +7,7 @@ import org.apatrios.model.BaseEntity;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -22,16 +23,26 @@ public class User extends BaseEntity {
 
     /** Уникальное имя для входа в систему */
     @Column(nullable = false)
-    String login;
+    String username;
 
-    /** Роль */
-    @Enumerated(EnumType.STRING)
+    /** Пароль */
     @Column(nullable = false)
-    Role role;
+    String password;
+
+    /** Роли */
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "authorities",
+            joinColumns = @JoinColumn(name = "user_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "authorities"})})
+    Set<String> authorities;
 
     /** Сотрудник */
     @ManyToOne(fetch = FetchType.LAZY)
     Staff staff;
+
+    /** Контактная информация пользователя */
+    @Embedded
+    UserProfile userProfile;
 
     /** Статус пользователя */
     @Enumerated(EnumType.STRING)
@@ -49,6 +60,7 @@ public class User extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    @Builder.Default
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    boolean enabled = true;
 }

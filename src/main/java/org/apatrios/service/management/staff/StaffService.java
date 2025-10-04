@@ -86,7 +86,8 @@ public class StaffService {
 
     @Transactional(readOnly = true)
     public Staff getExisting(@NonNull UUID id) {
-        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Staff.notFound"));
+        return repository.findById(id)
+                         .orElseThrow(() -> new EntityNotFoundException("Staff.notFound"));
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)

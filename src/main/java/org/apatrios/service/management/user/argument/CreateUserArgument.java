@@ -2,15 +2,18 @@ package org.apatrios.service.management.user.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.management.Role;
-import org.apatrios.model.management.Staff;
+import org.apatrios.model.management.UserProfile;
+
+import java.util.Set;
 
 @Value
 @Builder
 public class CreateUserArgument {
-    String login;
+    String username;
 
-    Role role;
+    String password;
 
-    Staff staff;
+    Set<String> authorities;
+
+    UserProfile userProfile;
 }

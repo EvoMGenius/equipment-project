@@ -1,10 +1,11 @@
-package org.apatrios.action.management.user.update;
+package org.apatrios.action.management.user.update.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.management.Role;
+import org.apatrios.model.management.UserProfile;
 import org.apatrios.model.management.UserStatus;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Value
@@ -12,11 +13,13 @@ import java.util.UUID;
 public class UpdateUserActionArgument {
     UUID id;
 
-    String login;
+    String username;
 
-    Role role;
+    Set<String> authorities;
 
     UUID staffId;
+
+    UserProfile userProfile;
 
     UserStatus status;
 }

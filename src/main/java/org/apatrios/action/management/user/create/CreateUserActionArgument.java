@@ -2,16 +2,18 @@ package org.apatrios.action.management.user.create;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.management.Role;
+import org.apatrios.model.management.UserProfile;
 
-import java.util.UUID;
+import java.util.Set;
 
 @Value
 @Builder
 public class CreateUserActionArgument {
-    String login;
+    String username;
 
-    Role role;
+    String password;
 
-    UUID staffId;
+    Set<String> authorities;
+
+    UserProfile userProfile;
 }

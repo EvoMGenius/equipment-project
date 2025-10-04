@@ -2,16 +2,20 @@ package org.apatrios.service.management.user.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.management.Role;
 import org.apatrios.model.management.Staff;
+import org.apatrios.model.management.UserProfile;
 import org.apatrios.model.management.UserStatus;
+
+import java.util.Set;
 
 @Value
 @Builder
 public class UpdateUserArgument {
-    String login;
+    String username;
 
-    Role role;
+    Set<String> authorities;
+
+    UserProfile userProfile;
 
     Staff staff;
 

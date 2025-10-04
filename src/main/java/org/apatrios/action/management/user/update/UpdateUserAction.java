@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
+import org.apatrios.action.management.user.update.argument.UpdateUserActionArgument;
 import org.apatrios.model.management.Staff;
 import org.apatrios.model.management.User;
 import org.apatrios.service.management.staff.StaffService;
@@ -29,9 +30,10 @@ public class UpdateUserAction implements Action<UpdateUserActionArgument, User> 
         return userService.update(argument.getId(),
                                   UpdateUserArgument.builder()
                                                     .staff(staff)
-                                                    .login(argument.getLogin())
-                                                    .role(argument.getRole())
+                                                    .username(argument.getUsername())
+                                                    .authorities(argument.getAuthorities())
                                                     .status(argument.getStatus())
+                                                    .userProfile(argument.getUserProfile())
                                                     .build());
     }
 }

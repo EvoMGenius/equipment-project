@@ -1,9 +1,13 @@
 package org.apatrios.service.management.user;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
+import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.management.User;
 import org.apatrios.model.management.QUser;
@@ -16,6 +20,7 @@ import org.apatrios.util.QPredicates;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,24 +28,32 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
 
-    private final UserRepository repository;
-    private final QUser qUser = QUser.user;
+    UserRepository repository;
+    QUser qUser = QUser.user;
+    PasswordEncoder encoder;
+    Cache<UUID, String> resetCodeCache = CacheBuilder.newBuilder()
+                                                     .expireAfterWrite(10, TimeUnit.MINUTES)
+                                                     .maximumSize(10000)
+                                                     .build();
 
     @Transactional
     public User create(@NonNull CreateUserArgument argument) {
         return repository.save(User.builder()
-                                   .login(argument.getLogin())
-                                   .role(argument.getRole())
-                                   .staff(argument.getStaff())
+                                   .username(argument.getUsername())
+                                   .password(encoder.encode(argument.getPassword()))
+                                   .authorities(argument.getAuthorities())
                                    .status(UserStatus.ACTIVE)
                                    .createDate(LocalDateTime.now())
                                    .updateDate(LocalDateTime.now())
                                    .lastLogin(LocalDateTime.now())
+                                   .userProfile(argument.getUserProfile())
                                    .build());
     }
 
@@ -48,10 +61,11 @@ public class UserService {
     public User update(@NonNull UUID id, @NonNull UpdateUserArgument argument) {
         User existing = getExisting(id);
 
-        existing.setLogin(argument.getLogin());
-        existing.setRole(argument.getRole());
+        existing.setUsername(argument.getUsername());
+        existing.setAuthorities(argument.getAuthorities());
         existing.setStaff(argument.getStaff());
         existing.setStatus(argument.getStatus());
+        existing.setUserProfile(argument.getUserProfile());
         existing.setUpdateDate(LocalDateTime.now());
 
         return repository.save(existing);
@@ -71,29 +85,72 @@ public class UserService {
 
     private Predicate buildPredicate(SearchUserArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getLogin(), qUser.login::containsIgnoreCase)
+                          .add(argument.getUsername(), qUser.username::containsIgnoreCase)
                           .add(argument.getLastLoginFrom(), qUser.lastLogin::goe)
                           .add(argument.getLastLoginTo(), qUser.lastLogin::loe)
-                          .add(argument.getRole(), qUser.role::eq)
+                          .add(argument.getAuthorities(), auths -> qUser.authorities.any().in(auths))
                           .add(argument.getStaffId(), qUser.staff.id::eq)
                           .add(argument.getStatus(), qUser.status::eq)
                           .add(argument.getCreateDateFrom(), qUser.createDate::goe)
                           .add(argument.getCreateDateTo(), qUser.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qUser.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qUser.updateDate::loe)
-                          .add(argument.isDeleted(), qUser.isDeleted::eq)
+                          .add(argument.isEnabled(), qUser.enabled::eq)
+                          .add(argument.getFirstName(), qUser.userProfile.firstName::eq)
+                          .add(argument.getLastName(), qUser.userProfile.lastName::eq)
+                          .add(argument.getMiddleName(), qUser.userProfile.middleName::eq)
                           .buildAnd();
     }
 
     @Transactional(readOnly = true)
     public User getExisting(@NonNull UUID id) {
-        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User.notFound"));
+        return repository.findById(id)
+                         .orElseThrow(() -> new EntityNotFoundException("User.notFound"));
+    }
+
+    @Transactional(readOnly = true)
+    public User getByUsername(@NonNull String username) {
+        return repository.findByUsername(username)
+                         .orElseThrow(() -> new EntityNotFoundException("User.notFound"));
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public User updatePasswordByCode(@NonNull String password, @NonNull UUID code) {
+        String username = resetCodeCache.getIfPresent(code);
+
+        if (username == null) throw new EntityNotFoundException("Code.isExpired");
+
+        User user = getByUsername(username);
+        user.setPassword(encoder.encode(password));
+        resetCodeCache.invalidate(code);
+        return user;
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void updatePassword(@NonNull UUID id, @NonNull String password) {
+        User user = getExisting(id);
+        user.setPassword(encoder.encode(password));
+        repository.save(user);
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public UUID createResetCode(@NonNull String username) {
+        UUID code = UUID.randomUUID();
+        resetCodeCache.put(code, username);
+        return code;
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void delete(@NonNull UUID id) {
         User existing = getExisting(id);
-        existing.setDeleted(true);
+        existing.setEnabled(false);
         repository.save(existing);
+    }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public void enable(@NonNull UUID id) {
+        User user = getExisting(id);
+        user.setEnabled(true);
+        repository.save(user);
     }
 }

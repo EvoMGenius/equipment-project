@@ -2,18 +2,18 @@ package org.apatrios.service.management.user.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.management.Role;
 import org.apatrios.model.management.UserStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Value
 @Builder
 public class SearchUserArgument {
-    String login;
+    String username;
 
-    Role role;
+    Set<String> authorities;
 
     UUID staffId;
 
@@ -31,5 +31,11 @@ public class SearchUserArgument {
 
     LocalDateTime updateDateTo;
 
-    boolean isDeleted;
+    boolean enabled;
+
+    String lastName;
+
+    String firstName;
+
+    String middleName;
 }
