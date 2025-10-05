@@ -16,6 +16,8 @@ public class OAuth2SecurityConfig extends ResourceServerConfigurerAdapter {
         http.csrf().disable()
             .anonymous().and()
             .authorizeRequests()
-            .antMatchers("/").permitAll();
+            .antMatchers("/internal/user/**").hasRole("ADMIN")
+            .antMatchers("/external/user/**").permitAll()
+            .anyRequest().authenticated();
     }
 }

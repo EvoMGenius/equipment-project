@@ -4,14 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.action.Action;
-import org.apatrios.action.management.user.update.argument.UpdateUserActionArgument;
 import org.apatrios.api.management.user.internal.dto.SearchUserInternalDto;
 import org.apatrios.api.management.user.internal.dto.UpdatePasswordInternalDto;
 import org.apatrios.api.management.user.internal.dto.UpdateUserInternalDto;
 import org.apatrios.api.management.user.internal.dto.UserInternalDto;
 import org.apatrios.api.management.user.internal.mapper.UserInternalMapper;
-import org.apatrios.model.management.User;
 import org.apatrios.service.management.user.UserService;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
@@ -30,12 +27,11 @@ public class UserInternalController {
 
     UserService service;
     UserInternalMapper mapper;
-    Action<UpdateUserActionArgument, User> updateUserInternalAction;
 
     @Operation(summary = "Обновление учетной записи у пользователя. Доступно с ролью ADMIN")
     @PostMapping("update")
     public UserInternalDto update(@Valid @RequestBody UpdateUserInternalDto dto) {
-        return mapper.toDto(updateUserInternalAction.execute(mapper.toUpdateArgument(dto)));
+        return mapper.toDto(service.update(dto.getId(), mapper.toUpdateArgument(dto)));
     }
 
     @Operation(summary = "Изменение пароля у пользователя")

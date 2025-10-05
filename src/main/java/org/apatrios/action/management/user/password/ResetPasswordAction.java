@@ -18,7 +18,6 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class ResetPasswordAction {
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void execute(@NonNull String username) {
-        UUID code = userService.createResetCode(username);
+        String code = userService.createResetCode(username);
 
         String emailTemplate = loadTemplate();
         String htmlContent = String.format(emailTemplate, code);

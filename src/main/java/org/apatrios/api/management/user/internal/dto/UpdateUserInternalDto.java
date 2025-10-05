@@ -3,8 +3,6 @@ package org.apatrios.api.management.user.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.api.management.staff.internal.dto.StaffDto;
-import org.apatrios.model.management.Staff;
 import org.apatrios.model.management.UserProfile;
 import org.apatrios.model.management.UserStatus;
 
@@ -40,10 +38,6 @@ public class UpdateUserInternalDto {
     @NotNull
     @Schema(description = "Профиль", requiredMode = REQUIRED)
     UserProfile userProfile;
-
-    @NotNull
-    @Schema(description = "Сотрудник id", requiredMode = REQUIRED)
-    UUID staffId;
 
     @NotNull
     @Schema(description = "Статус", requiredMode = REQUIRED)

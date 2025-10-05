@@ -5,8 +5,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 import static lombok.AccessLevel.PRIVATE;
@@ -24,7 +22,7 @@ public class UpdatePasswordByCodeExternalDto {
     @Schema(description = "Пароль", requiredMode = REQUIRED)
     String password;
 
-    @NotNull
+    @NotBlank
     @Schema(description = "Код для сбрасывания пароля", requiredMode = REQUIRED)
-    UUID code;
+    String code;
 }

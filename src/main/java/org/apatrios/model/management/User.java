@@ -36,11 +36,7 @@ public class User extends BaseEntity {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "authorities"})})
     Set<String> authorities;
 
-    /** Сотрудник */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Staff staff;
-
-    /** Контактная информация пользователя */
+    /** Информация пользователя */
     @Embedded
     UserProfile userProfile;
 

@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.management.User;
 import org.apatrios.model.management.QUser;
@@ -38,10 +39,10 @@ public class UserService {
     UserRepository repository;
     QUser qUser = QUser.user;
     PasswordEncoder encoder;
-    Cache<UUID, String> resetCodeCache = CacheBuilder.newBuilder()
-                                                     .expireAfterWrite(10, TimeUnit.MINUTES)
-                                                     .maximumSize(10000)
-                                                     .build();
+    Cache<String, String> resetCodeCache = CacheBuilder.newBuilder()
+                                                       .expireAfterWrite(10, TimeUnit.MINUTES)
+                                                       .maximumSize(10000)
+                                                       .build();
 
     @Transactional
     public User create(@NonNull CreateUserArgument argument) {
@@ -63,7 +64,6 @@ public class UserService {
 
         existing.setUsername(argument.getUsername());
         existing.setAuthorities(argument.getAuthorities());
-        existing.setStaff(argument.getStaff());
         existing.setStatus(argument.getStatus());
         existing.setUserProfile(argument.getUserProfile());
         existing.setUpdateDate(LocalDateTime.now());
@@ -89,7 +89,6 @@ public class UserService {
                           .add(argument.getLastLoginFrom(), qUser.lastLogin::goe)
                           .add(argument.getLastLoginTo(), qUser.lastLogin::loe)
                           .add(argument.getAuthorities(), auths -> qUser.authorities.any().in(auths))
-                          .add(argument.getStaffId(), qUser.staff.id::eq)
                           .add(argument.getStatus(), qUser.status::eq)
                           .add(argument.getCreateDateFrom(), qUser.createDate::goe)
                           .add(argument.getCreateDateTo(), qUser.createDate::loe)
@@ -115,7 +114,7 @@ public class UserService {
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public User updatePasswordByCode(@NonNull String password, @NonNull UUID code) {
+    public User updatePasswordByCode(@NonNull String password, @NonNull String code) {
         String username = resetCodeCache.getIfPresent(code);
 
         if (username == null) throw new EntityNotFoundException("Code.isExpired");
@@ -134,8 +133,8 @@ public class UserService {
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public UUID createResetCode(@NonNull String username) {
-        UUID code = UUID.randomUUID();
+    public String createResetCode(@NonNull String username) {
+        String code = RandomStringUtils.randomNumeric(6);
         resetCodeCache.put(code, username);
         return code;
     }
@@ -144,6 +143,7 @@ public class UserService {
     public void delete(@NonNull UUID id) {
         User existing = getExisting(id);
         existing.setEnabled(false);
+        existing.setStatus(UserStatus.BLOCKED);
         repository.save(existing);
     }
 

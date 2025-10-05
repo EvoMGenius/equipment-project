@@ -7,7 +7,6 @@ import org.apatrios.model.management.UserStatus;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -24,9 +23,6 @@ public class SearchUserInternalDto {
 
     @Schema(description = "Список ролей/прав доступа", example = "[\"ROLE_ADMIN\", \"ROLE_USER\"]")
     Set<String> authorities;
-
-    @Schema(description = "ID сотрудника, связанного с пользователем")
-    UUID staffId;
 
     @Schema(description = "Статус пользователя", example = "ACTIVE")
     UserStatus status;

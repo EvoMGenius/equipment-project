@@ -2,7 +2,6 @@ package org.apatrios.service.management.user.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.management.Staff;
 import org.apatrios.model.management.UserProfile;
 import org.apatrios.model.management.UserStatus;
 
@@ -16,8 +15,6 @@ public class UpdateUserArgument {
     Set<String> authorities;
 
     UserProfile userProfile;
-
-    Staff staff;
 
     UserStatus status;
 }

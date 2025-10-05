@@ -28,9 +28,6 @@ public class UserInternalDto {
     @Schema(description = "Активна ли запись", requiredMode = REQUIRED)
     boolean enabled;
 
-    @Schema(description = "Сотрудник", requiredMode = REQUIRED)
-    StaffDto staff;
-
     @Schema(description = "Доступ учетной записи", requiredMode = REQUIRED)
     Set<String> authorities;
 

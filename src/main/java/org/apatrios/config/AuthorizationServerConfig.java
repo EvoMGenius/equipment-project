@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.config.properties.OAuth2ClientProperties;
+import org.apatrios.config.properties.OAuth2TokenProperties;
 import org.apatrios.exception.CustomWebExceptionTranslator;
 import org.apatrios.service.details.ElBikesUserDetailsService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,13 +33,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     TokenStore tokenStore;
     DefaultTokenServices defaultTokenServices;
     OAuth2ClientProperties oAuth2ClientProperties;
+    OAuth2TokenProperties oAuth2TokenProperties;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-               .withClient(oAuth2ClientProperties.getClientId())
-               .secret(passwordEncoder.encode(oAuth2ClientProperties.getClientSecret()))
-               .scopes(oAuth2ClientProperties.getScope())
+               .withClient(oAuth2ClientProperties.getWeb().getClientId())
+               .secret(passwordEncoder.encode(oAuth2ClientProperties.getWeb().getClientSecret()))
+               .scopes(oAuth2ClientProperties.getWeb().getScope())
+               .authorizedGrantTypes("password", "refresh_token", "client_credentials")
+
+               .and()
+               .withClient(oAuth2ClientProperties.getAndroid().getClientId())
+               .secret(passwordEncoder.encode(oAuth2ClientProperties.getAndroid().getClientSecret()))
+               .scopes(oAuth2ClientProperties.getAndroid().getScope())
                .authorizedGrantTypes("password", "refresh_token", "client_credentials");
     }
 
@@ -53,11 +61,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.userDetailsService(userDetailsService)
-                 .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
+                 .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE)
                  .tokenStore(tokenStore)
                  .tokenServices(defaultTokenServices)
                  .authenticationManager(authenticationManager)
-                 .reuseRefreshTokens(false)
+                 .reuseRefreshTokens(oAuth2TokenProperties.isReuseRefreshToken())
                  .exceptionTranslator(new CustomWebExceptionTranslator());
     }
 }
