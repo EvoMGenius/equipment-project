@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ public class ElBikesUserDetailsService implements UserDetailsService {
     private final UserRepository repository;
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByUsername(username)
                               .orElseThrow(() -> new ConflictException("User.Bad.Credentials"));
@@ -36,9 +38,6 @@ public class ElBikesUserDetailsService implements UserDetailsService {
                                                   .collect(Collectors.toSet()))
                                  .username(user.getUsername())
                                  .password(user.getPassword())
-                                 .firstName(user.getUserProfile().getFirstName())
-                                 .middleName(user.getUserProfile().getMiddleName())
-                                 .lastName(user.getUserProfile().getLastName())
                                  .enabled(user.isEnabled())
                                  .build();
     }

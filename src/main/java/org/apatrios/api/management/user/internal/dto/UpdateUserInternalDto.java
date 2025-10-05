@@ -31,15 +31,12 @@ public class UpdateUserInternalDto {
     @NotBlank
     String username;
 
-    @NotBlank
     @Schema(description = "Доступ учетной записи")
     Set<String> authorities;
 
-    @NotNull
     @Schema(description = "Профиль", requiredMode = REQUIRED)
     UserProfile userProfile;
 
-    @NotNull
     @Schema(description = "Статус", requiredMode = REQUIRED)
     UserStatus status;
 }

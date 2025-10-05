@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.model.management.UserProfile;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 import static lombok.AccessLevel.PRIVATE;
@@ -27,7 +26,6 @@ public class CreateUserExternalDto {
     @NotBlank
     String password;
 
-    @NotNull
     @Schema(description = "Профиль", requiredMode = REQUIRED)
     UserProfile userProfile;
 }

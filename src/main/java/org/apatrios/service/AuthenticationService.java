@@ -70,14 +70,10 @@ public class AuthenticationService {
                                                         null,
                                                         null);
 
-        UserProfile profile = user.getUserProfile();
         ElBikesUserDetails userDetails = ElBikesUserDetails.builder()
                                                            .id(user.getId())
                                                            .authorities(authorities)
                                                            .username(username)
-                                                           .firstName(profile.getFirstName())
-                                                           .lastName(profile.getLastName())
-                                                           .middleName(profile.getMiddleName())
                                                            .password(user.getPassword())
                                                            .enabled(user.isEnabled())
                                                            .build();

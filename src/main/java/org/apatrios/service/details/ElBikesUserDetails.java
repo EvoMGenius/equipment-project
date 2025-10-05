@@ -20,9 +20,6 @@ public class ElBikesUserDetails implements UserDetails {
     String username;
     String password;
     Set<? extends GrantedAuthority> authorities;
-    String firstName;
-    String lastName;
-    String middleName;
     @Builder.Default
     boolean enabled = true;
     @Builder.Default
