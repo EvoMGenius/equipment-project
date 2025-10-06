@@ -18,6 +18,7 @@ public class OAuth2SecurityConfig extends ResourceServerConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/internal/user/**").hasAuthority("ADMIN")
             .antMatchers("/external/user/**").permitAll()
+            .antMatchers("/swagger-ui/**").permitAll()
             .anyRequest().authenticated();
     }
 }
