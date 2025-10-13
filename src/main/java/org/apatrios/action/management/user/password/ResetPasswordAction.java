@@ -4,8 +4,10 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.service.management.user.UserService;
 import org.apatrios.service.notification.SendNotificationService;
+import org.apatrios.util.AuthUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,8 @@ public class ResetPasswordAction {
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void execute(@NonNull String username) {
         String code = userService.createResetCode(username);
+        if (AuthUtils.isLoginByPhone(username)) throw new EntityNotFoundException("Not supported");
+
         notificationService.sendPasswordResetCode(username, code);
     }
 }
