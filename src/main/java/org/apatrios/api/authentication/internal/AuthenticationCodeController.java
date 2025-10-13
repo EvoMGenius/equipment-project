@@ -3,8 +3,11 @@ package org.apatrios.api.authentication.internal;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.action.authentication.create.CreateAuthenticationCodeAction;
+import org.apatrios.action.VoidAction;
+import org.apatrios.action.authentication.create.argument.CreateAuthenticationCodeActionArgument;
 import org.apatrios.api.authentication.internal.dto.CompleteAuthenticationCodeDto;
+import org.apatrios.api.authentication.internal.dto.CreateAuthenticationCodeDto;
+import org.apatrios.api.authentication.internal.mapper.AuthenticationCodeMapper;
 import org.apatrios.service.authentication.AuthenticationCodeService;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +18,13 @@ import org.springframework.web.bind.annotation.*;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AuthenticationCodeController {
 
-    CreateAuthenticationCodeAction createAuthenticationCodeAction;
+    VoidAction<CreateAuthenticationCodeActionArgument> createAuthenticationCodeAction;
+    AuthenticationCodeMapper mapper;
     AuthenticationCodeService authenticationCodeService;
 
-    @GetMapping("init")
-    public void init() {
-        createAuthenticationCodeAction.execute();
+    @PostMapping("init")
+    public void init(@RequestBody CreateAuthenticationCodeDto dto) {
+        createAuthenticationCodeAction.execute(mapper.toCreateArgument(dto));
     }
 
     @PostMapping("complete")

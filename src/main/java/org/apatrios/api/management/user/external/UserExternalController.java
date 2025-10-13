@@ -5,8 +5,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
+import org.apatrios.action.VoidAction;
 import org.apatrios.action.management.user.create.CreateUserActionArgument;
-import org.apatrios.action.management.user.password.ResetPasswordAction;
 import org.apatrios.action.management.user.password.argument.UpdatePasswordActionArgument;
 import org.apatrios.api.management.user.external.dto.CreateUserExternalDto;
 import org.apatrios.api.management.user.external.dto.ResetPasswordByCodeExternalDto;
@@ -26,7 +26,7 @@ import javax.validation.Valid;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserExternalController {
 
-    ResetPasswordAction resetPasswordAction;
+    VoidAction<String> resetPasswordAction;
     Action<UpdatePasswordActionArgument, OAuth2AccessToken> updatePasswordAction;
     UserExternalMapper userMapper;
     Action<CreateUserActionArgument, OAuth2AccessToken> createUserAction;
