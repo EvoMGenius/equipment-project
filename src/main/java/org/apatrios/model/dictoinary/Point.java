@@ -12,5 +12,5 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = true)
-public class Point extends BaseDictionary{
+public class Point extends BaseDictionary {
 }

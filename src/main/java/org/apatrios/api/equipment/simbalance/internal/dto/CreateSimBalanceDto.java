@@ -1,0 +1,27 @@
+package org.apatrios.api.equipment.simbalance.internal.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class CreateSimBalanceDto {
+    @NotNull
+    @Schema(description = "Баланс")
+    Integer value;
+
+    @NotNull
+    @Schema(description = "id Sim-карты")
+    UUID simId;
+
+    @NotNull
+    @Schema(description = "Дата создания")
+    LocalDateTime createDate;
+}

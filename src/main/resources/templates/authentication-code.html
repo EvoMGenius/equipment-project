@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Подтверждение регистрации</title>
+    <style>
+        body { margin:0; padding:0; background:#f5f5f5; font-family: "Helvetica Neue", Arial, sans-serif; color:#333; }
+        .email-wrapper { max-width:600px; margin:20px auto; background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.08); overflow:hidden; }
+        .header { background:#10b981; padding:22px; text-align:center; color:#fff; }
+        .header h1 { margin:0; font-size:20px; letter-spacing:0.2px; }
+        .content { padding:28px; line-height:1.5; }
+        .title { font-size:18px; margin:0 0 10px 0; }
+        .greeting { margin:0 0 14px 0; font-weight:600; }
+        .instructions { margin:0 0 18px 0; color:#555; }
+        .code-box { display:block; text-align:center; background:#f0fdf4; border:2px dashed #10b981; padding:18px; font-size:28px; font-weight:700; color:#10b981; border-radius:6px; letter-spacing:2px; }
+        .note { margin-top:18px; color:#666; font-size:14px; }
+        .warning { margin:16px 0 0 0; color:#b21c1c; font-weight:600; }
+        .footer { background:#fafafa; padding:16px 20px; font-size:12px; color:#777; text-align:center; }
+        @media (max-width:600px) {
+            .email-wrapper { margin:10px; }
+            .content { padding:18px; }
+            .code-box { font-size:22px; padding:14px; }
+        }
+    </style>
+</head>
+<body>
+<div class="email-wrapper">
+    <div class="content">
+        <p class="title">Подтверждение регистрации</p>
+
+        <p class="greeting">Добро пожаловать!</p>
+
+        <p class="instructions">
+            Спасибо за регистрацию. Для подтверждения вашего аккаунта используйте следующий код. Он действителен в течение 10 минут.
+        </p>
+
+        <div class="code-box" role="note" aria-label="Verification code">
+            %s
+        </div>
+
+        <p class="warning">⚠️ Никому не сообщайте этот код.</p>
+
+        <p class="note">
+            Если вы не регистрировались на нашем сайте — просто проигнорируйте это письмо.
+        </p>
+    </div>
+
+    <div class="footer">
+        <div>Это письмо отправлено автоматически — не отвечайте на него.</div>
+    </div>
+</div>
+</body>
+</html>

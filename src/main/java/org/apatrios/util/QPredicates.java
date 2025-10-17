@@ -5,42 +5,35 @@ import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apatrios.model.dictoinary.EntityStatus;
-import org.apatrios.model.dictoinary.QBaseDictionary;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 /**
- * Неплохая наглядная реализация паттерна Builder для Predicate
+ * Реализация паттерна Builder для Predicate с null-safety.
  */
-//todo add null-safety
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class QPredicates {
 
     private final List<Predicate> predicates = new ArrayList<>();
 
     public <T> QPredicates add(T object, Function<T, Predicate> function) {
-        if (object != null) {
-            predicates.add(function.apply(object));
+        if (object == null || function == null) {
+            return this;
+        }
+
+        Predicate p;
+        try {
+            p = function.apply(object);
+        } catch (Exception e) {
+            return this;
+        }
+
+        if (p != null) {
+            predicates.add(p);
         }
         return this;
-    }
-
-    public static Predicate buildBasePredicate(String name, EntityStatus status) {
-        QBaseDictionary entity = QBaseDictionary.baseDictionary;
-        BooleanBuilder builder = new BooleanBuilder();
-
-        if (name != null && !name.isEmpty()) {
-            builder.and(entity.name.containsIgnoreCase(name));
-        }
-
-        if (status != null) {
-            builder.and(entity.status.eq(status));
-        }
-
-        return builder;
     }
 
     public Predicate buildAnd() {
