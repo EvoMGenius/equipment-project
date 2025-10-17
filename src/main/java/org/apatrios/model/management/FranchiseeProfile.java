@@ -20,7 +20,7 @@ public class FranchiseeProfile {
     @Column(nullable = false)
     String phone;
 
-    /** Имя */
+    /** Название франчайзинговой точки */
     @Column(nullable = false)
     String name;
 

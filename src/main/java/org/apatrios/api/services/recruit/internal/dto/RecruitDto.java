@@ -24,9 +24,6 @@ public class RecruitDto {
     @Schema(description = "Уникальный идентификатор", example = "550e8400-e29b-41d4-a716-446655440000")
     UUID id;
 
-    @Schema(description = "Услуга")
-    ServiceDictionaryDto service;
-
     @Schema(description = "Клиент")
     ClientDto client;
 

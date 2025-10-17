@@ -25,8 +25,4 @@ public class UpdateSimBalanceDto {
     @NotNull
     @Schema(description = "id Sim-карты")
     UUID simId;
-
-    @NotNull
-    @Schema(description = "Дата создания")
-    LocalDateTime createDate;
 }

@@ -25,6 +25,10 @@ public class UpdateBikeDto {
     UUID id;
 
     @NotNull
+    @Schema(description = "Франчизи ID")
+    UUID franchiseeId;
+
+    @NotNull
     @Schema(description = "Идентификатор модели велосипеда")
     UUID modelBikeId;
 

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,12 +36,15 @@ public class BikeService {
         return repository.save(Bike.builder()
                                    .iot(argument.getIot())
                                    .vin(argument.getVin())
-                                   .status(BikeStatus.ACTIVE)
+                                   .status(BikeStatus.NEW)
                                    .modelBike(argument.getModelBike())
                                    .invNumber(argument.getInvNumber())
                                    .seqNumber(argument.getSeqNumber())
                                    .motorWheel(argument.getMotorWheel())
                                    .comment(argument.getComment())
+                                   .franchisee(argument.getFranchisee())
+                                   .createDate(LocalDateTime.now())
+                                   .updateDate(LocalDateTime.now())
                                    .build());
     }
 
@@ -56,6 +60,8 @@ public class BikeService {
         existing.setSeqNumber(argument.getSeqNumber());
         existing.setMotorWheel(argument.getMotorWheel());
         existing.setComment(argument.getComment());
+        existing.setFranchisee(argument.getFranchisee());
+        existing.setUpdateDate(LocalDateTime.now());
 
         return repository.save(existing);
     }
@@ -80,6 +86,12 @@ public class BikeService {
                           .add(argument.getSeqNumber(), qBike.seqNumber::eq)
                           .add(argument.getComment(), qBike.comment::containsIgnoreCase)
                           .add(argument.getStatus(), qBike.status::eq)
+                          .add(argument.getFranchiseeId(), qBike.franchisee.id::eq)
+                          .add(argument.isDeleted(), qBike.isDeleted::eq)
+                          .add(argument.getCreateDateFrom(), qBike.createDate::goe)
+                          .add(argument.getCreateDateTo(), qBike.createDate::loe)
+                          .add(argument.getUpdateDateFrom(), qBike.updateDate::goe)
+                          .add(argument.getUpdateDateTo(), qBike.updateDate::loe)
                           .buildAnd();
     }
 

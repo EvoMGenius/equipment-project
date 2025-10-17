@@ -30,6 +30,9 @@ public class CreateIotDto {
     @Schema(description = "id SIM-карты")
     UUID simId;
 
+    @NotBlank
+    @Schema(description = "IMEI")
+    String imei;
 
     @Schema(description = "Комментарий или примечание", example = "Устройство установлено на велосипед №12")
     String comment;

@@ -15,11 +15,25 @@ public class SearchMovementArgument {
 
     UUID pointToId;
 
-    LocalDateTime dateEnd;
+    LocalDateTime dateEndFrom;
 
-    LocalDateTime createDate;
+    LocalDateTime dateEndTo;
+
+    LocalDateTime startDateFrom;
+
+    LocalDateTime startDateTo;
 
     MovementStatus status;
 
     String note;
+
+    LocalDateTime createDateFrom;
+
+    LocalDateTime createDateTo;
+
+    LocalDateTime updateDateFrom;
+
+    LocalDateTime updateDateTo;
+
+    boolean isDeleted;
 }

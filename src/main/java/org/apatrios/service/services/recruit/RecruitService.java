@@ -33,7 +33,6 @@ public class RecruitService {
     @Transactional
     public Recruit create(@NonNull CreateRecruitArgument argument) {
         return repository.save(Recruit.builder()
-                                      .service(argument.getService())
                                       .client(argument.getClient())
                                       .createDate(LocalDateTime.now())
                                       .updateDate(LocalDateTime.now())
@@ -44,7 +43,6 @@ public class RecruitService {
     public Recruit update(@NonNull UUID id, @NonNull UpdateRecruitArgument argument) {
         Recruit existing = getExisting(id);
 
-        existing.setService(argument.getService());
         existing.setClient(argument.getClient());
         existing.setUpdateDate(LocalDateTime.now());
 
@@ -65,7 +63,6 @@ public class RecruitService {
 
     private Predicate buildPredicate(SearchRecruitArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getServiceId(), qRecruit.service.id::eq)
                           .add(argument.getClientId(), qRecruit.client.id::eq)
                           .add(argument.isDeleted(), qRecruit.isDeleted::eq)
                           .add(argument.getCreateDateFrom(), qRecruit.createDate::goe)

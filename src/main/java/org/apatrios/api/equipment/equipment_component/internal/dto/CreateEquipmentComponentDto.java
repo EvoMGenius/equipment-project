@@ -27,10 +27,6 @@ public class CreateEquipmentComponentDto {
     @Schema(description = "Инвентарный номер компонента", example = "56789")
     Integer invNumber;
 
-    @NotBlank
-    @Schema(description = "Статус компонента", example = "ACTIVE")
-    String status;
-
     @Schema(description = "Комментарий или примечание", example = "Требуется диагностика")
     String comment;
 }

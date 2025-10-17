@@ -12,4 +12,7 @@ public class SearchSimBalanceArgument {
     UUID simId;
     LocalDateTime createDateFrom;
     LocalDateTime createDateTo;
+    LocalDateTime updateDateFrom;
+    LocalDateTime updateDateTo;
+    boolean isDeleted;
 }

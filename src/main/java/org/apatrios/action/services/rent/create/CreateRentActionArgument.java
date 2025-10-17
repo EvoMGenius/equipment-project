@@ -24,5 +24,5 @@ public class CreateRentActionArgument {
 
     UUID parentRequestId;
 
-    PaymentStatus paymentStatus;
+    UUID paymentId;
 }

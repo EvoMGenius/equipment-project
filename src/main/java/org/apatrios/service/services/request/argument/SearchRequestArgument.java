@@ -35,4 +35,8 @@ public class SearchRequestArgument {
     LocalDateTime updateDateTo;
 
     boolean isDeleted;
+
+    UUID rejectionReasonId;
+
+    String rejectNote;
 }

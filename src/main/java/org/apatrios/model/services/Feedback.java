@@ -3,9 +3,12 @@ package org.apatrios.model.services;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
+import org.apatrios.model.dictoinary.ServiceDictionary;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +22,10 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
 public class Feedback extends BaseEntity {
+
+    /** Услуга */
+    @ManyToOne(fetch = FetchType.LAZY)
+    ServiceDictionary service;
 
     /** Оценка от 1 до 5 */
     @Column(nullable = false)
@@ -36,6 +43,7 @@ public class Feedback extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    boolean isDeleted = false;
 }

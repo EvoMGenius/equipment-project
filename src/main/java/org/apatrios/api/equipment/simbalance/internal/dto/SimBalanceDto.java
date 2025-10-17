@@ -30,4 +30,10 @@ public class SimBalanceDto {
 
     @Schema(description = "Дата создания")
     LocalDateTime createDate;
+
+    @Schema(description = "Дата обновления")
+    LocalDateTime updateDate;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
 }

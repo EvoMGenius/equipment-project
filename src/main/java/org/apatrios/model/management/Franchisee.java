@@ -40,6 +40,7 @@ public class Franchisee extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    boolean isDeleted = false;
 }

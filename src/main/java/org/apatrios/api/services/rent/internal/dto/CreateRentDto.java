@@ -38,8 +38,8 @@ public class CreateRentDto {
     LocalDateTime rentEnd;
 
     @NotNull
-    @Schema(description = "Статус оплаты", example = "UNPAID", required = true)
-    PaymentStatus paymentStatus;
+    @Schema(description = "Оплата", required = true)
+    UUID paymentId;
 
     @Schema(description = "Комментарий администратора")
     String comment;

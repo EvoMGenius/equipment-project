@@ -29,7 +29,7 @@ public class ManagementPoint extends BaseEntity {
     String address;
 
     /** Франчайзи */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     Franchisee franchisee;
 
     /** Тип точки */
@@ -57,6 +57,7 @@ public class ManagementPoint extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    boolean isDeleted = false;
 }

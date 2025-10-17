@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.equipment.movement.internal.dto.MovementDto;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -29,4 +30,13 @@ public class MovementComposeDto {
 
     @Schema(description = "Комментарий к записи состава перемещения", example = "Переданы вместе с запчастями")
     String note;
+
+    @Schema(description = "Дата создания")
+    LocalDateTime createDate;
+
+    @Schema(description = "Дата обновления")
+    LocalDateTime updateDate;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
 }

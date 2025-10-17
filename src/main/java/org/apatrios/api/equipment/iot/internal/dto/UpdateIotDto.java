@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.equipment.BikeStatus;
+import org.apatrios.model.equipment.IotStatus;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -32,13 +33,17 @@ public class UpdateIotDto {
     @Schema(description = "Инвентарный номер IoT-устройства")
     String invNumber;
 
+    @NotBlank
+    @Schema(description = "IMEI")
+    String imei;
+
     @NotNull
     @Schema(description = "id SIM-карты")
     UUID simId;
 
     @NotBlank
     @Schema(description = "Статус IoT-устройства", example = "ACTIVE")
-    BikeStatus status;
+    IotStatus status;
 
     @Schema(description = "Комментарий или примечание", example = "Устройство установлено на велосипед №12")
     String comment;

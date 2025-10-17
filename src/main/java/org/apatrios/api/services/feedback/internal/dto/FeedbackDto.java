@@ -3,6 +3,7 @@ package org.apatrios.api.services.feedback.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.service_dictionary.dto.ServiceDictionaryDto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -35,4 +36,7 @@ public class FeedbackDto {
 
     @Schema(description = "Признак удаления", example = "false")
     boolean isDeleted;
+
+    @Schema(description = "Услуга")
+    ServiceDictionaryDto serviceDictionary;
 }

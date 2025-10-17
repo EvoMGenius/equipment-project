@@ -22,7 +22,7 @@ public class SearchRentArgument {
 
     UUID clientId;
 
-    PaymentStatus paymentStatus;
+    UUID paymentId;
 
     String comment;
 

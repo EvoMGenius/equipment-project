@@ -6,9 +6,8 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.api.management.staff.internal.dto.StaffDto;
 import org.apatrios.api.services.client.internal.dto.ClientDto;
 import org.apatrios.api.services.request.internal.dto.RequestDto;
-import org.apatrios.model.management.PaymentStatus;
+import org.apatrios.model.management.Payment;
 import org.apatrios.model.services.RentStatus;
-import org.apatrios.model.services.Request;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -42,8 +41,8 @@ public class RentDto {
     @Schema(description = "Статус аренды", example = "ACTIVE")
     RentStatus rentStatus;
 
-    @Schema(description = "Статус оплаты", example = "PAID")
-    PaymentStatus paymentStatus;
+    @Schema(description = "Оплата", required = true)
+    Payment payment;
 
     @Schema(description = "Комментарий администратора")
     String comment;

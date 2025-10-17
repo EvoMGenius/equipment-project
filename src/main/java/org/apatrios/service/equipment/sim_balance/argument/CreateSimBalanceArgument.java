@@ -10,5 +10,4 @@ import java.time.LocalDateTime;
 public class CreateSimBalanceArgument {
     Integer value;
     Sim sim;
-    LocalDateTime createDate;
 }

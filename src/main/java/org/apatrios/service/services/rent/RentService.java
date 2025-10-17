@@ -37,9 +37,9 @@ public class RentService {
                                    .staff(argument.getStaff())
                                    .rentStart(argument.getRentStart())
                                    .rentEnd(argument.getRentEnd())
-                                   .rentStatus(RentStatus.ACTIVE)
+                                   .rentStatus(RentStatus.NEW)
                                    .client(argument.getClient())
-                                   .paymentStatus(argument.getPaymentStatus())
+                                   .payment(argument.getPayment())
                                    .comment(argument.getComment())
                                    .parentRent(argument.getParentRent())
                                    .parentRequest(argument.getParentRequest())
@@ -57,7 +57,7 @@ public class RentService {
         existing.setRentEnd(argument.getRentEnd());
         existing.setRentStatus(argument.getRentStatus());
         existing.setClient(argument.getClient());
-        existing.setPaymentStatus(argument.getPaymentStatus());
+        existing.setPayment(argument.getPayment());
         existing.setComment(argument.getComment());
         existing.setParentRent(argument.getParentRent());
         existing.setParentRequest(argument.getParentRequest());
@@ -83,7 +83,7 @@ public class RentService {
                           .add(argument.getStaffId(), qRent.staff.id::eq)
                           .add(argument.getClientId(), qRent.client.id::eq)
                           .add(argument.getRentStatus(), qRent.rentStatus::eq)
-                          .add(argument.getPaymentStatus(), qRent.paymentStatus::eq)
+                          .add(argument.getPaymentId(), qRent.payment.id::eq)
                           .add(argument.getParentRentId(), qRent.parentRent.id::eq)
                           .add(argument.getParentRequestId(), qRent.parentRequest.id::eq)
                           .add(argument.isDeleted(), qRent.isDeleted::eq)

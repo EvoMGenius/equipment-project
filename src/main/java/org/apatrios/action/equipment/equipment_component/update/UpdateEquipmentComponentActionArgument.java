@@ -11,6 +11,5 @@ public class UpdateEquipmentComponentActionArgument {
     UUID id;
     UUID componentModelId;
     Integer invNumber;
-    String status;
     String comment;
 }

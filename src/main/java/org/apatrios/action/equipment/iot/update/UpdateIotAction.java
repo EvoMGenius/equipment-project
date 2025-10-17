@@ -34,6 +34,7 @@ public class UpdateIotAction implements Action<UpdateIotActionArgument, Iot> {
                                                   .sim(sim)
                                                   .status(argument.getStatus())
                                                   .comment(argument.getComment())
+                                                  .imei(argument.getImei())
                                                   .build());
     }
 }

@@ -36,4 +36,10 @@ public class CreateRequestDto {
     @NotNull
     @Schema(description = "ID клиента", example = "333e8400-e29b-41d4-a716-446655440000")
     UUID clientId;
+
+    @Schema(description = "Причина отказа ID")
+    UUID rejectionReasonId;
+
+    @Schema(description = "Доп написание для причины отказа")
+    String rejectNote;
 }

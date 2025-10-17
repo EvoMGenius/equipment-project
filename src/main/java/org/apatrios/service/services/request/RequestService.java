@@ -39,9 +39,11 @@ public class RequestService {
                                       .modelBike(argument.getModelBike())
                                       .note(argument.getNote())
                                       .client(argument.getClient())
-                                      .status(RequestStatus.CREATED)
+                                      .status(RequestStatus.NEW)
                                       .createDate(LocalDateTime.now())
                                       .updateDate(LocalDateTime.now())
+                                      .rejectionReason(argument.getRejectionReason())
+                                      .rejectNote(argument.getRejectNote())
                                       .build());
     }
 
@@ -56,6 +58,8 @@ public class RequestService {
         existing.setClient(argument.getClient());
         existing.setStatus(argument.getStatus());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setRejectionReason(argument.getRejectionReason());
+        existing.setRejectNote(argument.getRejectNote());
 
         return repository.save(existing);
     }
@@ -87,6 +91,8 @@ public class RequestService {
                           .add(argument.getCreateDateTo(), qRequest.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qRequest.updateDate::goe)
                           .add(argument.getCreateDateTo(), qRequest.updateDate::loe)
+                          .add(argument.getRejectNote(), qRequest.rejectNote::containsIgnoreCase)
+                          .add(argument.getRejectionReasonId(), qRequest.rejectionReason.id::eq)
                           .buildAnd();
     }
 

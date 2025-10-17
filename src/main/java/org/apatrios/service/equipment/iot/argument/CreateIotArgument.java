@@ -12,4 +12,5 @@ public class CreateIotArgument {
     String invNumber;
     Sim sim;
     String comment;
+    String imei;
 }

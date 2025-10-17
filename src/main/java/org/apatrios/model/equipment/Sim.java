@@ -3,9 +3,10 @@ package org.apatrios.model.equipment;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.Operator;
 
 import javax.persistence.*;
+
+import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -22,7 +23,15 @@ public class Sim extends BaseEntity {
     @Column(nullable = false)
     String phoneNumber;
 
-    /** Справочник оператор */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Operator operator;
+    /** Дата и время создания */
+    @Column(nullable = false)
+    LocalDateTime createDate;
+
+    /** Дата и время обновления */
+    LocalDateTime updateDate;
+
+    /** Признак удаления */
+    @Builder.Default
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    boolean isDeleted = false;
 }

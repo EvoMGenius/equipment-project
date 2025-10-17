@@ -10,5 +10,4 @@ import java.util.UUID;
 public class UpdateRecruitActionArgument {
     UUID id;
     UUID clientId;
-    UUID serviceId;
 }

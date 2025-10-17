@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.ModelBike;
+import org.apatrios.model.dictoinary.RejectionReason;
 import org.apatrios.model.dictoinary.ServiceType;
 
 import javax.persistence.*;
@@ -46,6 +47,14 @@ public class Request extends BaseEntity {
     @Column(nullable = false)
     RequestStatus status;
 
+    /** Обоснование отклонения */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    RejectionReason rejectionReason;
+
+    /** Комментарий к отклонению */
+    @Column(columnDefinition = "text")
+    String rejectNote;
+
     /** Дата и время создания */
     @Column(nullable = false)
     LocalDateTime createDate;
@@ -54,6 +63,7 @@ public class Request extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    boolean isDeleted = false;
 }

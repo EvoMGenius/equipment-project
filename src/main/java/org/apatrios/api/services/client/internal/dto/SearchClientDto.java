@@ -3,6 +3,7 @@ package org.apatrios.api.services.client.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.services.ClientStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -44,4 +45,7 @@ public class SearchClientDto {
 
     @Schema(description = "Признак удаления", example = "false")
     boolean isDeleted;
+
+    @Schema(description = "Статус")
+    ClientStatus status;
 }

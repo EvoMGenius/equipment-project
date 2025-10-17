@@ -24,4 +24,13 @@ public class SearchSimBalanceDto {
 
     @Schema(description = "Дата создания конец")
     LocalDateTime createDateTo;
+
+    @Schema(description = "Дата обновления начало")
+    LocalDateTime updateDateFrom;
+
+    @Schema(description = "Дата обновления начало")
+    LocalDateTime updateDateTo;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
 }

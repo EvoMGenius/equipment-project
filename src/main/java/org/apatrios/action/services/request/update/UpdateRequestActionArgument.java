@@ -23,4 +23,8 @@ public class UpdateRequestActionArgument {
     UUID clientId;
 
     RequestStatus status;
+
+    UUID rejectionReasonId;
+
+    String rejectNote;
 }

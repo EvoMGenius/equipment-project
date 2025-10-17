@@ -1,7 +1,9 @@
-package org.apatrios.api.dictionary.operator.dto;
+package org.apatrios.api.dictionary.claim_type.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.common.dto.BaseDictionarySearchDto;
 
@@ -11,6 +13,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO модели поиска оператора")
-public class SearchOperatorDto extends BaseDictionarySearchDto {
+@Schema(description = "DTO поиска модели претензии")
+public class SearchClaimTypeDto extends BaseDictionarySearchDto {
 }

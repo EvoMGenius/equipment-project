@@ -9,6 +9,5 @@ import org.apatrios.model.dictoinary.ComponentModel;
 public class CreateEquipmentComponentArgument {
     ComponentModel model;
     Integer invNumber;
-    String status;
     String comment;
 }

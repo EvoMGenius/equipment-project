@@ -28,7 +28,6 @@ public class CreateSimBalanceAction implements Action<CreateSimBalanceActionArgu
 
         return simBalanceService.create(CreateSimBalanceArgument.builder()
                                                                 .value(argument.getValue())
-                                                                .createDate(argument.getCreateDate())
                                                                 .sim(sim)
                                                                 .build());
     }

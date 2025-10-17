@@ -4,9 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.outfit_model.dto.OutfitModelDto;
+import org.apatrios.api.management.franchisee.internal.dto.FranchiseeDto;
 import org.apatrios.model.equipment.OutfitStatus;
-import org.apatrios.model.dictoinary.OutfitModel;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -26,12 +27,21 @@ public class OutfitDto {
     @Schema(description = "Модель экипировки")
     OutfitModelDto model;
 
-    @Schema(description = "Инвентарный номер экипировки", example = "4521")
-    Integer invNumber;
+    @Schema(description = "Франчизи")
+    FranchiseeDto franchisee;
 
     @Schema(description = "Текущий статус экипировки", example = "AVAILABLE")
     OutfitStatus status;
 
     @Schema(description = "Комментарий", example = "Выдана на сезонное использование")
     String comment;
+
+    @Schema(description = "Дата создания")
+    LocalDateTime createDate;
+
+    @Schema(description = "Дата обновления")
+    LocalDateTime updateDate;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
 }

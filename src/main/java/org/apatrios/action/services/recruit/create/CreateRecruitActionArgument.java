@@ -9,5 +9,4 @@ import java.util.UUID;
 @Builder
 public class CreateRecruitActionArgument {
     UUID clientId;
-    UUID serviceId;
 }

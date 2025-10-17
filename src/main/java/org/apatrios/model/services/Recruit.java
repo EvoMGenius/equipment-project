@@ -3,7 +3,6 @@ package org.apatrios.model.services;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.ServiceDictionary;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,12 +22,8 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class Recruit extends BaseEntity {
 
-    /** Услуга */
-    @ManyToOne(fetch = FetchType.LAZY)
-    ServiceDictionary service;
-
     /** Клиент */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     Client client;
 
     /** Дата и время создания */
@@ -39,6 +34,7 @@ public class Recruit extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    boolean isDeleted = false;
 }

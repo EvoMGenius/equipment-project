@@ -1,5 +1,9 @@
 package org.apatrios.model.services;
 
 public enum RentStatus {
-    ACTIVE
+    NEW,
+    PENDING_RESERVATION,
+    RESERVED,
+    ACTIVE,
+    CLOSED
 }

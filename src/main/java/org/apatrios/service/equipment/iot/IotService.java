@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.model.equipment.BikeStatus;
 import org.apatrios.model.equipment.Iot;
+import org.apatrios.model.equipment.IotStatus;
 import org.apatrios.model.equipment.QIot;
 import org.apatrios.repository.equipment.IotRepository;
 import org.apatrios.service.equipment.iot.argument.CreateIotArgument;
@@ -20,6 +21,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.apatrios.exception.EntityNotFoundException;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,8 +39,11 @@ public class IotService {
                                   .model(argument.getModel())
                                   .invNumber(argument.getInvNumber())
                                   .sim(argument.getSim())
-                                  .status(BikeStatus.ACTIVE)
+                                  .status(IotStatus.NEW)
                                   .comment(argument.getComment())
+                                  .createDate(LocalDateTime.now())
+                                  .updateDate(LocalDateTime.now())
+                                  .imei(argument.getImei())
                                   .build());
     }
 
@@ -50,6 +56,8 @@ public class IotService {
         existing.setSim(argument.getSim());
         existing.setStatus(argument.getStatus());
         existing.setComment(argument.getComment());
+        existing.setImei(argument.getImei());
+        existing.setUpdateDate(LocalDateTime.now());
 
         return repository.save(existing);
     }
@@ -73,6 +81,12 @@ public class IotService {
                           .add(argument.getSimId(), qIot.sim.id::eq)
                           .add(argument.getStatus(), qIot.status::eq)
                           .add(argument.getComment(), qIot.comment::containsIgnoreCase)
+                          .add(argument.getCreateDateFrom(), qIot.createDate::goe)
+                          .add(argument.getCreateDateTo(), qIot.createDate::loe)
+                          .add(argument.getUpdateDateFrom(), qIot.updateDate::goe)
+                          .add(argument.getUpdateDateTo(), qIot.updateDate::loe)
+                          .add(argument.isDeleted(), qIot.isDeleted::eq)
+                          .add(argument.getImei(), qIot.imei::containsIgnoreCase)
                           .buildAnd();
     }
 

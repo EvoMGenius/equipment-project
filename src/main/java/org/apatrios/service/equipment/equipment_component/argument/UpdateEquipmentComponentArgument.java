@@ -3,12 +3,13 @@ package org.apatrios.service.equipment.equipment_component.argument;
 import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.dictoinary.ComponentModel;
+import org.apatrios.model.equipment.EquipmentComponentStatus;
 
 @Value
 @Builder
 public class UpdateEquipmentComponentArgument {
     ComponentModel model;
     Integer invNumber;
-    String status;
+    EquipmentComponentStatus status;
     String comment;
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -37,4 +38,7 @@ public class SearchFeedbackDto {
 
     @Schema(description = "Признак удаления", example = "false")
     boolean isDeleted;
+
+    @Schema(description = "Услуга ID")
+    UUID serviceDictionaryId;
 }

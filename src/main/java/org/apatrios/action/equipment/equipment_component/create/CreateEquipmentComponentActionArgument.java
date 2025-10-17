@@ -10,6 +10,5 @@ import java.util.UUID;
 public class CreateEquipmentComponentActionArgument {
     UUID componentModelId;
     Integer invNumber;
-    String status;
     String comment;
 }

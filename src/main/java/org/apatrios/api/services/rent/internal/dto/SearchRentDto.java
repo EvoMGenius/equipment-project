@@ -3,7 +3,6 @@ package org.apatrios.api.services.rent.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.model.management.PaymentStatus;
 import org.apatrios.model.services.RentStatus;
 
 import java.time.LocalDateTime;
@@ -35,8 +34,8 @@ public class SearchRentDto {
     @Schema(description = "ID клиента", example = "222e8400-e29b-41d4-a716-446655440000")
     UUID clientId;
 
-    @Schema(description = "Статус оплаты", example = "UNPAID")
-    PaymentStatus paymentStatus;
+    @Schema(description = "Оплата", required = true)
+    UUID paymentId;
 
     @Schema(description = "Комментарий администратора", example = "Аренда для постоянного клиента")
     String comment;

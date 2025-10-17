@@ -9,9 +9,6 @@ import java.util.UUID;
 @Value
 @Builder
 public class SearchRecruitArgument {
-
-    UUID serviceId;
-
     UUID clientId;
 
     LocalDateTime createDateFrom;

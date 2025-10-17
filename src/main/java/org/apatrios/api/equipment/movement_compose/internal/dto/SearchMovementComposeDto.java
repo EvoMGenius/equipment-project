@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -28,4 +29,19 @@ public class SearchMovementComposeDto {
 
     @Schema(description = "Комментарий к записи состава перемещения", example = "Переданы вместе с запчастями")
     String note;
+
+    @Schema(description = "Дата создания начало")
+    LocalDateTime createDateFrom;
+
+    @Schema(description = "Дата создания конец")
+    LocalDateTime createDateTo;
+
+    @Schema(description = "Дата обновления начало")
+    LocalDateTime updateDateFrom;
+
+    @Schema(description = "Дата обновления начало")
+    LocalDateTime updateDateTo;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
 }

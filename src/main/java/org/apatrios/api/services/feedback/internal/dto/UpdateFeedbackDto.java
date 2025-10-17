@@ -35,4 +35,7 @@ public class UpdateFeedbackDto {
     @NotBlank
     @Schema(description = "Текст отзыва", example = "Хорошо, но есть нюансы", required = true)
     String note;
+
+    @Schema(description = "Услуга ID", required = true)
+    UUID serviceDictionaryId;
 }

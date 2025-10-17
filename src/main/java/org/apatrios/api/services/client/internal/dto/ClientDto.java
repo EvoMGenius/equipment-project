@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.management.franchisee.internal.dto.FranchiseeDto;
 import org.apatrios.model.services.ClientProfile;
+import org.apatrios.model.services.ClientStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -37,4 +38,7 @@ public class ClientDto {
 
     @Schema(description = "Признак удаления", example = "false")
     boolean isDeleted;
+
+    @Schema(description = "Статус")
+    ClientStatus status;
 }

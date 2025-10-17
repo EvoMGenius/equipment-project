@@ -5,6 +5,7 @@ import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.model.equipment.EquipmentComponent;
+import org.apatrios.model.equipment.EquipmentComponentStatus;
 import org.apatrios.model.equipment.QEquipmentComponent;
 import org.apatrios.repository.equipment.EquipmentComponentRepository;
 import org.apatrios.service.equipment.equipment_component.argument.CreateEquipmentComponentArgument;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.apatrios.exception.EntityNotFoundException;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,8 +37,10 @@ public class EquipmentComponentService {
         return repository.save(EquipmentComponent.builder()
                                                  .model(argument.getModel())
                                                  .invNumber(argument.getInvNumber())
-                                                 .status(argument.getStatus())
+                                                 .status(EquipmentComponentStatus.NEW)
                                                  .comment(argument.getComment())
+                                                 .createDate(LocalDateTime.now())
+                                                 .updateDate(LocalDateTime.now())
                                                  .build());
     }
 
@@ -47,6 +52,8 @@ public class EquipmentComponentService {
         existing.setInvNumber(argument.getInvNumber());
         existing.setStatus(argument.getStatus());
         existing.setComment(argument.getComment());
+        existing.setStatus(argument.getStatus());
+        existing.setUpdateDate(LocalDateTime.now());
 
         return repository.save(existing);
     }
@@ -67,8 +74,13 @@ public class EquipmentComponentService {
         return QPredicates.builder()
                           .add(argument.getModelId(), qEquipmentComponent.model.id::eq)
                           .add(argument.getInvNumber(), qEquipmentComponent.invNumber::eq)
-                          .add(argument.getStatus(), qEquipmentComponent.status::containsIgnoreCase)
+                          .add(argument.getStatus(), qEquipmentComponent.status::eq)
                           .add(argument.getComment(), qEquipmentComponent.comment::containsIgnoreCase)
+                          .add(argument.getCreateDateFrom(), qEquipmentComponent.createDate::goe)
+                          .add(argument.getCreateDateTo(), qEquipmentComponent.createDate::loe)
+                          .add(argument.getUpdateDateFrom(), qEquipmentComponent.updateDate::goe)
+                          .add(argument.getUpdateDateTo(), qEquipmentComponent.updateDate::loe)
+                          .add(argument.isDeleted(), qEquipmentComponent.isDeleted::eq)
                           .buildAnd();
     }
 

@@ -46,8 +46,8 @@ public class UpdateRentDto {
     RentStatus rentStatus;
 
     @NotNull
-    @Schema(description = "Статус оплаты", example = "PAID", required = true)
-    PaymentStatus paymentStatus;
+    @Schema(description = "Оплата", required = true)
+    UUID paymentId;
 
     @Schema(description = "Комментарий администратора")
     String comment;

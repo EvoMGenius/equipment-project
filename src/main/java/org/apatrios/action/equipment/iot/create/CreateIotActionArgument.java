@@ -12,4 +12,5 @@ public class CreateIotActionArgument {
     String invNumber;
     UUID simId;
     String comment;
+    String imei;
 }

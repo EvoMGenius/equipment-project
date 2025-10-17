@@ -6,10 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
 import org.apatrios.model.dictoinary.ModelBike;
+import org.apatrios.model.dictoinary.RejectionReason;
 import org.apatrios.model.dictoinary.ServiceType;
 import org.apatrios.model.services.Client;
 import org.apatrios.model.services.Request;
 import org.apatrios.service.dictionary.ModelBikeService;
+import org.apatrios.service.dictionary.RejectionReasonService;
 import org.apatrios.service.dictionary.ServiceTypeService;
 import org.apatrios.service.services.client.ClientService;
 import org.apatrios.service.services.request.RequestService;
@@ -26,6 +28,7 @@ public class CreateRequestAction implements Action<CreateRequestActionArgument, 
     ModelBikeService modelBikeService;
     ServiceTypeService serviceTypeService;
     RequestService requestService;
+    RejectionReasonService rejectionReasonService;
 
     @Override
     @Transactional
@@ -33,6 +36,9 @@ public class CreateRequestAction implements Action<CreateRequestActionArgument, 
         Client client = clientService.getExisting(argument.getClientId());
         ModelBike modelBike = modelBikeService.getExisting(argument.getModelBikeId());
         ServiceType serviceType = serviceTypeService.getExisting(argument.getModelBikeId());
+        RejectionReason reason = argument.getRejectionReasonId() != null
+                                 ? rejectionReasonService.getExisting(argument.getRejectionReasonId())
+                                 : null;
 
         return requestService.create(CreateRequestArgument.builder()
                                                           .serviceType(serviceType)
@@ -40,6 +46,8 @@ public class CreateRequestAction implements Action<CreateRequestActionArgument, 
                                                           .modelBike(modelBike)
                                                           .note(argument.getNote())
                                                           .requestProfile(argument.getRequestProfile())
+                                                          .rejectionReason(reason)
+                                                          .note(argument.getNote())
                                                           .build());
     }
 }

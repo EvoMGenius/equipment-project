@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.equipment.BikeStatus;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -20,6 +21,9 @@ public class SearchBikeDto {
 
     @Schema(description = "Идентификатор модели велосипеда")
     UUID modelBikeId;
+
+    @Schema(description = "Франчизи")
+    UUID franchiseeId;
 
     @Schema(description = "Порядковый номер внутри модели")
     Integer seqNumber;
@@ -41,4 +45,19 @@ public class SearchBikeDto {
 
     @Schema(description = "Комментарий или дополнительная информация")
     String comment;
+
+    @Schema(description = "Дата создания начало")
+    LocalDateTime createDateFrom;
+
+    @Schema(description = "Дата создания конец")
+    LocalDateTime createDateTo;
+
+    @Schema(description = "Дата обновления начало")
+    LocalDateTime updateDateFrom;
+
+    @Schema(description = "Дата обновления начало")
+    LocalDateTime updateDateTo;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
 }

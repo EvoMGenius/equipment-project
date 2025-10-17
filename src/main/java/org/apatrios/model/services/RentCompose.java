@@ -24,7 +24,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class RentCompose extends BaseEntity {
 
     /** Аренда */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     Rent rent;
 
     /** Кол-во объектов в аренде */
@@ -43,6 +43,7 @@ public class RentCompose extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    boolean isDeleted = false;
 }

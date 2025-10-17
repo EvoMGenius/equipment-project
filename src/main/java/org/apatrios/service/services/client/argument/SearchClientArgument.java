@@ -2,6 +2,7 @@ package org.apatrios.service.services.client.argument;
 
 import lombok.Builder;
 import lombok.Value;
+import org.apatrios.model.services.ClientStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -26,4 +27,6 @@ public class SearchClientArgument {
     LocalDateTime updateDateTo;
 
     boolean isDeleted;
+
+    ClientStatus status;
 }

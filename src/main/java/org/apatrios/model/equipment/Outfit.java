@@ -4,8 +4,11 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.OutfitModel;
+import org.apatrios.model.management.Franchisee;
 
 import javax.persistence.*;
+
+import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -22,9 +25,9 @@ public class Outfit extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     OutfitModel model;
 
-    /** Инвентарный номер */
-    @Column(nullable = false)
-    Integer invNumber;
+    /** Франчайзи */
+    @ManyToOne(fetch = FetchType.LAZY)
+    Franchisee franchisee;
 
     /** Статус */
     @Enumerated(EnumType.STRING)
@@ -34,4 +37,16 @@ public class Outfit extends BaseEntity {
     /** Комментарий */
     @Column(columnDefinition = "text")
     String comment;
+
+    /** Дата и время создания */
+    @Column(nullable = false)
+    LocalDateTime createDate;
+
+    /** Дата и время обновления */
+    LocalDateTime updateDate;
+
+    /** Признак удаления */
+    @Builder.Default
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    boolean isDeleted = false;
 }

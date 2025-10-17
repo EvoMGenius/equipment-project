@@ -46,4 +46,10 @@ public class UpdateRequestDto {
 
     @Schema(description = "Статус запроса", example = "IN_PROGRESS")
     RequestStatus status;
+
+    @Schema(description = "Причина отказа ID")
+    UUID rejectionReasonId;
+
+    @Schema(description = "Доп написание для причины отказа")
+    String rejectNote;
 }

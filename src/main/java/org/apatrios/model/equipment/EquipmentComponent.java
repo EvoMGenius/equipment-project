@@ -7,6 +7,8 @@ import org.apatrios.model.dictoinary.ComponentModel;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
+
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
@@ -28,10 +30,23 @@ public class EquipmentComponent extends BaseEntity {
     Integer invNumber;
 
     /** Статус компонента */
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    String status;
+    EquipmentComponentStatus status;
 
     /** Комментарий */
     @Column(columnDefinition = "text")
     String comment;
+
+    /** Дата и время создания */
+    @Column(nullable = false)
+    LocalDateTime createDate;
+
+    /** Дата и время обновления */
+    LocalDateTime updateDate;
+
+    /** Признак удаления */
+    @Builder.Default
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    boolean isDeleted = false;
 }

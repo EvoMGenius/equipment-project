@@ -1,16 +1,10 @@
 package org.apatrios.api.equipment.sim.internal;
 
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.apatrios.action.Action;
-import org.apatrios.action.equipment.sim.create.CreateSimActionArgument;
-import org.apatrios.action.equipment.sim.update.UpdateSimActionArgument;
 import org.apatrios.api.equipment.sim.internal.dto.SimDto;
 import org.apatrios.api.equipment.sim.internal.dto.CreateSimDto;
 import org.apatrios.api.equipment.sim.internal.dto.SearchSimDto;
 import org.apatrios.api.equipment.sim.internal.dto.UpdateSimDto;
-import org.apatrios.model.equipment.Sim;
 import org.apatrios.service.equipment.sim.SimService;
 import org.apatrios.service.equipment.sim.argument.SearchSimArgument;
 import org.apatrios.util.CollectionDto;
@@ -27,21 +21,18 @@ import static org.apatrios.api.equipment.sim.internal.mapper.SimMapper.SIM_MAPPE
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("internal/sim")
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class SimInternalController {
 
-    SimService service;
-    Action<CreateSimActionArgument, Sim> createSimAction;
-    Action<UpdateSimActionArgument, Sim> updateSimAction;
+    private final SimService service;
 
     @PostMapping("create")
     public SimDto create(@Valid @RequestBody CreateSimDto dto) {
-        return SIM_MAPPER.toDto(createSimAction.execute(SIM_MAPPER.toCreateArgument(dto)));
+        return SIM_MAPPER.toDto(service.create(SIM_MAPPER.toCreateArgument(dto)));
     }
 
     @PutMapping("update")
     public SimDto update(@Valid @RequestBody UpdateSimDto dto) {
-        return SIM_MAPPER.toDto(updateSimAction.execute(SIM_MAPPER.toUpdateArgument(dto)));
+        return SIM_MAPPER.toDto(service.update(dto.getId(), SIM_MAPPER.toUpdateArgument(dto)));
     }
 
     @GetMapping("list")

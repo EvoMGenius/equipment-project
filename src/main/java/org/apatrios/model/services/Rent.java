@@ -3,6 +3,7 @@ package org.apatrios.model.services;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
+import org.apatrios.model.management.Payment;
 import org.apatrios.model.management.PaymentStatus;
 import org.apatrios.model.management.Staff;
 
@@ -22,7 +23,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class Rent extends BaseEntity {
 
     /** Администратор */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     Staff staff;
 
     /** Дата и время начала аренды */
@@ -39,13 +40,12 @@ public class Rent extends BaseEntity {
     RentStatus rentStatus;
 
     /** Клиент */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     Client client;
 
-    /** Статус оплаты */
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    PaymentStatus paymentStatus;
+    /** Оплата */
+    @OneToOne(fetch = FetchType.LAZY)
+    Payment payment;
 
     /** Комментарий */
     @Column(columnDefinition = "text")
@@ -67,6 +67,7 @@ public class Rent extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    boolean isDeleted = false;
 }

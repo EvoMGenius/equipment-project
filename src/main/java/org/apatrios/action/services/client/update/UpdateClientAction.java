@@ -30,6 +30,7 @@ public class UpdateClientAction implements Action<UpdateClientActionArgument, Cl
                                     UpdateClientArgument.builder()
                                                         .clientProfile(argument.getClientProfile())
                                                         .franchisee(franchisee)
+                                                        .status(argument.getStatus())
                                                         .build());
     }
 }

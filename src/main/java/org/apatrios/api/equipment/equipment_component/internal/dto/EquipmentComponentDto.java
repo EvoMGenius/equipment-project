@@ -4,7 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.component_model.dto.ComponentModelDto;
+import org.apatrios.model.equipment.EquipmentComponentStatus;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -28,8 +30,17 @@ public class EquipmentComponentDto {
     Integer invNumber;
 
     @Schema(description = "Статус компонента", example = "ACTIVE")
-    String status;
+    EquipmentComponentStatus status;
 
     @Schema(description = "Комментарий или примечание", example = "Требуется диагностика")
     String comment;
+
+    @Schema(description = "Дата создания")
+    LocalDateTime createDate;
+
+    @Schema(description = "Дата обновления")
+    LocalDateTime updateDate;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
 }

@@ -18,9 +18,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Schema(description = "DTO поиска записей о назначенных услугах")
 public class SearchRecruitDto {
 
-    @Schema(description = "ID услуги", example = "111e8400-e29b-41d4-a716-446655440000")
-    UUID serviceId;
-
     @Schema(description = "ID клиента", example = "222e8400-e29b-41d4-a716-446655440000")
     UUID clientId;
 

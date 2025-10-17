@@ -57,4 +57,10 @@ public class SearchRequestDto {
 
     @Schema(description = "Признак удаления", example = "false")
     boolean isDeleted;
+
+    @Schema(description = "Причина отказа ID")
+    UUID rejectionReasonId;
+
+    @Schema(description = "Доп написание для причины отказа")
+    String rejectNote;
 }

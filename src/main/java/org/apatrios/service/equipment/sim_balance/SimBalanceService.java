@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.apatrios.exception.EntityNotFoundException;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,7 +36,8 @@ public class SimBalanceService {
         return repository.save(SimBalance.builder()
                                          .value(argument.getValue())
                                          .sim(argument.getSim())
-                                         .createDate(argument.getCreateDate())
+                                         .createDate(LocalDateTime.now())
+                                         .updateDate(LocalDateTime.now())
                                          .build());
     }
 
@@ -44,7 +47,7 @@ public class SimBalanceService {
 
         existing.setValue(argument.getValue());
         existing.setSim(argument.getSim());
-        existing.setCreateDate(argument.getCreateDate());
+        existing.setUpdateDate(LocalDateTime.now());
 
         return repository.save(existing);
     }
@@ -65,8 +68,11 @@ public class SimBalanceService {
         return QPredicates.builder()
                           .add(argument.getValue(), qSimBalance.value::eq)
                           .add(argument.getSimId(), qSimBalance.sim.id::eq)
+                          .add(argument.isDeleted(), qSimBalance.isDeleted::eq)
                           .add(argument.getCreateDateFrom(), qSimBalance.createDate::goe)
                           .add(argument.getCreateDateTo(), qSimBalance.createDate::loe)
+                          .add(argument.getUpdateDateFrom(), qSimBalance.updateDate::goe)
+                          .add(argument.getUpdateDateTo(), qSimBalance.updateDate::loe)
                           .buildAnd();
     }
 

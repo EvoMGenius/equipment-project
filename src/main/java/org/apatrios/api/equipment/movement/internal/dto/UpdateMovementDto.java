@@ -33,7 +33,6 @@ public class UpdateMovementDto {
     @Schema(description = "Идентификатор точки назначения", example = "4a6c89d1-23f7-45b8-9cde-23456789abcd")
     UUID pointToId;
 
-    @NotNull
     @Schema(description = "Дата и время завершения перемещения", example = "2025-09-27T16:45:00")
     LocalDateTime dateEnd;
 

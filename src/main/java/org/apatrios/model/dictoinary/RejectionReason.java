@@ -12,5 +12,5 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = true)
-public class Operator extends BaseDictionary {
+public class RejectionReason extends BaseDictionary {
 }

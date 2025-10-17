@@ -33,7 +33,6 @@ public class SimService {
     public Sim create(@NonNull CreateSimArgument argument) {
         return repository.save(Sim.builder()
                                   .phoneNumber(argument.getPhoneNumber())
-                                  .operator(argument.getOperator())
                                   .build());
     }
 
@@ -42,7 +41,6 @@ public class SimService {
         Sim existing = getExisting(id);
 
         existing.setPhoneNumber(argument.getPhoneNumber());
-        existing.setOperator(argument.getOperator());
 
         return repository.save(existing);
     }
@@ -62,7 +60,11 @@ public class SimService {
     private Predicate buildPredicate(SearchSimArgument argument) {
         return QPredicates.builder()
                           .add(argument.getPhoneNumber(), qSim.phoneNumber::containsIgnoreCase)
-                          .add(argument.getOperatorId(), qSim.operator.id::eq)
+                          .add(argument.isDeleted(), qSim.isDeleted::eq)
+                          .add(argument.getCreateDateFrom(), qSim.createDate::goe)
+                          .add(argument.getCreateDateTo(), qSim.createDate::loe)
+                          .add(argument.getUpdateDateFrom(), qSim.updateDate::goe)
+                          .add(argument.getUpdateDateTo(), qSim.updateDate::loe)
                           .buildAnd();
     }
 

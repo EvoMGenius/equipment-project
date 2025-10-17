@@ -2,7 +2,7 @@ package org.apatrios.service.services.rent.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.management.PaymentStatus;
+import org.apatrios.model.management.Payment;
 import org.apatrios.model.management.Staff;
 import org.apatrios.model.services.Client;
 import org.apatrios.model.services.Rent;
@@ -28,5 +28,5 @@ public class CreateRentArgument {
 
     Request parentRequest;
 
-    PaymentStatus paymentStatus;
+    Payment payment;
 }

@@ -18,4 +18,8 @@ public class CreateRequestActionArgument {
     String note;
 
     UUID clientId;
+
+    UUID rejectionReasonId;
+
+    String rejectNote;
 }

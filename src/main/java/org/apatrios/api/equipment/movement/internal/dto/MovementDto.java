@@ -25,7 +25,7 @@ public class MovementDto {
     UUID id;
 
     @Schema(description = "Дата и время создания записи", example = "2025-09-27T14:30:00")
-    LocalDateTime createDate;
+    LocalDateTime startDate;
 
     @Schema(description = "Точки отправления")
     PointDto pointFrom;
@@ -41,4 +41,13 @@ public class MovementDto {
 
     @Schema(description = "Дополнительная заметка", example = "Доставлен в сервисный центр")
     String note;
+
+    @Schema(description = "Дата создания")
+    LocalDateTime createDate;
+
+    @Schema(description = "Дата обновления")
+    LocalDateTime updateDate;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
 }

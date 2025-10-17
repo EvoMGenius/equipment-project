@@ -12,6 +12,8 @@ public class UpdateBikeActionArgument {
 
     UUID modelBikeId;
 
+    UUID franchiseeId;
+
     UUID id;
 
     Integer seqNumber;

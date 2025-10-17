@@ -2,6 +2,9 @@ package org.apatrios.service.equipment.equipment_component.argument;
 
 import lombok.Builder;
 import lombok.Value;
+import org.apatrios.model.equipment.EquipmentComponentStatus;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Value
@@ -9,6 +12,11 @@ import java.util.UUID;
 public class SearchEquipmentComponentArgument {
     UUID modelId;
     Integer invNumber;
-    String status;
+    EquipmentComponentStatus status;
     String comment;
+    LocalDateTime createDateFrom;
+    LocalDateTime createDateTo;
+    LocalDateTime updateDateFrom;
+    LocalDateTime updateDateTo;
+    boolean isDeleted;
 }

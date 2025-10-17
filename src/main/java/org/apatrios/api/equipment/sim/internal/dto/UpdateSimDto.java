@@ -25,8 +25,4 @@ public class UpdateSimDto {
     @NotBlank
     @Schema(description = "Номер телефона")
     String phoneNumber;
-
-    @NotNull
-    @Schema(description = "id оператора")
-    UUID operatorId;
 }

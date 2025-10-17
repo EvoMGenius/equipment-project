@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.services.Client;
+import org.apatrios.model.services.ClientStatus;
 import org.apatrios.model.services.QClient;
 import org.apatrios.repository.services.ClientRepository;
 import org.apatrios.service.services.client.argument.CreateClientArgument;
@@ -34,6 +35,7 @@ public class ClientService {
     public Client create(@NonNull CreateClientArgument argument) {
         return repository.save(Client.builder()
                                      .clientProfile(argument.getClientProfile())
+                                     .status(ClientStatus.NEW)
                                      .franchisee(argument.getFranchisee())
                                      .createDate(LocalDateTime.now())
                                      .updateDate(LocalDateTime.now())
@@ -47,6 +49,7 @@ public class ClientService {
         existing.setClientProfile(argument.getClientProfile());
         existing.setFranchisee(argument.getFranchisee());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setStatus(argument.getStatus());
 
         return repository.save(existing);
     }
@@ -74,6 +77,7 @@ public class ClientService {
                           .add(argument.getCreateDateTo(), qClient.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qClient.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qClient.updateDate::loe)
+                          .add(argument.getStatus(), qClient.status::eq)
                           .buildAnd();
     }
 
