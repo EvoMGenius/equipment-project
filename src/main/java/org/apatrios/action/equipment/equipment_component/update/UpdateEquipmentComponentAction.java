@@ -29,6 +29,7 @@ public class UpdateEquipmentComponentAction implements Action<UpdateEquipmentCom
                                                                        .model(componentModel)
                                                                        .invNumber(argument.getInvNumber())
                                                                        .comment(argument.getComment())
+                                                                       .status(argument.getStatus())
                                                                        .build());
     }
 }

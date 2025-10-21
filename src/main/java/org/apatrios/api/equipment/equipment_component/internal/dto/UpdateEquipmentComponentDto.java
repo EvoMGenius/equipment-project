@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.equipment.EquipmentComponentStatus;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -31,6 +32,7 @@ public class UpdateEquipmentComponentDto {
     @Schema(description = "Инвентарный номер компонента", example = "56789")
     Integer invNumber;
 
+    @NotNull
     @Schema(description = "Статус компонента", example = "ACTIVE")
     EquipmentComponentStatus status;
 

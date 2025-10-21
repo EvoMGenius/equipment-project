@@ -44,6 +44,11 @@ public class SimBalanceInternalController {
         return SIM_BALANCE_MAPPER.toDto(updateSimBalanceAction.execute(SIM_BALANCE_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public SimBalanceDto get(@PathVariable UUID id) {
+        return SIM_BALANCE_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<SimBalanceDto> list(SearchSimBalanceDto dto, Sort sort) {
         SearchSimBalanceArgument searchArgument = SIM_BALANCE_MAPPER.toSearchArgument(dto);

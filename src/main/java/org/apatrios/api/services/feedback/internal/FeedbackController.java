@@ -43,6 +43,11 @@ public class FeedbackController {
         return FEEDBACK_MAPPER.toDto(updateFeedbackAction.execute(FEEDBACK_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public FeedbackDto get(@PathVariable UUID id) {
+        return FEEDBACK_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<FeedbackDto> list(SearchFeedbackDto dto, Sort sort) {
         return service.list(FEEDBACK_MAPPER.toSearchArgument(dto), sort)

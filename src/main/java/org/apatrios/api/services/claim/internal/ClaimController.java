@@ -24,7 +24,7 @@ import java.util.UUID;
 import static org.apatrios.api.services.claim.internal.mapper.ClaimMapper.CLAIM_MAPPER;
 
 @RestController
-@RequestMapping("claim")
+@RequestMapping("internal/claim")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ClaimController {
@@ -41,6 +41,11 @@ public class ClaimController {
     @PutMapping("update")
     public ClaimDto update(@Valid @RequestBody UpdateClaimDto dto) {
         return CLAIM_MAPPER.toDto(updateClaimAction.execute(CLAIM_MAPPER.toUpdateArgument(dto)));
+    }
+
+    @GetMapping("{id}")
+    public ClaimDto get(@PathVariable UUID id) {
+        return CLAIM_MAPPER.toDto(service.getExisting(id));
     }
 
     @GetMapping("list")

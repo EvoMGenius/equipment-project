@@ -25,7 +25,7 @@ public class Feedback extends BaseEntity {
 
     /** Услуга */
     @ManyToOne(fetch = FetchType.LAZY)
-    ServiceDictionary service;
+    ServiceDictionary serviceDictionary;
 
     /** Оценка от 1 до 5 */
     @Column(nullable = false)

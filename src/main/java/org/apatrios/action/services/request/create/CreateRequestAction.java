@@ -35,7 +35,7 @@ public class CreateRequestAction implements Action<CreateRequestActionArgument, 
     public Request execute(@NonNull CreateRequestActionArgument argument) {
         Client client = clientService.getExisting(argument.getClientId());
         ModelBike modelBike = modelBikeService.getExisting(argument.getModelBikeId());
-        ServiceType serviceType = serviceTypeService.getExisting(argument.getModelBikeId());
+        ServiceType serviceType = serviceTypeService.getExisting(argument.getServiceTypeId());
         RejectionReason reason = argument.getRejectionReasonId() != null
                                  ? rejectionReasonService.getExisting(argument.getRejectionReasonId())
                                  : null;

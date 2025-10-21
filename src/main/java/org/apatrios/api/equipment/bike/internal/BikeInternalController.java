@@ -45,6 +45,11 @@ public class BikeInternalController {
         return BIKE_MAPPER.toDto(updateBikeAction.execute(BIKE_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public BikeDto get(@PathVariable UUID id) {
+        return BIKE_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<BikeDto> list(SearchBikeDto dto, Sort sort) {
         SearchBikeArgument searchArgument = BIKE_MAPPER.toSearchArgument(dto);

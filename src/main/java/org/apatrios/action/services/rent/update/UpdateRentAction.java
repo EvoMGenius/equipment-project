@@ -35,14 +35,19 @@ public class UpdateRentAction implements Action<UpdateRentActionArgument, Rent> 
     public Rent execute(@NonNull UpdateRentActionArgument argument) {
         Client client = clientService.getExisting(argument.getClientId());
         Staff staff = staffService.getExisting(argument.getStaffId());
-        Rent parentRent = rentService.getExisting(argument.getParentRentId());
-        Request request = requestService.getExisting(argument.getParentRequestId());
+        Rent parentRent = argument.getParentRentId() != null
+                          ? rentService.getExisting(argument.getParentRentId())
+                          : null;
+
+        Request parentRequest = argument.getParentRequestId() != null
+                                ? requestService.getExisting(argument.getParentRequestId())
+                                : null;
         Payment payment = paymentService.getExisting(argument.getPaymentId());
 
         return rentService.update(argument.getId(),
                                   UpdateRentArgument.builder()
                                                     .parentRent(parentRent)
-                                                    .parentRequest(request)
+                                                    .parentRequest(parentRequest)
                                                     .client(client)
                                                     .staff(staff)
                                                     .rentStart(argument.getRentStart())

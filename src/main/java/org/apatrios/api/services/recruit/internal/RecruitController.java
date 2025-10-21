@@ -43,6 +43,11 @@ public class RecruitController {
         return RECRUIT_MAPPER.toDto(updateRecruitAction.execute(RECRUIT_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public RecruitDto get(@PathVariable UUID id) {
+        return RECRUIT_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<RecruitDto> list(SearchRecruitDto dto, Sort sort) {
         return service.list(RECRUIT_MAPPER.toSearchArgument(dto), sort)

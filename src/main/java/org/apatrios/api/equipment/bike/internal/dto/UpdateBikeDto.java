@@ -52,7 +52,7 @@ public class UpdateBikeDto {
     @Schema(description = "Идентификатор привязанного IoT-устройства")
     UUID iotId;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Статус велосипеда")
     BikeStatus status;
 

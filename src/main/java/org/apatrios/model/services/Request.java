@@ -48,7 +48,7 @@ public class Request extends BaseEntity {
     RequestStatus status;
 
     /** Обоснование отклонения */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     RejectionReason rejectionReason;
 
     /** Комментарий к отклонению */

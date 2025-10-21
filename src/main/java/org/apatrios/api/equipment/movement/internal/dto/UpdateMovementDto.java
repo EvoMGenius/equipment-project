@@ -36,7 +36,7 @@ public class UpdateMovementDto {
     @Schema(description = "Дата и время завершения перемещения", example = "2025-09-27T16:45:00")
     LocalDateTime dateEnd;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Статус перемещения")
     MovementStatus status;
 

@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.apatrios.exception.EntityNotFoundException;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +35,8 @@ public class SimService {
     public Sim create(@NonNull CreateSimArgument argument) {
         return repository.save(Sim.builder()
                                   .phoneNumber(argument.getPhoneNumber())
+                                  .createDate(LocalDateTime.now())
+                                  .updateDate(LocalDateTime.now())
                                   .build());
     }
 
@@ -41,6 +45,7 @@ public class SimService {
         Sim existing = getExisting(id);
 
         existing.setPhoneNumber(argument.getPhoneNumber());
+        existing.setUpdateDate(LocalDateTime.now());
 
         return repository.save(existing);
     }

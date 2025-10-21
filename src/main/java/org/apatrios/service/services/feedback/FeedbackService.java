@@ -33,7 +33,7 @@ public class FeedbackService {
     @Transactional
     public Feedback create(@NonNull CreateFeedbackArgument argument) {
         return repository.save(Feedback.builder()
-                                       .service(argument.getServiceDictionary())
+                                       .serviceDictionary(argument.getServiceDictionary())
                                        .rate(argument.getRate())
                                        .note(argument.getNote())
                                        .createDate(LocalDateTime.now())
@@ -48,7 +48,7 @@ public class FeedbackService {
         existing.setRate(argument.getRate());
         existing.setNote(argument.getNote());
         existing.setUpdateDate(LocalDateTime.now());
-        existing.setService(argument.getServiceDictionary());
+        existing.setServiceDictionary(argument.getServiceDictionary());
 
         return repository.save(existing);
     }
@@ -74,7 +74,7 @@ public class FeedbackService {
                           .add(argument.getCreateDateTo(), qFeedback.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qFeedback.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qFeedback.updateDate::loe)
-                          .add(argument.getServiceDictionaryId(), qFeedback.service.id::eq)
+                          .add(argument.getServiceDictionaryId(), qFeedback.serviceDictionary.id::eq)
                           .buildAnd();
     }
 

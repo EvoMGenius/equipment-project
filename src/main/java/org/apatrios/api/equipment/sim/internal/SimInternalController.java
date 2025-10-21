@@ -10,6 +10,7 @@ import org.apatrios.service.equipment.sim.argument.SearchSimArgument;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,6 +34,11 @@ public class SimInternalController {
     @PutMapping("update")
     public SimDto update(@Valid @RequestBody UpdateSimDto dto) {
         return SIM_MAPPER.toDto(service.update(dto.getId(), SIM_MAPPER.toUpdateArgument(dto)));
+    }
+
+    @GetMapping("{id}")
+    public SimDto get(@PathVariable UUID id) {
+        return SIM_MAPPER.toDto(service.getExisting(id));
     }
 
     @GetMapping("list")

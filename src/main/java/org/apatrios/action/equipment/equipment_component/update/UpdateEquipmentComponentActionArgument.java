@@ -2,6 +2,7 @@ package org.apatrios.action.equipment.equipment_component.update;
 
 import lombok.Builder;
 import lombok.Value;
+import org.apatrios.model.equipment.EquipmentComponentStatus;
 
 import java.util.UUID;
 
@@ -12,4 +13,5 @@ public class UpdateEquipmentComponentActionArgument {
     UUID componentModelId;
     Integer invNumber;
     String comment;
+    EquipmentComponentStatus status;
 }

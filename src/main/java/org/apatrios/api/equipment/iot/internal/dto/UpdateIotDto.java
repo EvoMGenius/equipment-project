@@ -41,7 +41,7 @@ public class UpdateIotDto {
     @Schema(description = "id SIM-карты")
     UUID simId;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Статус IoT-устройства", example = "ACTIVE")
     IotStatus status;
 

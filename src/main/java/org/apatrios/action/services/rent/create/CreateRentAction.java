@@ -35,13 +35,19 @@ public class CreateRentAction implements Action<CreateRentActionArgument, Rent> 
     public Rent execute(@NonNull CreateRentActionArgument argument) {
         Client client = clientService.getExisting(argument.getClientId());
         Staff staff = staffService.getExisting(argument.getStaffId());
-        Rent parentRent = rentService.getExisting(argument.getParentRentId());
-        Request request = requestService.getExisting(argument.getParentRequestId());
         Payment payment = paymentService.getExisting(argument.getPaymentId());
+
+        Rent parentRent = argument.getParentRentId() != null
+                          ? rentService.getExisting(argument.getParentRentId())
+                          : null;
+
+        Request parentRequest = argument.getParentRequestId() != null
+                          ? requestService.getExisting(argument.getParentRequestId())
+                          : null;
 
         return rentService.create(CreateRentArgument.builder()
                                                     .parentRent(parentRent)
-                                                    .parentRequest(request)
+                                                    .parentRequest(parentRequest)
                                                     .client(client)
                                                     .staff(staff)
                                                     .rentStart(argument.getRentStart())

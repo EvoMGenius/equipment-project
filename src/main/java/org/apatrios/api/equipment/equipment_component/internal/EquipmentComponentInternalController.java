@@ -45,6 +45,11 @@ public class EquipmentComponentInternalController {
         return COMPONENT_MAPPER.toDto(updateComponentAction.execute(COMPONENT_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public EquipmentComponentDto get(@PathVariable UUID id) {
+        return COMPONENT_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<EquipmentComponentDto> list(SearchEquipmentComponentDto dto, Sort sort) {
         SearchEquipmentComponentArgument searchArgument = COMPONENT_MAPPER.toSearchArgument(dto);

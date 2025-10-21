@@ -32,8 +32,4 @@ public class CreateStaffDto {
     @Schema(description = "ID Франчайзинговая точка сотрудника", required = true)
     @NotNull
     UUID franchiseeId;
-
-    @Schema(description = "Статус сотрудника", example = "ACTIVE", required = true)
-    @NotNull
-    StaffStatus status;
 }

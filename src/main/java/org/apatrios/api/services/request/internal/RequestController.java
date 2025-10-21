@@ -43,6 +43,11 @@ public class RequestController {
         return REQUEST_MAPPER.toDto(updateRequestAction.execute(REQUEST_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public RequestDto get(@PathVariable UUID id) {
+        return REQUEST_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<RequestDto> list(SearchRequestDto dto, Sort sort) {
         return service.list(REQUEST_MAPPER.toSearchArgument(dto), sort)

@@ -3,10 +3,10 @@ package org.apatrios.api.services.rent.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.management.payment.internal.dto.PaymentDto;
 import org.apatrios.api.management.staff.internal.dto.StaffDto;
 import org.apatrios.api.services.client.internal.dto.ClientDto;
 import org.apatrios.api.services.request.internal.dto.RequestDto;
-import org.apatrios.model.management.Payment;
 import org.apatrios.model.services.RentStatus;
 
 import java.time.LocalDateTime;
@@ -42,7 +42,7 @@ public class RentDto {
     RentStatus rentStatus;
 
     @Schema(description = "Оплата", required = true)
-    Payment payment;
+    PaymentDto payment;
 
     @Schema(description = "Комментарий администратора")
     String comment;

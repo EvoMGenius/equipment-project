@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.management.Staff;
 import org.apatrios.model.management.QStaff;
+import org.apatrios.model.management.StaffStatus;
 import org.apatrios.repository.managment.StaffRepository;
 import org.apatrios.service.management.staff.argument.CreateStaffArgument;
 import org.apatrios.service.management.staff.argument.SearchStaffArgument;
@@ -39,6 +40,7 @@ public class StaffService {
                                     .status(argument.getStatus())
                                     .createDate(LocalDateTime.now())
                                     .updateDate(LocalDateTime.now())
+                                    .status(StaffStatus.WORK)
                                     .build());
     }
 

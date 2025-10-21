@@ -19,6 +19,9 @@ import static lombok.AccessLevel.PRIVATE;
 @Schema(description = "DTO состава передвижения")
 public class MovementComposeDto {
 
+    @Schema(description = "ID")
+    UUID id;
+
     @Schema(description = "Передвижение")
     MovementDto movement;
 
