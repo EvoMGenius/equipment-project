@@ -1,0 +1,22 @@
+{
+  "user_account": [
+    {
+      "id": "regex:.+",
+      "username": "username",
+      "password": "regex:.+",
+      "enabled": true,
+      "status": "ACTIVE",
+      "create_date": "regex:.+",
+      "last_login": "regex:.+",
+      "first_name": "first-name",
+      "middle_name": "middle-name",
+      "last_name": "last-name"
+    }
+  ],
+  "authorities": [
+    {
+      "user_id": "regex:.+",
+      "authorities": "USER"
+    }
+  ]
+}
