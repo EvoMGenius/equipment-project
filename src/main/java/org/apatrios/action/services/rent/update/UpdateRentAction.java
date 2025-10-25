@@ -5,11 +5,15 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
+import org.apatrios.model.dictoinary.Partner;
+import org.apatrios.model.dictoinary.Tariff;
 import org.apatrios.model.management.Payment;
 import org.apatrios.model.management.Staff;
 import org.apatrios.model.services.Client;
 import org.apatrios.model.services.Rent;
 import org.apatrios.model.services.Request;
+import org.apatrios.service.dictionary.PartnerService;
+import org.apatrios.service.dictionary.TariffService;
 import org.apatrios.service.management.payment.PaymentService;
 import org.apatrios.service.management.staff.StaffService;
 import org.apatrios.service.services.client.ClientService;
@@ -29,12 +33,16 @@ public class UpdateRentAction implements Action<UpdateRentActionArgument, Rent> 
     RentService rentService;
     RequestService requestService;
     PaymentService paymentService;
+    TariffService tariffService;
+    PartnerService partnerService;
 
     @Override
     @Transactional
     public Rent execute(@NonNull UpdateRentActionArgument argument) {
         Client client = clientService.getExisting(argument.getClientId());
         Staff staff = staffService.getExisting(argument.getStaffId());
+        Tariff tariff = tariffService.getExisting(argument.getTariffId());
+        Partner partner = partnerService.getExisting(argument.getPartnerId());
         Rent parentRent = argument.getParentRentId() != null
                           ? rentService.getExisting(argument.getParentRentId())
                           : null;
@@ -55,6 +63,8 @@ public class UpdateRentAction implements Action<UpdateRentActionArgument, Rent> 
                                                     .comment(argument.getComment())
                                                     .payment(payment)
                                                     .rentStatus(argument.getRentStatus())
+                                                    .partner(partner)
+                                                    .tariff(tariff)
                                                     .build());
     }
 }

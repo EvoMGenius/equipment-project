@@ -49,4 +49,10 @@ public class CreateRentDto {
 
     @Schema(description = "ID родительской заявки")
     UUID parentRequestId;
+
+    @Schema(description = "ID партнеры")
+    UUID partnerId;
+
+    @Schema(description = "ID тарифа")
+    UUID tariffId;
 }

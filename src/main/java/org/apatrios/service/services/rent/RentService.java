@@ -45,6 +45,8 @@ public class RentService {
                                    .parentRequest(argument.getParentRequest())
                                    .createDate(LocalDateTime.now())
                                    .updateDate(LocalDateTime.now())
+                                   .tariff(argument.getTariff())
+                                   .partner(argument.getPartner())
                                    .build());
     }
 
@@ -62,6 +64,8 @@ public class RentService {
         existing.setParentRent(argument.getParentRent());
         existing.setParentRequest(argument.getParentRequest());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setPartner(argument.getPartner());
+        existing.setTariff(argument.getTariff());
 
         return repository.save(existing);
     }
@@ -91,6 +95,8 @@ public class RentService {
                           .add(argument.getUpdateDateFrom(), qRent.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qRent.updateDate::loe)
                           .add(argument.getCreateDateTo(), qRent.createDate::loe)
+                          .add(argument.getPartnerId(), qRent.partner.id::eq)
+                          .add(argument.getTariffId(), qRent.tariff.id::eq)
                           .buildAnd();
     }
 

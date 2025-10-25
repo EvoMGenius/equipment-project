@@ -29,4 +29,8 @@ public class UpdateRentActionArgument {
     UUID paymentId;
 
     RentStatus rentStatus;
+
+    UUID partnerId;
+
+    UUID tariffId;
 }

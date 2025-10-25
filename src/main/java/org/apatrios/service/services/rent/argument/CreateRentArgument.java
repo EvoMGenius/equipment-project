@@ -2,6 +2,8 @@ package org.apatrios.service.services.rent.argument;
 
 import lombok.Builder;
 import lombok.Value;
+import org.apatrios.model.dictoinary.Partner;
+import org.apatrios.model.dictoinary.Tariff;
 import org.apatrios.model.management.Payment;
 import org.apatrios.model.management.Staff;
 import org.apatrios.model.services.Client;
@@ -29,4 +31,8 @@ public class CreateRentArgument {
     Request parentRequest;
 
     Payment payment;
+
+    Partner partner;
+
+    Tariff tariff;
 }

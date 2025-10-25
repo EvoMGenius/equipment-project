@@ -25,4 +25,8 @@ public class CreateRentActionArgument {
     UUID parentRequestId;
 
     UUID paymentId;
+
+    UUID partnerId;
+
+    UUID tariffId;
 }

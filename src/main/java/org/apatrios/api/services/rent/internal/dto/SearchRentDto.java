@@ -43,6 +43,12 @@ public class SearchRentDto {
     @Schema(description = "ID родительской аренды", example = "333e8400-e29b-41d4-a716-446655440000")
     UUID parentRentId;
 
+    @Schema(description = "ID партнеры")
+    UUID partnerId;
+
+    @Schema(description = "ID тарифа")
+    UUID tariffId;
+
     @Schema(description = "ID родительской заявки", example = "444e8400-e29b-41d4-a716-446655440000")
     UUID parentRequestId;
 

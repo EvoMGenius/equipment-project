@@ -39,4 +39,8 @@ public class SearchRentArgument {
     LocalDateTime updateDateTo;
 
     boolean isDeleted;
+
+    UUID partnerId;
+
+    UUID tariffId;
 }

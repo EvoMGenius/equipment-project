@@ -1,7 +1,9 @@
-package org.apatrios.api.dictionary.service_type.dto;
+package org.apatrios.api.dictionary.partner.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.common.dto.BaseDictionaryDto;
 
@@ -11,6 +13,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO типа услуг")
-public class ServiceTypeDto extends BaseDictionaryDto {
+@Schema(description = "DTO партнера")
+public class PartnerDto extends BaseDictionaryDto {
 }

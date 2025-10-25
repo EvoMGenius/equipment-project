@@ -3,10 +3,13 @@ package org.apatrios.api.services.rent.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.partner.dto.PartnerDto;
+import org.apatrios.api.dictionary.tariff.dto.TariffDto;
 import org.apatrios.api.management.payment.internal.dto.PaymentDto;
 import org.apatrios.api.management.staff.internal.dto.StaffDto;
 import org.apatrios.api.services.client.internal.dto.ClientDto;
 import org.apatrios.api.services.request.internal.dto.RequestDto;
+import org.apatrios.model.dictoinary.Tariff;
 import org.apatrios.model.services.RentStatus;
 
 import java.time.LocalDateTime;
@@ -49,6 +52,12 @@ public class RentDto {
 
     @Schema(description = "Родительская аренда")
     RentDto parentRent;
+
+    @Schema(description = "Тариф")
+    TariffDto tariff;
+
+    @Schema(description = "Партнер")
+    PartnerDto partner;
 
     @Schema(description = "Родительская заявка")
     RequestDto parentRequest;
