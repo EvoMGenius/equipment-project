@@ -13,6 +13,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO поиска отказа")
+@Schema(description = "Поиска причины отказа")
 public class SearchRejectionReasonDto extends BaseDictionarySearchDto {
 }

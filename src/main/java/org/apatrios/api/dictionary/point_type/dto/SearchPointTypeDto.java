@@ -11,6 +11,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO поиска типа точки")
+@Schema(description = "Поиск типа точки")
 public class SearchPointTypeDto extends BaseDictionarySearchDto {
 }

@@ -11,6 +11,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO модели компонента")
+@Schema(description = "Модель компонента")
 public class ComponentModelDto extends BaseDictionaryDto {
 }

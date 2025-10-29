@@ -11,6 +11,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO тип ремонта")
+@Schema(description = "Тип ремонта")
 public class RepairTypeDto extends BaseDictionaryDto {
 }

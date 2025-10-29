@@ -13,6 +13,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO претензии")
+@Schema(description = "Претензия")
 public class ClaimTypeDto extends BaseDictionaryDto {
 }
