@@ -1,6 +1,7 @@
 package org.apatrios.api.dictionary;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apatrios.api.dictionary.common.dto.BaseDictionaryDto;
 import org.apatrios.api.dictionary.common.dto.BaseDictionarySearchDto;
 import org.apatrios.api.dictionary.common.mapper.BaseDictionaryMapper;
@@ -17,8 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
 
 public abstract class BaseDictionaryController<
         T extends BaseDictionary,
@@ -66,11 +65,9 @@ public abstract class BaseDictionaryController<
     public List<Map<String, String>> getAllSubClassMetadata() {
         return Arrays.stream(BaseDictionaryDto.class.getAnnotation(JsonSubTypes.class).value())
                      .map(subType -> Map.of(
+                             "name", subType.value().getAnnotation(Schema.class).description(),
                              "type", subType.name(),
-                             "path", fromCurrentContextPath()
-                                     .path("/" + subType.name().replaceAll("([a-z])([A-Z]+)", "$1-$2").toLowerCase())
-                                     .build()
-                                     .toUriString(),
+                             "path", subType.name().replaceAll("([a-z])([A-Z]+)", "$1-$2").toLowerCase(),
                              "className", subType.value().getSimpleName()))
                      .toList();
     }

@@ -11,6 +11,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO экипировки")
+@Schema(description = "DTO модели экипировки")
 public class OutfitModelDto extends BaseDictionaryDto {
 }
