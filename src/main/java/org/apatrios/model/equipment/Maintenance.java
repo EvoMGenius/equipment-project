@@ -60,8 +60,8 @@ public class Maintenance extends BaseEntity {
     boolean isDeleted = false;
 
     /** Идентификаторы франчайзи */
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "maintenance_franchisee")
-    @Column(name = "franchisee_id")
+    @Builder.Default
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
     Set<UUID> franchiseeIds = new HashSet<>();
 }

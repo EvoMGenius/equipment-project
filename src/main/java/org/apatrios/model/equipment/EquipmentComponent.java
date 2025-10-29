@@ -1,9 +1,12 @@
 package org.apatrios.model.equipment;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.ComponentModel;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 
@@ -22,6 +25,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
 @Table(name = "component")
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class EquipmentComponent extends BaseEntity {
 
     /** Справочник моделей компонентов */
@@ -54,8 +58,8 @@ public class EquipmentComponent extends BaseEntity {
     boolean isDeleted = false;
 
     /** Идентификаторы франчайзи */
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "component_franchisee")
-    @Column(name = "franchisee_id")
+    @Builder.Default
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
     Set<UUID> franchiseeIds = new HashSet<>();
 }

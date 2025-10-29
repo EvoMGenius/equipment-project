@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
 
 public abstract class BaseDictionaryController<
         T extends BaseDictionary,
@@ -59,10 +62,16 @@ public abstract class BaseDictionaryController<
         getService().delete(id);
     }
 
-    @GetMapping("/sub-class/names")
-    public List<String> getAllSubClassNames() {
+    @GetMapping("/sub-class/metadata")
+    public List<Map<String, String>> getAllSubClassMetadata() {
         return Arrays.stream(BaseDictionaryDto.class.getAnnotation(JsonSubTypes.class).value())
-                     .map(JsonSubTypes.Type::name)
-                     .collect(Collectors.toList());
+                     .map(subType -> Map.of(
+                             "type", subType.name(),
+                             "path", fromCurrentContextPath()
+                                     .path("/" + subType.name().replaceAll("([a-z])([A-Z]+)", "$1-$2").toLowerCase())
+                                     .build()
+                                     .toUriString(),
+                             "className", subType.value().getSimpleName()))
+                     .toList();
     }
 }

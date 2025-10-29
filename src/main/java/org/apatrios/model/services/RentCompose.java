@@ -1,8 +1,11 @@
 package org.apatrios.model.services;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 
@@ -20,6 +23,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class RentCompose extends BaseEntity {
 
     /** Аренда */
@@ -47,8 +51,8 @@ public class RentCompose extends BaseEntity {
     boolean isDeleted = false;
 
     /** Идентификаторы франчайзи */
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "rent_compose_franchisee")
-    @Column(name = "franchisee_id")
+    @Builder.Default
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
     Set<UUID> franchiseeIds = new HashSet<>();
 }

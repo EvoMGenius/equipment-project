@@ -1,9 +1,12 @@
 package org.apatrios.model.equipment;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.Point;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,6 +23,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class Movement extends BaseEntity {
 
     /** Дата и время создания записи */
@@ -61,8 +65,8 @@ public class Movement extends BaseEntity {
     boolean isDeleted = false;
 
     /** Идентификаторы франчайзи */
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "movement_franchisee")
-    @Column(name = "franchisee_id")
+    @Builder.Default
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
     Set<UUID> franchiseeIds = new HashSet<>();
 }
