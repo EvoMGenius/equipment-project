@@ -5,6 +5,8 @@ import lombok.Value;
 import org.apatrios.model.equipment.MaintenanceStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.UUID;
 
 @Value
 @Builder
@@ -13,6 +15,10 @@ public class SearchMaintenanceArgument {
     String bicycleVin;
 
     String completedWork;
+
+    Set<UUID> franchiseeIds;
+
+    String searchString;
 
     LocalDateTime startDateFrom;
 

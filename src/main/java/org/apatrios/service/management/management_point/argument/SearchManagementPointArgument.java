@@ -14,6 +14,8 @@ public class SearchManagementPointArgument {
 
     String address;
 
+    String searchString;
+
     UUID franchiseeId;
 
     UUID pointTypeId;

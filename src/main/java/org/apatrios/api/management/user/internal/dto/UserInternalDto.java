@@ -9,6 +9,7 @@ import org.apatrios.model.management.UserStatus;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 import static lombok.AccessLevel.PRIVATE;
@@ -24,6 +25,9 @@ public class UserInternalDto {
 
     @Schema(description = "Логин", requiredMode = REQUIRED)
     String username;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "Активна ли запись", requiredMode = REQUIRED)
     boolean enabled;

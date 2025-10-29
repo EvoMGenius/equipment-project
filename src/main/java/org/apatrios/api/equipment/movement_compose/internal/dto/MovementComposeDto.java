@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.api.equipment.movement.internal.dto.MovementDto;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,9 @@ public class MovementComposeDto {
 
     @Schema(description = "ID")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "Передвижение")
     MovementDto movement;

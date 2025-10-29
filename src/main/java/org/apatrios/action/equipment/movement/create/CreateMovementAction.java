@@ -37,6 +37,7 @@ public class CreateMovementAction implements Action<CreateMovementActionArgument
                                                             .dateEnd(argument.getDateEnd())
                                                             .pointFrom(pointFrom)
                                                             .pointTo(pointTo)
+                                                            .franchiseeIds(argument.getFranchiseeIds())
                                                             .build());
     }
 }

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.equipment.IotStatus;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Value
@@ -16,4 +17,5 @@ public class UpdateIotActionArgument {
     IotStatus status;
     String comment;
     String imei;
+    Set<UUID> franchiseeIds;
 }

@@ -50,6 +50,7 @@ public class UpdateRequestAction implements Action<UpdateRequestActionArgument, 
                                                           .status(argument.getStatus())
                                                           .rejectionReason(reason)
                                                           .rejectNote(argument.getRejectNote())
+                                                          .franchiseeIds(argument.getFranchiseeIds())
                                                           .build());
     }
 }

@@ -39,6 +39,7 @@ public class UpdateMovementAction implements Action<UpdateMovementActionArgument
                                                             .dateEnd(argument.getDateEnd())
                                                             .note(argument.getNote())
                                                             .status(argument.getStatus())
+                                                            .franchiseeIds(argument.getFranchiseeIds())
                                                             .build());
     }
 }

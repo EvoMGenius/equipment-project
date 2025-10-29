@@ -22,6 +22,9 @@ public class SearchBikeDto {
     @Schema(description = "Идентификатор модели велосипеда")
     UUID modelBikeId;
 
+    @Schema(description = "Строка поиска")
+    String searchString;
+
     @Schema(description = "Франчизи")
     UUID franchiseeId;
 

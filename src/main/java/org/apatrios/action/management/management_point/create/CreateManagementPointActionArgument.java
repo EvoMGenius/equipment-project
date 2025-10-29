@@ -9,14 +9,9 @@ import java.util.UUID;
 @Builder
 public class CreateManagementPointActionArgument {
     String name;
-
     String address;
-
     UUID franchiseeId;
-
     UUID pointTypeId;
-
     Double latitude;
-
     Double longitude;
 }

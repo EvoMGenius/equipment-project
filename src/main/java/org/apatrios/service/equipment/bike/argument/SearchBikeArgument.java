@@ -12,6 +12,8 @@ import java.util.UUID;
 public class SearchBikeArgument {
     UUID modelBikeId;
 
+    String searchString;
+
     UUID franchiseeId;
 
     Integer seqNumber;

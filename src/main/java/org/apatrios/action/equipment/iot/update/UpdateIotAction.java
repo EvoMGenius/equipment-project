@@ -38,6 +38,7 @@ public class UpdateIotAction implements Action<UpdateIotActionArgument, Iot> {
                                                   .status(argument.getStatus())
                                                   .comment(argument.getComment())
                                                   .imei(argument.getImei())
+                                                  .franchiseeIds(argument.getFranchiseeIds())
                                                   .build());
     }
 }

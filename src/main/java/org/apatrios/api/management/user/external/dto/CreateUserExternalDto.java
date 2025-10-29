@@ -7,6 +7,9 @@ import org.apatrios.model.management.UserProfile;
 
 import javax.validation.constraints.NotBlank;
 
+import java.util.Set;
+import java.util.UUID;
+
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -28,5 +31,8 @@ public class CreateUserExternalDto {
 
     @Schema(description = "Профиль", requiredMode = REQUIRED)
     UserProfile userProfile;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 }
 

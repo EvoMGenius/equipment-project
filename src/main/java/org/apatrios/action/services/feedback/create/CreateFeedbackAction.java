@@ -29,6 +29,7 @@ public class CreateFeedbackAction implements Action<CreateFeedbackActionArgument
                                                             .serviceDictionary(serviceDictionary)
                                                             .note(argument.getNote())
                                                             .rate(argument.getRate())
+                                                            .franchiseeIds(argument.getFranchiseeIds())
                                                             .build());
     }
 }

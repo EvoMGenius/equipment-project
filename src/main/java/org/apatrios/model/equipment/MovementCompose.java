@@ -6,6 +6,8 @@ import org.apatrios.model.BaseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -46,4 +48,10 @@ public class MovementCompose extends BaseEntity {
     @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
     boolean isDeleted = false;
+
+    /** Идентификаторы франчайзи */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "movement_compose_franchisee")
+    @Column(name = "franchisee_id")
+    Set<UUID> franchiseeIds = new HashSet<>();
 }

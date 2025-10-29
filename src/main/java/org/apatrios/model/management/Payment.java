@@ -9,6 +9,8 @@ import javax.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -58,4 +60,10 @@ public class Payment extends BaseEntity {
     @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
     boolean isDeleted = false;
+
+    /** Идентификаторы франчайзи */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "payment_franchisee")
+    @Column(name = "franchisee_id")
+    Set<UUID> franchiseeIds = new HashSet<>();
 }

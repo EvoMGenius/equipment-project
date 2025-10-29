@@ -33,6 +33,7 @@ public class CreateClaimAction implements Action<CreateClaimActionArgument, Clai
                                                       .claimType(claimType)
                                                       .note(argument.getNote())
                                                       .parentRent(rent)
+                                                      .franchiseeIds(argument.getFranchiseeIds())
                                                       .build());
     }
 }

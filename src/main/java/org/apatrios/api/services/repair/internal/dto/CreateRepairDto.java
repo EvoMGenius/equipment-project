@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,9 @@ public class CreateRepairDto {
     @NotNull
     @Schema(description = "ID объекта (велосипед, экипировка, запчасть)", example = "222e8400-e29b-41d4-a716-446655440000")
     UUID objectId;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotNull
     @Schema(description = "Тип ремонта id")

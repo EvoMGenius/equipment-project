@@ -30,6 +30,7 @@ public class UpdateRecruitAction implements Action<UpdateRecruitActionArgument, 
         return recruitService.update(argument.getId(),
                                      UpdateRecruitArgument.builder()
                                                           .client(client)
+                                                          .franchiseeIds(argument.getFranchiseeIds())
                                                           .build());
     }
 }

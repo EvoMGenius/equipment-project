@@ -9,6 +9,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -25,6 +26,9 @@ public class UpdateFeedbackDto {
     @NotNull
     @Schema(description = "Идентификатор отзыва", example = "550e8400-e29b-41d4-a716-446655440000")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotNull
     @Min(1)

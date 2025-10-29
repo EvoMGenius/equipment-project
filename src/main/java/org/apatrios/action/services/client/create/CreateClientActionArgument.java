@@ -10,6 +10,5 @@ import java.util.UUID;
 @Builder
 public class CreateClientActionArgument {
     ClientProfile clientProfile;
-
     UUID franchiseeId;
 }

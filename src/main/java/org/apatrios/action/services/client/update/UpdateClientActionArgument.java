@@ -11,10 +11,7 @@ import java.util.UUID;
 @Builder
 public class UpdateClientActionArgument {
     UUID id;
-
     ClientProfile clientProfile;
-
     ClientStatus status;
-
     UUID franchiseeId;
 }

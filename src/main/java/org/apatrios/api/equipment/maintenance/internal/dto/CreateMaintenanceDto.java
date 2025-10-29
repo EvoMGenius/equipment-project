@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -23,6 +25,9 @@ public class CreateMaintenanceDto {
     @NotBlank
     @Schema(description = "VIN (идентификатор) велосипеда")
     String bicycleVin;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotNull
     @Schema(description = "Список выполненных работ/задач в рамках техобслуживания")

@@ -41,6 +41,7 @@ public class ClaimService {
                                     .note(argument.getNote())
                                     .status(ClaimStatus.CREATED)
                                     .updateDate(LocalDateTime.now())
+                                    .franchiseeIds(argument.getFranchiseeIds())
                                     .build());
     }
 
@@ -54,6 +55,7 @@ public class ClaimService {
         existing.setEndDate(argument.getEndDate());
         existing.setUpdateDate(LocalDateTime.now());
         existing.setParentRent(argument.getParentRent());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -85,6 +87,11 @@ public class ClaimService {
                           .add(argument.getUpdateDateFrom(), qClaim.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qClaim.updateDate::loe)
                           .add(argument.isDeleted(), qClaim.isDeleted::eq)
+                          .add(argument.getFranchiseeIds(), qClaim.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qClaim.claimType.name::containsIgnoreCase,
+                                        qClaim.note::containsIgnoreCase,
+                                        qClaim.status.stringValue()::containsIgnoreCase)
                           .buildAnd();
     }
 

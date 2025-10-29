@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.model.equipment.MaintenanceStatus;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -22,6 +22,12 @@ public class SearchMaintenanceDto {
 
     @Schema(description = "ID")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
 
     @Schema(description = "VIN (идентификатор) велосипеда, по которому выполняется поиск")
     String bicycleVin;

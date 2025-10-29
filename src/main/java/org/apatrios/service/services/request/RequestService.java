@@ -44,6 +44,7 @@ public class RequestService {
                                       .updateDate(LocalDateTime.now())
                                       .rejectionReason(argument.getRejectionReason())
                                       .rejectNote(argument.getRejectNote())
+                                      .franchiseeIds(argument.getFranchiseeIds())
                                       .build());
     }
 
@@ -60,6 +61,7 @@ public class RequestService {
         existing.setUpdateDate(LocalDateTime.now());
         existing.setRejectionReason(argument.getRejectionReason());
         existing.setRejectNote(argument.getRejectNote());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -93,6 +95,18 @@ public class RequestService {
                           .add(argument.getCreateDateTo(), qRequest.updateDate::loe)
                           .add(argument.getRejectNote(), qRequest.rejectNote::containsIgnoreCase)
                           .add(argument.getRejectionReasonId(), qRequest.rejectionReason.id::eq)
+                          .add(argument.getFranchiseeIds(), qRequest.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qRequest.requestProfile.name::containsIgnoreCase,
+                                        qRequest.requestProfile.phone::containsIgnoreCase,
+                                        qRequest.requestProfile.surname::containsIgnoreCase,
+                                        qRequest.client.clientProfile.name::containsIgnoreCase,
+                                        qRequest.serviceType.name::containsIgnoreCase,
+                                        qRequest.modelBike.name::containsIgnoreCase,
+                                        qRequest.note::containsIgnoreCase,
+                                        qRequest.rejectNote::containsIgnoreCase,
+                                        qRequest.rejectionReason.name::containsIgnoreCase,
+                                        qRequest.status.stringValue()::containsIgnoreCase)
                           .buildAnd();
     }
 

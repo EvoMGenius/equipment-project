@@ -31,6 +31,7 @@ public class CreateMovementComposeAction implements Action<CreateMovementCompose
                                                                           .amount(argument.getAmount())
                                                                           .note(argument.getNote())
                                                                           .objectId(argument.getObjectId())
+                                                                          .franchiseeIds(argument.getFranchiseeIds())
                                                                           .build());
     }
 }

@@ -65,6 +65,7 @@ public class UpdateRentAction implements Action<UpdateRentActionArgument, Rent> 
                                                     .rentStatus(argument.getRentStatus())
                                                     .partner(partner)
                                                     .tariff(tariff)
+                                                    .franchiseeIds(argument.getFranchiseeIds())
                                                     .build());
     }
 }

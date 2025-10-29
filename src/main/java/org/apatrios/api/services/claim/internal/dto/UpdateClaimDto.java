@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,9 @@ public class UpdateClaimDto {
     @NotNull
     @Schema(description = "ID претензии")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotNull
     @Schema(description = "ID родительской аренды", requiredMode = Schema.RequiredMode.REQUIRED)

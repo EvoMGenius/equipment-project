@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.model.equipment.IotStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -26,6 +27,9 @@ public class SearchIotDto {
 
     @Schema(description = "id SIM-карты")
     UUID simId;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
 
     @Schema(description = "IMEI")
     String imei;
@@ -50,4 +54,7 @@ public class SearchIotDto {
 
     @Schema(description = "Признак удаления")
     boolean isDeleted;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 }

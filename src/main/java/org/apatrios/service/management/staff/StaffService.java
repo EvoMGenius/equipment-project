@@ -83,6 +83,13 @@ public class StaffService {
                           .add(argument.getUpdateDateFrom(), qStaff.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qStaff.createDate::loe)
                           .add(argument.isDeleted(), qStaff.isDeleted::eq)
+                          .addAnyString(argument.getSearchString(),
+                                        qStaff.status.stringValue()::containsIgnoreCase,
+                                        qStaff.position.stringValue()::containsIgnoreCase,
+                                        qStaff.staffProfile.phone::containsIgnoreCase,
+                                        qStaff.staffProfile.surname::containsIgnoreCase,
+                                        qStaff.staffProfile.email::containsIgnoreCase,
+                                        qStaff.staffProfile.name::containsIgnoreCase)
                           .buildAnd();
     }
 

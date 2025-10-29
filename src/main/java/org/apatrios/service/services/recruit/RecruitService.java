@@ -36,6 +36,7 @@ public class RecruitService {
                                       .client(argument.getClient())
                                       .createDate(LocalDateTime.now())
                                       .updateDate(LocalDateTime.now())
+                                      .franchiseeIds(argument.getFranchiseeIds())
                                       .build());
     }
 
@@ -45,6 +46,7 @@ public class RecruitService {
 
         existing.setClient(argument.getClient());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -69,6 +71,9 @@ public class RecruitService {
                           .add(argument.getCreateDateTo(), qRecruit.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qRecruit.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qRecruit.updateDate::loe)
+                          .add(argument.getFranchiseeIds(), qRecruit.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qRecruit.client.clientProfile.name::containsIgnoreCase)
                           .buildAnd();
     }
 

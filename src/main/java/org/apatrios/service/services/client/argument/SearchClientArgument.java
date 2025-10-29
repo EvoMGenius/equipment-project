@@ -14,6 +14,8 @@ public class SearchClientArgument {
 
     String surname;
 
+    String searchString;
+
     String name;
 
     UUID franchiseeId;

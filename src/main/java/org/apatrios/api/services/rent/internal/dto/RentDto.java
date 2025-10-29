@@ -13,6 +13,7 @@ import org.apatrios.model.dictoinary.Tariff;
 import org.apatrios.model.services.RentStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -31,6 +32,9 @@ public class RentDto {
 
     @Schema(description = "Сотрудник")
     StaffDto staff;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "Клиент")
     ClientDto client;

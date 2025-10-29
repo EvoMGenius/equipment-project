@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -28,4 +29,7 @@ public class CreateEquipmentComponentDto {
 
     @Schema(description = "Комментарий или примечание", example = "Требуется диагностика")
     String comment;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 }

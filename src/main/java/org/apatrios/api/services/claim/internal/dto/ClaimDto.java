@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.model.services.ClaimStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,9 @@ public class ClaimDto {
 
     @Schema(description = "ID претензии")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "ID родительской аренды")
     UUID parentRentId;

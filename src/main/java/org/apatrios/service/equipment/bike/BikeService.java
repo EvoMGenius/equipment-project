@@ -92,6 +92,14 @@ public class BikeService {
                           .add(argument.getCreateDateTo(), qBike.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qBike.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qBike.updateDate::loe)
+                          .addAnyString(argument.getSearchString(),
+                                        qBike.franchisee.franchiseeProfile.name::containsIgnoreCase,
+                                        qBike.invNumber.stringValue()::containsIgnoreCase,
+                                        qBike.vin::containsIgnoreCase,
+                                        qBike.motorWheel::containsIgnoreCase,
+                                        qBike.seqNumber.stringValue()::containsIgnoreCase,
+                                        qBike.status.stringValue()::containsIgnoreCase,
+                                        qBike.comment::containsIgnoreCase)
                           .buildAnd();
     }
 

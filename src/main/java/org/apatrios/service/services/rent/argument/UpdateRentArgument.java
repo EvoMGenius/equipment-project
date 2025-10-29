@@ -13,29 +13,22 @@ import org.apatrios.model.services.RentStatus;
 import org.apatrios.model.services.Request;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.UUID;
 
 @Value
 @Builder
 public class UpdateRentArgument {
     Client client;
-
     Staff staff;
-
     LocalDateTime rentStart;
-
     LocalDateTime rentEnd;
-
     String comment;
-
     Rent parentRent;
-
     Request parentRequest;
-
     Payment payment;
-
     RentStatus rentStatus;
-
     Partner partner;
-
     Tariff tariff;
+    Set<UUID> franchiseeIds;
 }

@@ -29,6 +29,7 @@ public class CreateRecruitAction implements Action<CreateRecruitActionArgument, 
         Client client = clientService.getExisting(argument.getClientId());
         return recruitService.create(CreateRecruitArgument.builder()
                                                           .client(client)
+                                                          .franchiseeIds(argument.getFranchiseeIds())
                                                           .build());
     }
 }

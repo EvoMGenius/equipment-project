@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -22,6 +23,9 @@ public class CreateMovementDto {
     @NotNull
     @Schema(description = "Идентификатор точки отправления", example = "1e3b45f6-67d8-4c2b-b9d1-7890abcdef12")
     UUID pointFromId;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotNull
     @Schema(description = "Идентификатор точки назначения", example = "4a6c89d1-23f7-45b8-9cde-23456789abcd")

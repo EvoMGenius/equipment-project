@@ -47,6 +47,7 @@ public class CreateRequestAction implements Action<CreateRequestActionArgument, 
                                                           .note(argument.getNote())
                                                           .requestProfile(argument.getRequestProfile())
                                                           .rejectionReason(reason)
+                                                          .franchiseeIds(argument.getFranchiseeIds())
                                                           .note(argument.getNote())
                                                           .build());
     }

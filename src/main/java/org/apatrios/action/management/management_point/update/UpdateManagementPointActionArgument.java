@@ -10,18 +10,11 @@ import java.util.UUID;
 @Builder
 public class UpdateManagementPointActionArgument {
     UUID id;
-
     String name;
-
     String address;
-
     UUID franchiseeId;
-
     UUID pointTypeId;
-
     PointStatus status;
-
     Double latitude;
-
     Double longitude;
 }

@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -15,6 +16,12 @@ public class SearchSimBalanceDto {
 
     @Schema(description = "Баланс")
     Integer value;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "id Sim-карты")
     UUID simId;

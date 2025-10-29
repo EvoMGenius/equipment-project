@@ -30,6 +30,7 @@ public class CreateEquipmentComponentAction implements Action<CreateEquipmentCom
                                                                        .model(componentModel)
                                                                        .invNumber(argument.getInvNumber())
                                                                        .comment(argument.getComment())
+                                                                       .franchiseeIds(argument.getFranchiseeIds())
                                                                        .build());
     }
 }

@@ -37,6 +37,7 @@ public class UpdateClaimAction implements Action<UpdateClaimActionArgument, Clai
                                                       .endDate(argument.getEndDate())
                                                       .note(argument.getNote())
                                                       .status(argument.getStatus())
+                                                      .franchiseeIds(argument.getFranchiseeIds())
                                                       .build());
     }
 }

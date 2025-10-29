@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,9 @@ public class UpdateSimDto {
     @NotNull
     @Schema(description = "Уникальный идентификатор")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotBlank
     @Schema(description = "Номер телефона")

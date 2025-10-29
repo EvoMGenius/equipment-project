@@ -36,6 +36,7 @@ public class CreateIotAction implements Action<CreateIotActionArgument, Iot> {
                                                   .sim(sim)
                                                   .comment(argument.getComment())
                                                   .imei(argument.getImei())
+                                                  .franchiseeIds(argument.getFranchiseeIds())
                                                   .build());
     }
 }

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.equipment.EquipmentComponentStatus;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Value
@@ -14,4 +15,5 @@ public class UpdateEquipmentComponentActionArgument {
     Integer invNumber;
     String comment;
     EquipmentComponentStatus status;
+    Set<UUID> franchiseeIds;
 }

@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.model.equipment.MovementStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,12 @@ public class SearchMovementDto {
 
     @Schema(description = "Дата завершения перемещения начало")
     LocalDateTime dateEndFrom;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
 
     @Schema(description = "Дата завершения перемещения конец")
     LocalDateTime dateEndTo;

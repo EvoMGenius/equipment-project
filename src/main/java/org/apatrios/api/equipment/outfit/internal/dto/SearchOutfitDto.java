@@ -22,6 +22,9 @@ public class SearchOutfitDto {
     @Schema(description = "id Модели экипировки")
     UUID outfitModelId;
 
+    @Schema(description = "Строка поиска")
+    String searchString;
+
     @Schema(description = "id Франчизи")
     UUID franchiseeId;
 

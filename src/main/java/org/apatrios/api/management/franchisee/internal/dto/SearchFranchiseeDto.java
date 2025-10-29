@@ -21,6 +21,9 @@ public class SearchFranchiseeDto {
     @Schema(description = "Телефон франчайзи", example = "+7 123 456 78 90")
     String phone;
 
+    @Schema(description = "Строка поиска")
+    String searchString;
+
     @Schema(description = "Имя франчайзи", example = "ООО Ромашка")
     String name;
 

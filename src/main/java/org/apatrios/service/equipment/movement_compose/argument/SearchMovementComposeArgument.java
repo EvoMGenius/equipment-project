@@ -5,6 +5,7 @@ import lombok.Value;
 import org.apatrios.model.equipment.Movement;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Value
@@ -14,6 +15,10 @@ public class SearchMovementComposeArgument {
     Movement movement;
 
     UUID objectId;
+
+    String searchString;
+
+    Set<UUID> franchiseeIds;
 
     Integer amount;
 

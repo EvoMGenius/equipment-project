@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -19,4 +20,7 @@ public class CreateSimBalanceDto {
     @NotNull
     @Schema(description = "id Sim-карты")
     UUID simId;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 }

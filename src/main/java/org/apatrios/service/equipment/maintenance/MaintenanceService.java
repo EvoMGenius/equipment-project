@@ -44,6 +44,7 @@ public class MaintenanceService {
                                           .createDate(LocalDateTime.now())
                                           .updateDate(LocalDateTime.now())
                                           .status(MaintenanceStatus.NEW)
+                                          .franchiseeIds(argument.getFranchiseeIds())
                                           .build());
     }
 
@@ -56,6 +57,7 @@ public class MaintenanceService {
         maintenance.setCompletedWork(argument.getCompletedWork());
         maintenance.setEndDate(argument.getEndDate());
         maintenance.setStatus(argument.getStatus());
+        maintenance.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(maintenance);
     }
@@ -97,6 +99,11 @@ public class MaintenanceService {
                           .add(argument.getEndDateFrom(), qMaintenance.endDate::goe)
                           .add(argument.getEndDateTo(), qMaintenance.endDate::loe)
                           .add(argument.getStatus(), qMaintenance.status::eq)
+                          .add(argument.getFranchiseeIds(), qMaintenance.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qMaintenance.status.stringValue()::containsIgnoreCase,
+                                        qMaintenance.bicycleVin::containsIgnoreCase,
+                                        work -> buildJsonbTextSearchExpression(qMaintenance.completedWork, work))
                           .buildAnd();
     }
 

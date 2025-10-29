@@ -22,6 +22,9 @@ public class SearchClientDto {
     @Schema(description = "Номер телефона клиента", example = "+79998887766")
     String phone;
 
+    @Schema(description = "Строка поиска")
+    String searchString;
+
     @Schema(description = "Фамилия клиента", example = "Иванов")
     String surname;
 

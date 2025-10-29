@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,9 @@ public class CreateRentComposeDto {
     @NotNull
     @Schema(description = "ID аренды", example = "111e8400-e29b-41d4-a716-446655440000")
     UUID rentId;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotNull
     @Schema(description = "Количество объектов в аренде", example = "2")

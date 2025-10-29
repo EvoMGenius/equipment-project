@@ -42,6 +42,7 @@ public class PaymentService {
                                       .entityType(argument.getEntityType())
                                       .createDate(LocalDateTime.now())
                                       .updateDate(LocalDateTime.now())
+                                      .franchiseeIds(argument.getFranchiseeIds())
                                       .build());
     }
 
@@ -56,6 +57,7 @@ public class PaymentService {
         existing.setEntityId(argument.getEntityId());
         existing.setEntityType(argument.getEntityType());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -85,6 +87,13 @@ public class PaymentService {
                           .add(argument.getUpdateDateFrom(), qPayment.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qPayment.updateDate::loe)
                           .add(argument.isDeleted(), qPayment.isDeleted::eq)
+                          .add(argument.getFranchiseeIds(), qPayment.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qPayment.paymentType.name::containsIgnoreCase,
+                                        qPayment.amount.stringValue()::containsIgnoreCase,
+                                        qPayment.entityType::containsIgnoreCase,
+                                        qPayment.currency::containsIgnoreCase,
+                                        qPayment.status.stringValue()::containsIgnoreCase)
                           .buildAnd();
     }
 

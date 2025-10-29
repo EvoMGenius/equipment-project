@@ -47,6 +47,7 @@ public class RentService {
                                    .updateDate(LocalDateTime.now())
                                    .tariff(argument.getTariff())
                                    .partner(argument.getPartner())
+                                   .franchiseeIds(argument.getFranchiseeIds())
                                    .build());
     }
 
@@ -66,6 +67,7 @@ public class RentService {
         existing.setUpdateDate(LocalDateTime.now());
         existing.setPartner(argument.getPartner());
         existing.setTariff(argument.getTariff());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -97,6 +99,14 @@ public class RentService {
                           .add(argument.getCreateDateTo(), qRent.createDate::loe)
                           .add(argument.getPartnerId(), qRent.partner.id::eq)
                           .add(argument.getTariffId(), qRent.tariff.id::eq)
+                          .add(argument.getFranchiseeIds(), qRent.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qRent.comment::containsIgnoreCase,
+                                        qRent.partner.name::containsIgnoreCase,
+                                        qRent.client.clientProfile.name::containsIgnoreCase,
+                                        qRent.rentStatus.stringValue()::containsIgnoreCase,
+                                        qRent.staff.staffProfile.name::containsIgnoreCase,
+                                        qRent.tariff.name::containsIgnoreCase)
                           .buildAnd();
     }
 

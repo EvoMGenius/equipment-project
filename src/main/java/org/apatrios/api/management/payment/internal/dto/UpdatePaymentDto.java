@@ -8,6 +8,7 @@ import org.apatrios.model.management.PaymentStatus;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -24,6 +25,9 @@ public class UpdatePaymentDto {
     @NotNull
     @Schema(description = "ID")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "Сумма платежа", example = "1000.50", required = true)
     @NotNull

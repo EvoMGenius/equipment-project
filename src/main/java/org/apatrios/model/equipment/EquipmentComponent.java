@@ -8,6 +8,9 @@ import org.apatrios.model.dictoinary.ComponentModel;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -49,4 +52,10 @@ public class EquipmentComponent extends BaseEntity {
     @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
     boolean isDeleted = false;
+
+    /** Идентификаторы франчайзи */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "component_franchisee")
+    @Column(name = "franchisee_id")
+    Set<UUID> franchiseeIds = new HashSet<>();
 }

@@ -41,6 +41,7 @@ public class EquipmentComponentService {
                                                  .comment(argument.getComment())
                                                  .createDate(LocalDateTime.now())
                                                  .updateDate(LocalDateTime.now())
+                                                 .franchiseeIds(argument.getFranchiseeIds())
                                                  .build());
     }
 
@@ -54,6 +55,7 @@ public class EquipmentComponentService {
         existing.setComment(argument.getComment());
         existing.setStatus(argument.getStatus());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -81,6 +83,12 @@ public class EquipmentComponentService {
                           .add(argument.getUpdateDateFrom(), qEquipmentComponent.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qEquipmentComponent.updateDate::loe)
                           .add(argument.isDeleted(), qEquipmentComponent.isDeleted::eq)
+                          .add(argument.getFranchiseeIds(), qEquipmentComponent.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qEquipmentComponent.status.stringValue()::containsIgnoreCase,
+                                        qEquipmentComponent.model.name::containsIgnoreCase,
+                                        qEquipmentComponent.invNumber.stringValue()::containsIgnoreCase,
+                                        qEquipmentComponent.comment::containsIgnoreCase)
                           .buildAnd();
     }
 

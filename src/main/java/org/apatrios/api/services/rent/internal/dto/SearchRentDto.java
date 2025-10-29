@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.model.services.RentStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,12 @@ public class SearchRentDto {
 
     @Schema(description = "ID администратора", example = "111e8400-e29b-41d4-a716-446655440000")
     UUID staffId;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "Дата начала аренды", example = "2025-10-01T10:00:00")
     LocalDateTime rentStart;

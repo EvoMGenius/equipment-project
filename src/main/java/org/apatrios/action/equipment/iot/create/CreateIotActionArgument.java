@@ -3,6 +3,7 @@ package org.apatrios.action.equipment.iot.create;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Value
@@ -13,4 +14,5 @@ public class CreateIotActionArgument {
     UUID simId;
     String comment;
     String imei;
+    Set<UUID> franchiseeIds;
 }

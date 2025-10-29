@@ -6,6 +6,7 @@ import org.apatrios.model.equipment.BikeStatus;
 import org.apatrios.model.equipment.IotStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Value
@@ -13,7 +14,9 @@ import java.util.UUID;
 public class SearchIotArgument {
     UUID modelId;
     String invNumber;
+    Set<UUID> franchiseeIds;
     UUID simId;
+    String searchString;
     IotStatus status;
     String comment;
     String imei;

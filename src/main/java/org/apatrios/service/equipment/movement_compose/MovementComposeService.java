@@ -40,6 +40,7 @@ public class MovementComposeService {
                                               .objectId(argument.getObjectId())
                                               .createDate(LocalDateTime.now())
                                               .updateDate(LocalDateTime.now())
+                                              .franchiseeIds(argument.getFranchiseeIds())
                                               .build());
     }
 
@@ -52,6 +53,7 @@ public class MovementComposeService {
         existing.setAmount(argument.getAmount());
         existing.setObjectId(argument.getObjectId());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -89,6 +91,10 @@ public class MovementComposeService {
                           .add(argument.getCreateDateTo(), qMovementCompose.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qMovementCompose.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qMovementCompose.updateDate::loe)
+                          .add(argument.getFranchiseeIds(), qMovementCompose.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qMovementCompose.note::containsIgnoreCase,
+                                        qMovementCompose.amount.stringValue()::containsIgnoreCase)
                           .buildAnd();
     }
 }

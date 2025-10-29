@@ -5,6 +5,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -19,6 +21,12 @@ public class SearchSimDto {
 
     @Schema(description = "Номер телефона")
     String phoneNumber;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "Дата создания начало")
     LocalDateTime createDateFrom;

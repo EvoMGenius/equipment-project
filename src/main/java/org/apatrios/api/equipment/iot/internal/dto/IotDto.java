@@ -9,6 +9,7 @@ import org.apatrios.model.equipment.BikeStatus;
 import org.apatrios.model.equipment.IotStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -50,4 +51,7 @@ public class IotDto {
 
     @Schema(description = "IMEI")
     String imei;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 }

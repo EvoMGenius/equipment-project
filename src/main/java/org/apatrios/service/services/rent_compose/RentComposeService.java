@@ -38,6 +38,7 @@ public class RentComposeService {
                                           .objectId(argument.getObjectId())
                                           .createDate(LocalDateTime.now())
                                           .updateDate(LocalDateTime.now())
+                                          .franchiseeIds(argument.getFranchiseeIds())
                                           .build());
     }
 
@@ -49,6 +50,7 @@ public class RentComposeService {
         existing.setAmount(argument.getAmount());
         existing.setObjectId(argument.getObjectId());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -75,6 +77,9 @@ public class RentComposeService {
                           .add(argument.getCreateDateTo(), qRentCompose.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qRentCompose.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qRentCompose.updateDate::loe)
+                          .add(argument.getFranchiseeIds(), qRentCompose.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qRentCompose.amount.stringValue()::containsIgnoreCase)
                           .buildAnd();
     }
 

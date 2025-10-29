@@ -8,6 +8,7 @@ import org.apatrios.model.equipment.MovementStatus;
 import org.apatrios.model.dictoinary.Point;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -23,6 +24,9 @@ public class MovementDto {
 
     @Schema(description = "Идентификатор перемещения", example = "a12f45c7-89d0-4b23-b1a7-1234567890ab")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "Дата и время создания записи", example = "2025-09-27T14:30:00")
     LocalDateTime startDate;

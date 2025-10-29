@@ -63,6 +63,7 @@ public class CreateRentAction implements Action<CreateRentActionArgument, Rent> 
                                                     .comment(argument.getComment())
                                                     .payment(payment)
                                                     .partner(partner)
+                                                    .franchiseeIds(argument.getFranchiseeIds())
                                                     .tariff(tariff)
                                                     .build());
     }

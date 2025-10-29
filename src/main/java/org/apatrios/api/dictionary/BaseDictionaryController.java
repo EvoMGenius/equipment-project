@@ -1,5 +1,6 @@
 package org.apatrios.api.dictionary;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import org.apatrios.api.dictionary.common.dto.BaseDictionaryDto;
 import org.apatrios.api.dictionary.common.dto.BaseDictionarySearchDto;
 import org.apatrios.api.dictionary.common.mapper.BaseDictionaryMapper;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -55,5 +57,12 @@ public abstract class BaseDictionaryController<
     @DeleteMapping("/{id}/delete")
     public void delete(@PathVariable UUID id) {
         getService().delete(id);
+    }
+
+    @GetMapping("/sub-class/names")
+    public List<String> getAllSubClassNames() {
+        return Arrays.stream(BaseDictionaryDto.class.getAnnotation(JsonSubTypes.class).value())
+                     .map(JsonSubTypes.Type::name)
+                     .collect(Collectors.toList());
     }
 }

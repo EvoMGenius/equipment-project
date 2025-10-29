@@ -13,6 +13,7 @@ public class SearchOutfitArgument {
     UUID modelId;
     OutfitStatus status;
     String comment;
+    String searchString;
     UUID franchiseeId;
     LocalDateTime createDateFrom;
     LocalDateTime createDateTo;

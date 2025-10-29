@@ -7,6 +7,7 @@ import org.apatrios.api.dictionary.component_model.dto.ComponentModelDto;
 import org.apatrios.model.equipment.EquipmentComponentStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -43,4 +44,7 @@ public class EquipmentComponentDto {
 
     @Schema(description = "Признак удаления")
     boolean isDeleted;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 }

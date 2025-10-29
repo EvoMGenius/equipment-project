@@ -38,6 +38,7 @@ public class FeedbackService {
                                        .note(argument.getNote())
                                        .createDate(LocalDateTime.now())
                                        .updateDate(LocalDateTime.now())
+                                       .franchiseeIds(argument.getFranchiseeIds())
                                        .build());
     }
 
@@ -49,6 +50,7 @@ public class FeedbackService {
         existing.setNote(argument.getNote());
         existing.setUpdateDate(LocalDateTime.now());
         existing.setServiceDictionary(argument.getServiceDictionary());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -75,6 +77,11 @@ public class FeedbackService {
                           .add(argument.getUpdateDateFrom(), qFeedback.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qFeedback.updateDate::loe)
                           .add(argument.getServiceDictionaryId(), qFeedback.serviceDictionary.id::eq)
+                          .add(argument.getFranchiseeIds(), qFeedback.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qFeedback.note::containsIgnoreCase,
+                                        qFeedback.rate.stringValue()::containsIgnoreCase,
+                                        qFeedback.serviceDictionary.name::containsIgnoreCase)
                           .buildAnd();
     }
 

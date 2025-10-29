@@ -37,6 +37,7 @@ public class SimService {
                                   .phoneNumber(argument.getPhoneNumber())
                                   .createDate(LocalDateTime.now())
                                   .updateDate(LocalDateTime.now())
+                                  .franchiseeIds(argument.getFranchiseeIds())
                                   .build());
     }
 
@@ -46,6 +47,7 @@ public class SimService {
 
         existing.setPhoneNumber(argument.getPhoneNumber());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -70,6 +72,8 @@ public class SimService {
                           .add(argument.getCreateDateTo(), qSim.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qSim.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qSim.updateDate::loe)
+                          .add(argument.getFranchiseeIds(), qSim.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(), qSim.phoneNumber::containsIgnoreCase)
                           .buildAnd();
     }
 

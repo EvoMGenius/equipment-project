@@ -9,6 +9,8 @@ import org.apatrios.model.management.Staff;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -61,4 +63,10 @@ public class Repair extends BaseEntity {
     /** Комментарий */
     @Column(columnDefinition = "text")
     String comment;
+
+    /** Идентификаторы франчайзи */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "repair_franchisee")
+    @Column(name = "franchisee_id")
+    Set<UUID> franchiseeIds = new HashSet<>();
 }

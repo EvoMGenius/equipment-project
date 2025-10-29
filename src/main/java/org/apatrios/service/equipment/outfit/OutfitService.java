@@ -80,6 +80,12 @@ public class OutfitService {
                           .add(argument.getCreateDateTo(), qOutfit.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qOutfit.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qOutfit.updateDate::loe)
+                          .addAnyString(argument.getSearchString(),
+                                        qOutfit.franchisee.franchiseeProfile.name::containsIgnoreCase,
+                                        qOutfit.status.stringValue()::containsIgnoreCase,
+                                        qOutfit.comment::containsIgnoreCase,
+                                        qOutfit.model.name::containsIgnoreCase,
+                                        qOutfit.franchisee.franchiseeProfile.name::containsIgnoreCase)
                           .buildAnd();
     }
 

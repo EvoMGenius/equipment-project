@@ -21,6 +21,9 @@ public class SearchManagementPointDto {
     @Schema(description = "Название точки", example = "Пункт выдачи №1")
     String name;
 
+    @Schema(description = "Строка поиска")
+    String searchString;
+
     @Schema(description = "Физический адрес точки", example = "г. Москва, ул. Ленина, 1")
     String address;
 

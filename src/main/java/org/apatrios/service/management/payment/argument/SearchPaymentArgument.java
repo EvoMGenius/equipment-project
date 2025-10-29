@@ -6,30 +6,23 @@ import org.apatrios.model.management.PaymentStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Value
 @Builder
 public class SearchPaymentArgument {
     BigDecimal amount;
-
     String currency;
-
+    String searchString;
     UUID paymentTypeId;
-
     PaymentStatus status;
-
     UUID entityId;
-
     String entityType;
-
     LocalDateTime createDateFrom;
-
     LocalDateTime createDateTo;
-
     LocalDateTime updateDateFrom;
-
     LocalDateTime updateDateTo;
-
     boolean isDeleted;
+    Set<UUID> franchiseeIds;
 }

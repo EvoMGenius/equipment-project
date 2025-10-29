@@ -9,22 +9,19 @@ import org.apatrios.model.services.Client;
 import org.apatrios.model.services.RequestProfile;
 import org.apatrios.model.services.RequestStatus;
 
+import java.util.Set;
+import java.util.UUID;
+
 @Value
 @Builder
 public class UpdateRequestArgument {
     RequestProfile requestProfile;
-
     ServiceType serviceType;
-
     ModelBike modelBike;
-
     String note;
-
     Client client;
-
     RequestStatus status;
-
     RejectionReason rejectionReason;
-
     String rejectNote;
+    Set<UUID> franchiseeIds;
 }

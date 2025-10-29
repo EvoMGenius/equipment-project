@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.model.services.RequestStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,12 @@ public class SearchRequestDto {
 
     @Schema(description = "Телефон клиента", example = "+79991234567")
     String phone;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
 
     @Schema(description = "Фамилия клиента", example = "Иванов")
     String surname;

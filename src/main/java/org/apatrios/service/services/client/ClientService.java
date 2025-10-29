@@ -78,6 +78,12 @@ public class ClientService {
                           .add(argument.getUpdateDateFrom(), qClient.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qClient.updateDate::loe)
                           .add(argument.getStatus(), qClient.status::eq)
+                          .addAnyString(argument.getSearchString(),
+                                        qClient.franchisee.franchiseeProfile.name::containsIgnoreCase,
+                                        qClient.clientProfile.name::containsIgnoreCase,
+                                        qClient.clientProfile.phone::containsIgnoreCase,
+                                        qClient.clientProfile.surname::containsIgnoreCase,
+                                        qClient.status.stringValue()::containsIgnoreCase)
                           .buildAnd();
     }
 

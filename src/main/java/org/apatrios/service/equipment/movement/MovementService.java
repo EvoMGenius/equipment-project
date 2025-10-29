@@ -44,6 +44,7 @@ public class MovementService {
                                        .status(MovementStatus.NEW)
                                        .createDate(LocalDateTime.now())
                                        .updateDate(LocalDateTime.now())
+                                       .franchiseeIds(argument.getFranchiseeIds())
                                        .build());
     }
 
@@ -57,6 +58,7 @@ public class MovementService {
         movement.setPointTo(argument.getPointTo());
         movement.setDateEnd(argument.getDateEnd());
         movement.setUpdateDate(LocalDateTime.now());
+        movement.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(movement);
     }
@@ -98,6 +100,12 @@ public class MovementService {
                           .add(argument.isDeleted(), qMovement.isDeleted::eq)
                           .add(argument.getDateEndFrom(), qMovement.dateEnd::goe)
                           .add(argument.getDateEndTo(), qMovement.dateEnd::loe)
+                          .add(argument.getFranchiseeIds(), qMovement.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qMovement.note::containsIgnoreCase,
+                                        qMovement.status.stringValue()::containsIgnoreCase,
+                                        qMovement.pointTo.name::containsIgnoreCase,
+                                        qMovement.pointFrom.name::containsIgnoreCase)
                           .buildAnd();
     }
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -23,6 +24,12 @@ public class SearchRentComposeDto {
 
     @Schema(description = "ID аренды", example = "111e8400-e29b-41d4-a716-446655440000")
     UUID rentId;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
 
     @Schema(description = "Количество объектов в аренде", example = "3")
     Integer amount;

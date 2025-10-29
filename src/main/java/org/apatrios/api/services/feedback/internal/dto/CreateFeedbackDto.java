@@ -10,6 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -28,6 +29,9 @@ public class CreateFeedbackDto {
     @Max(5)
     @Schema(description = "Оценка от 1 до 5", example = "4", required = true)
     Integer rate;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotBlank
     @Schema(description = "Текст отзыва", example = "Все понравилось!", required = true)

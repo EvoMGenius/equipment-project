@@ -38,6 +38,7 @@ public class SimBalanceService {
                                          .sim(argument.getSim())
                                          .createDate(LocalDateTime.now())
                                          .updateDate(LocalDateTime.now())
+                                         .franchiseeIds(argument.getFranchiseeIds())
                                          .build());
     }
 
@@ -48,6 +49,7 @@ public class SimBalanceService {
         existing.setValue(argument.getValue());
         existing.setSim(argument.getSim());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -73,6 +75,10 @@ public class SimBalanceService {
                           .add(argument.getCreateDateTo(), qSimBalance.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qSimBalance.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qSimBalance.updateDate::loe)
+                          .add(argument.getFranchiseeIds(), qSimBalance.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qSimBalance.sim.phoneNumber::containsIgnoreCase,
+                                        qSimBalance.value.stringValue()::containsIgnoreCase)
                           .buildAnd();
     }
 

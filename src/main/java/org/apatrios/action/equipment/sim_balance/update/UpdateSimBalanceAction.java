@@ -30,6 +30,7 @@ public class UpdateSimBalanceAction implements Action<UpdateSimBalanceActionArgu
                                         UpdateSimBalanceArgument.builder()
                                                                 .value(argument.getValue())
                                                                 .sim(sim)
+                                                                .franchiseeIds(argument.getFranchiseeIds())
                                                                 .build());
     }
 }

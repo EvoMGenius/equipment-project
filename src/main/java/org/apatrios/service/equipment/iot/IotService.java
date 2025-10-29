@@ -44,6 +44,7 @@ public class IotService {
                                   .createDate(LocalDateTime.now())
                                   .updateDate(LocalDateTime.now())
                                   .imei(argument.getImei())
+                                  .franchiseeIds(argument.getFranchiseeIds())
                                   .build());
     }
 
@@ -58,6 +59,7 @@ public class IotService {
         existing.setComment(argument.getComment());
         existing.setImei(argument.getImei());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -87,6 +89,14 @@ public class IotService {
                           .add(argument.getUpdateDateTo(), qIot.updateDate::loe)
                           .add(argument.isDeleted(), qIot.isDeleted::eq)
                           .add(argument.getImei(), qIot.imei::containsIgnoreCase)
+                          .add(argument.getFranchiseeIds(), qIot.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qIot.sim.phoneNumber::containsIgnoreCase,
+                                        qIot.status.stringValue()::containsIgnoreCase,
+                                        qIot.model.name::containsIgnoreCase,
+                                        qIot.imei::containsIgnoreCase,
+                                        qIot.comment::containsIgnoreCase,
+                                        qIot.invNumber::containsIgnoreCase)
                           .buildAnd();
     }
 

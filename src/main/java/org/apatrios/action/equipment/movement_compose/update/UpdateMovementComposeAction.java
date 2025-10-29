@@ -32,6 +32,7 @@ public class UpdateMovementComposeAction implements Action<UpdateMovementCompose
                                                                           .amount(argument.getAmount())
                                                                           .note(argument.getNote())
                                                                           .objectId(argument.getObjectId())
+                                                                          .franchiseeIds(argument.getFranchiseeIds())
                                                                           .build());
     }
 }

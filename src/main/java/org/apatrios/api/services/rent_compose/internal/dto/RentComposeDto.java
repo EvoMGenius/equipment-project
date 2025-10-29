@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.api.services.rent.internal.dto.RentDto;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,9 @@ public class RentComposeDto {
 
     @Schema(description = "Уникальный идентификатор", example = "550e8400-e29b-41d4-a716-446655440000")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "Аренда")
     RentDto rent;

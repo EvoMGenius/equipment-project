@@ -30,6 +30,7 @@ public class UpdateEquipmentComponentAction implements Action<UpdateEquipmentCom
                                                                        .invNumber(argument.getInvNumber())
                                                                        .comment(argument.getComment())
                                                                        .status(argument.getStatus())
+                                                                       .franchiseeIds(argument.getFranchiseeIds())
                                                                        .build());
     }
 }

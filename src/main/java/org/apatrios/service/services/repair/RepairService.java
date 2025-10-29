@@ -42,6 +42,7 @@ public class RepairService {
                                      .createDate(LocalDateTime.now())
                                      .updateDate(LocalDateTime.now())
                                      .comment(argument.getComment())
+                                     .franchiseeIds(argument.getFranchiseeIds())
                                      .build());
     }
 
@@ -57,6 +58,7 @@ public class RepairService {
         existing.setDateEnd(argument.getDateEnd());
         existing.setComment(argument.getComment());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -86,6 +88,13 @@ public class RepairService {
                           .add(argument.getUpdateDateTo(), qRepair.updateDate::loe)
                           .add(argument.isDeleted(), qRepair.isDeleted::eq)
                           .add(argument.getComment(), qRepair.comment::containsIgnoreCase)
+                          .add(argument.getFranchiseeIds(), qRepair.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qRepair.repairType.name::containsIgnoreCase,
+                                        qRepair.comment::containsIgnoreCase,
+                                        qRepair.staff.staffProfile.name::containsIgnoreCase,
+                                        qRepair.description::containsIgnoreCase,
+                                        qRepair.status.stringValue()::containsIgnoreCase)
                           .buildAnd();
     }
 

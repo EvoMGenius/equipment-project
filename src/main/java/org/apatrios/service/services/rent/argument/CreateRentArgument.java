@@ -11,28 +11,21 @@ import org.apatrios.model.services.Rent;
 import org.apatrios.model.services.Request;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.UUID;
 
 @Value
 @Builder
 public class CreateRentArgument {
-
+    Set<UUID> franchiseeIds;
     Client client;
-
     Staff staff;
-
     LocalDateTime rentStart;
-
     LocalDateTime rentEnd;
-
     String comment;
-
     Rent parentRent;
-
     Request parentRequest;
-
     Payment payment;
-
     Partner partner;
-
     Tariff tariff;
 }

@@ -5,6 +5,7 @@ import lombok.Value;
 import org.apatrios.model.equipment.EquipmentComponentStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Value
@@ -12,6 +13,7 @@ import java.util.UUID;
 public class SearchEquipmentComponentArgument {
     UUID modelId;
     Integer invNumber;
+    String searchString;
     EquipmentComponentStatus status;
     String comment;
     LocalDateTime createDateFrom;
@@ -19,4 +21,5 @@ public class SearchEquipmentComponentArgument {
     LocalDateTime updateDateFrom;
     LocalDateTime updateDateTo;
     boolean isDeleted;
+    Set<UUID> franchiseeIds;
 }

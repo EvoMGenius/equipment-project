@@ -7,6 +7,9 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -38,4 +41,10 @@ public class SimBalance extends BaseEntity {
     @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
     boolean isDeleted = false;
+
+    /** Идентификаторы франчайзи */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "sim_balance_franchisee")
+    @Column(name = "franchisee_id")
+    Set<UUID> franchiseeIds = new HashSet<>();
 }
