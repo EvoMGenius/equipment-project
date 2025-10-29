@@ -11,6 +11,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO модели поиска оплаты")
+@Schema(description = "Тип поиска оплаты")
 public class SearchPaymentTypeDto extends BaseDictionarySearchDto {
 }

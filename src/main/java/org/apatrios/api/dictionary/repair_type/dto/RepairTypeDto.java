@@ -9,10 +9,8 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @Setter
-//@NoArgsConstructor()
-//@AllArgsConstructor()
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO модели велосипеда")
+@Schema(description = "Тип ремонта")
 public class RepairTypeDto extends BaseDictionaryDto {
 }

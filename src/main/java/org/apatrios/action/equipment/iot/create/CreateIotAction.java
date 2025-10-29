@@ -35,6 +35,8 @@ public class CreateIotAction implements Action<CreateIotActionArgument, Iot> {
                                                   .invNumber(argument.getInvNumber())
                                                   .sim(sim)
                                                   .comment(argument.getComment())
+                                                  .imei(argument.getImei())
+                                                  .franchiseeIds(argument.getFranchiseeIds())
                                                   .build());
     }
 }

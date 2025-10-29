@@ -21,6 +21,9 @@ public class SearchStaffDto {
     @Schema(description = "Имя или фамилия сотрудника", example = "Иванов")
     String name;
 
+    @Schema(description = "Строка поиска")
+    String searchString;
+
     @Schema(description = "Должность сотрудника", example = "MANAGER")
     Position position;
 

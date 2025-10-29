@@ -9,6 +9,7 @@ import org.apatrios.model.dictoinary.RepairType;
 import org.apatrios.model.services.RepairStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -24,6 +25,9 @@ public class RepairDto {
 
     @Schema(description = "Уникальный идентификатор", example = "550e8400-e29b-41d4-a716-446655440000")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "ID велосипеда, экипировки или запчасти", example = "222e8400-e29b-41d4-a716-446655440000")
     UUID objectId;

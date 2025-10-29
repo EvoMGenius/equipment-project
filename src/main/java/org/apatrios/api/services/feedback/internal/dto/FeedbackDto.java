@@ -3,8 +3,10 @@ package org.apatrios.api.services.feedback.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.dictionary.service_dictionary.dto.ServiceDictionaryDto;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -24,6 +26,9 @@ public class FeedbackDto {
     @Schema(description = "Оценка от 1 до 5", example = "5")
     Integer rate;
 
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
     @Schema(description = "Текст отзыва", example = "Очень понравилось обслуживание!")
     String note;
 
@@ -35,4 +40,7 @@ public class FeedbackDto {
 
     @Schema(description = "Признак удаления", example = "false")
     boolean isDeleted;
+
+    @Schema(description = "Услуга")
+    ServiceDictionaryDto serviceDictionary;
 }

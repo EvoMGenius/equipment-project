@@ -3,10 +3,14 @@ package org.apatrios.api.services.feedback.internal;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.action.Action;
+import org.apatrios.action.services.feedback.create.CreateFeedbackActionArgument;
+import org.apatrios.action.services.feedback.update.UpdateFeedbackActionArgument;
 import org.apatrios.api.services.feedback.internal.dto.CreateFeedbackDto;
 import org.apatrios.api.services.feedback.internal.dto.FeedbackDto;
 import org.apatrios.api.services.feedback.internal.dto.SearchFeedbackDto;
 import org.apatrios.api.services.feedback.internal.dto.UpdateFeedbackDto;
+import org.apatrios.model.services.Feedback;
 import org.apatrios.service.services.feedback.FeedbackService;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
@@ -26,15 +30,22 @@ import static org.apatrios.api.services.feedback.internal.mapper.FeedbackMapper.
 public class FeedbackController {
 
     FeedbackService service;
+    Action<CreateFeedbackActionArgument, Feedback> createFeedbackAction;
+    Action<UpdateFeedbackActionArgument, Feedback> updateFeedbackAction;
 
     @PostMapping("create")
     public FeedbackDto create(@Valid @RequestBody CreateFeedbackDto dto) {
-        return FEEDBACK_MAPPER.toDto(service.create(FEEDBACK_MAPPER.toCreateArgument(dto)));
+        return FEEDBACK_MAPPER.toDto(createFeedbackAction.execute(FEEDBACK_MAPPER.toCreateArgument(dto)));
     }
 
     @PutMapping("update")
     public FeedbackDto update(@Valid @RequestBody UpdateFeedbackDto dto) {
-        return FEEDBACK_MAPPER.toDto(service.update(dto.getId(), FEEDBACK_MAPPER.toUpdateArgument(dto)));
+        return FEEDBACK_MAPPER.toDto(updateFeedbackAction.execute(FEEDBACK_MAPPER.toUpdateArgument(dto)));
+    }
+
+    @GetMapping("{id}")
+    public FeedbackDto get(@PathVariable UUID id) {
+        return FEEDBACK_MAPPER.toDto(service.getExisting(id));
     }
 
     @GetMapping("list")

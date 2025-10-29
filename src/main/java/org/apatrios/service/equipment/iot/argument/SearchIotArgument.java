@@ -3,6 +3,10 @@ package org.apatrios.service.equipment.iot.argument;
 import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.equipment.BikeStatus;
+import org.apatrios.model.equipment.IotStatus;
+
+import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Value
@@ -10,7 +14,15 @@ import java.util.UUID;
 public class SearchIotArgument {
     UUID modelId;
     String invNumber;
+    Set<UUID> franchiseeIds;
     UUID simId;
-    BikeStatus status;
+    String searchString;
+    IotStatus status;
     String comment;
+    String imei;
+    LocalDateTime createDateFrom;
+    LocalDateTime createDateTo;
+    LocalDateTime updateDateFrom;
+    LocalDateTime updateDateTo;
+    boolean isDeleted;
 }

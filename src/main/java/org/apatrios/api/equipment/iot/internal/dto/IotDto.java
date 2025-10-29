@@ -6,7 +6,10 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.iot_model.dto.IotModelDto;
 import org.apatrios.api.equipment.sim.internal.dto.SimDto;
 import org.apatrios.model.equipment.BikeStatus;
+import org.apatrios.model.equipment.IotStatus;
 
+import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -32,8 +35,23 @@ public class IotDto {
     SimDto sim;
 
     @Schema(description = "Статус IoT-устройства", example = "ACTIVE")
-    BikeStatus status;
+    IotStatus status;
 
     @Schema(description = "Комментарий или примечание", example = "Устройство установлено на велосипед №12")
     String comment;
+
+    @Schema(description = "Дата создания")
+    LocalDateTime createDate;
+
+    @Schema(description = "Дата обновления")
+    LocalDateTime updateDate;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
+
+    @Schema(description = "IMEI")
+    String imei;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 }

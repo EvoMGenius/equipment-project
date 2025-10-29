@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.apatrios.exception.EntityNotFoundException;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,6 +38,9 @@ public class MovementComposeService {
                                               .movement(argument.getMovement())
                                               .note(argument.getNote())
                                               .objectId(argument.getObjectId())
+                                              .createDate(LocalDateTime.now())
+                                              .updateDate(LocalDateTime.now())
+                                              .franchiseeIds(argument.getFranchiseeIds())
                                               .build());
     }
 
@@ -47,6 +52,8 @@ public class MovementComposeService {
         existing.setNote(argument.getNote());
         existing.setAmount(argument.getAmount());
         existing.setObjectId(argument.getObjectId());
+        existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -79,6 +86,15 @@ public class MovementComposeService {
                           .add(argument.getNote(), qMovementCompose.note::containsIgnoreCase)
                           .add(argument.getObjectId(), qMovementCompose.objectId::eq)
                           .add(argument.getAmount(), qMovementCompose.amount::eq)
+                          .add(argument.isDeleted(), qMovementCompose.isDeleted::eq)
+                          .add(argument.getCreateDateFrom(), qMovementCompose.createDate::goe)
+                          .add(argument.getCreateDateTo(), qMovementCompose.createDate::loe)
+                          .add(argument.getUpdateDateFrom(), qMovementCompose.updateDate::goe)
+                          .add(argument.getUpdateDateTo(), qMovementCompose.updateDate::loe)
+                          .add(argument.getFranchiseeIds(), qMovementCompose.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qMovementCompose.note::containsIgnoreCase,
+                                        qMovementCompose.amount.stringValue()::containsIgnoreCase)
                           .buildAnd();
     }
 }

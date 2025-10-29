@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -18,11 +19,14 @@ import static lombok.AccessLevel.PRIVATE;
 @Schema(description = "DTO поиска записей о назначенных услугах")
 public class SearchRecruitDto {
 
-    @Schema(description = "ID услуги", example = "111e8400-e29b-41d4-a716-446655440000")
-    UUID serviceId;
-
     @Schema(description = "ID клиента", example = "222e8400-e29b-41d4-a716-446655440000")
     UUID clientId;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "Дата создания (с)", example = "2025-01-01T00:00:00")
     LocalDateTime createDateFrom;

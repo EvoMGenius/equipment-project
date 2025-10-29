@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -18,6 +19,9 @@ public class UpdateSimBalanceDto {
     @Schema(description = "Уникальный идентификатор")
     UUID id;
 
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
     @NotNull
     @Schema(description = "Баланс")
     Integer value;
@@ -25,8 +29,4 @@ public class UpdateSimBalanceDto {
     @NotNull
     @Schema(description = "id Sim-карты")
     UUID simId;
-
-    @NotNull
-    @Schema(description = "Дата создания")
-    LocalDateTime createDate;
 }

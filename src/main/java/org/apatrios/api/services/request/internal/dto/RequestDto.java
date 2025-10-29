@@ -4,14 +4,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.model_bike.dto.ModelBikeDto;
+import org.apatrios.api.dictionary.rejection_reason.dto.RejectionReasonDto;
 import org.apatrios.api.dictionary.service_type.dto.ServiceTypeDto;
 import org.apatrios.api.services.client.internal.dto.ClientDto;
 import org.apatrios.model.dictoinary.ModelBike;
+import org.apatrios.model.dictoinary.RejectionReason;
 import org.apatrios.model.dictoinary.ServiceType;
 import org.apatrios.model.services.RequestProfile;
 import org.apatrios.model.services.RequestStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -27,6 +30,15 @@ public class RequestDto {
 
     @Schema(description = "Уникальный идентификатор запроса", example = "550e8400-e29b-41d4-a716-446655440000")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
+    @Schema(description = "Причина отказа")
+    RejectionReasonDto rejectionReason;
+
+    @Schema(description = "Доп написание для причины отказа")
+    String rejectNote;
 
     @Schema(description = "Контактная информация клиента")
     RequestProfile requestProfile;

@@ -30,6 +30,7 @@ public class UpdateRentComposeAction implements Action<UpdateRentComposeActionAr
                                          UpdateRentComposeArgument.builder()
                                                                   .rent(rent)
                                                                   .amount(argument.getAmount())
+                                                                  .franchiseeIds(argument.getFranchiseeIds())
                                                                   .objectId(argument.getObjectId())
                                                                   .build());
     }

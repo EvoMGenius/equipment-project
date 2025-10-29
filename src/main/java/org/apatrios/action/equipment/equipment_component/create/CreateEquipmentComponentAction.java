@@ -29,8 +29,8 @@ public class CreateEquipmentComponentAction implements Action<CreateEquipmentCom
         return componentService.create(CreateEquipmentComponentArgument.builder()
                                                                        .model(componentModel)
                                                                        .invNumber(argument.getInvNumber())
-                                                                       .status(argument.getStatus())
                                                                        .comment(argument.getComment())
+                                                                       .franchiseeIds(argument.getFranchiseeIds())
                                                                        .build());
     }
 }

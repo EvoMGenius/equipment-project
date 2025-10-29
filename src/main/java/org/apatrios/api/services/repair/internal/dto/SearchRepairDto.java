@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.model.services.RepairStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,12 @@ public class SearchRepairDto {
 
     @Schema(description = "ID объекта (велосипед, экипировка или запчасть)", example = "222e8400-e29b-41d4-a716-446655440000")
     UUID objectId;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
 
     @Schema(description = "ID типа ремонта", example = "111e8400-e29b-41d4-a716-446655440000")
     UUID repairTypeId;

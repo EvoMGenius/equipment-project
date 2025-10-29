@@ -16,6 +16,8 @@ public class SearchStaffArgument {
 
     String surname;
 
+    String searchString;
+
     String name;
 
     String email;

@@ -29,7 +29,7 @@ public class Staff extends BaseEntity {
     Position position;
 
     /** Франчайзинговая точка */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     Franchisee franchisee;
 
     /** Статус сотрудника */
@@ -45,6 +45,7 @@ public class Staff extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    boolean isDeleted = false;
 }

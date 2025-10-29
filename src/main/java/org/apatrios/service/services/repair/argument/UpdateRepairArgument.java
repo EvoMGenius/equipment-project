@@ -7,22 +7,18 @@ import org.apatrios.model.management.Staff;
 import org.apatrios.model.services.RepairStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Value
 @Builder
 public class UpdateRepairArgument {
     UUID objectId;
-
     RepairType repairType;
-
     Staff staff;
-
     String description;
-
     String comment;
-
     RepairStatus status;
-
     LocalDateTime dateEnd;
+    Set<UUID> franchiseeIds;
 }

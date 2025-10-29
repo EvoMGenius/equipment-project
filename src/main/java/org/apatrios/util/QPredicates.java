@@ -3,8 +3,10 @@ package org.apatrios.util;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.flywaydb.core.internal.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,32 @@ public class QPredicates {
             return new BooleanBuilder();
         }
         return predicate;
+    }
+
+    @SafeVarargs
+    public final QPredicates addAnyString(String value, Function<String, BooleanExpression>... conditions) {
+        if (!StringUtils.hasText(value)) {
+            return this;
+        }
+
+        if (conditions == null || conditions.length == 0) {
+            return this;
+        }
+        BooleanExpression predicate = conditions[0].apply(value);
+
+        for (int i = 1; i < conditions.length; i++) {
+            BooleanExpression temp = conditions[i].apply(value);
+            if (temp != null) {
+                predicate = predicate.or(temp);
+            }
+        }
+
+        if (predicate != null) {
+            predicates.add(predicate);
+        }
+
+
+        return this;
     }
 
     public Predicate buildOr() {

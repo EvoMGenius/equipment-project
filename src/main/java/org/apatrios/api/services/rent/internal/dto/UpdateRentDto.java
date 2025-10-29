@@ -8,6 +8,7 @@ import org.apatrios.model.services.RentStatus;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -24,6 +25,9 @@ public class UpdateRentDto {
     @NotNull
     @Schema(description = "Уникальный идентификатор аренды", example = "550e8400-e29b-41d4-a716-446655440000")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotNull
     @Schema(description = "ID администратора", required = true)
@@ -46,8 +50,8 @@ public class UpdateRentDto {
     RentStatus rentStatus;
 
     @NotNull
-    @Schema(description = "Статус оплаты", example = "PAID", required = true)
-    PaymentStatus paymentStatus;
+    @Schema(description = "Оплата", required = true)
+    UUID paymentId;
 
     @Schema(description = "Комментарий администратора")
     String comment;
@@ -57,4 +61,10 @@ public class UpdateRentDto {
 
     @Schema(description = "ID родительской заявки")
     UUID parentRequestId;
+
+    @Schema(description = "ID партнеры")
+    UUID partnerId;
+
+    @Schema(description = "ID тарифа")
+    UUID tariffId;
 }

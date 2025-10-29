@@ -37,14 +37,17 @@ public class RentService {
                                    .staff(argument.getStaff())
                                    .rentStart(argument.getRentStart())
                                    .rentEnd(argument.getRentEnd())
-                                   .rentStatus(RentStatus.ACTIVE)
+                                   .rentStatus(RentStatus.NEW)
                                    .client(argument.getClient())
-                                   .paymentStatus(argument.getPaymentStatus())
+                                   .payment(argument.getPayment())
                                    .comment(argument.getComment())
                                    .parentRent(argument.getParentRent())
                                    .parentRequest(argument.getParentRequest())
                                    .createDate(LocalDateTime.now())
                                    .updateDate(LocalDateTime.now())
+                                   .tariff(argument.getTariff())
+                                   .partner(argument.getPartner())
+                                   .franchiseeIds(argument.getFranchiseeIds())
                                    .build());
     }
 
@@ -57,11 +60,14 @@ public class RentService {
         existing.setRentEnd(argument.getRentEnd());
         existing.setRentStatus(argument.getRentStatus());
         existing.setClient(argument.getClient());
-        existing.setPaymentStatus(argument.getPaymentStatus());
+        existing.setPayment(argument.getPayment());
         existing.setComment(argument.getComment());
         existing.setParentRent(argument.getParentRent());
         existing.setParentRequest(argument.getParentRequest());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setPartner(argument.getPartner());
+        existing.setTariff(argument.getTariff());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -83,7 +89,7 @@ public class RentService {
                           .add(argument.getStaffId(), qRent.staff.id::eq)
                           .add(argument.getClientId(), qRent.client.id::eq)
                           .add(argument.getRentStatus(), qRent.rentStatus::eq)
-                          .add(argument.getPaymentStatus(), qRent.paymentStatus::eq)
+                          .add(argument.getPaymentId(), qRent.payment.id::eq)
                           .add(argument.getParentRentId(), qRent.parentRent.id::eq)
                           .add(argument.getParentRequestId(), qRent.parentRequest.id::eq)
                           .add(argument.isDeleted(), qRent.isDeleted::eq)
@@ -91,6 +97,16 @@ public class RentService {
                           .add(argument.getUpdateDateFrom(), qRent.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qRent.updateDate::loe)
                           .add(argument.getCreateDateTo(), qRent.createDate::loe)
+                          .add(argument.getPartnerId(), qRent.partner.id::eq)
+                          .add(argument.getTariffId(), qRent.tariff.id::eq)
+                          .add(argument.getFranchiseeIds(), qRent.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qRent.comment::containsIgnoreCase,
+                                        qRent.partner.name::containsIgnoreCase,
+                                        qRent.client.clientProfile.name::containsIgnoreCase,
+                                        qRent.rentStatus.stringValue()::containsIgnoreCase,
+                                        qRent.staff.staffProfile.name::containsIgnoreCase,
+                                        qRent.tariff.name::containsIgnoreCase)
                           .buildAnd();
     }
 

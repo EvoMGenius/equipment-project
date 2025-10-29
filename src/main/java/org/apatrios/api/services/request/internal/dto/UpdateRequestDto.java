@@ -8,6 +8,7 @@ import org.apatrios.model.services.RequestProfile;
 import org.apatrios.model.services.RequestStatus;
 
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -24,6 +25,9 @@ public class UpdateRequestDto {
     @NotNull
     @Schema(description = "ID запроса", example = "550e8400-e29b-41d4-a716-446655440000")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotNull
     @Schema(description = "Контактная информация клиента")
@@ -46,4 +50,10 @@ public class UpdateRequestDto {
 
     @Schema(description = "Статус запроса", example = "IN_PROGRESS")
     RequestStatus status;
+
+    @Schema(description = "Причина отказа ID")
+    UUID rejectionReasonId;
+
+    @Schema(description = "Доп написание для причины отказа")
+    String rejectNote;
 }

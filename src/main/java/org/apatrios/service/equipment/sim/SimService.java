@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.apatrios.exception.EntityNotFoundException;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +35,9 @@ public class SimService {
     public Sim create(@NonNull CreateSimArgument argument) {
         return repository.save(Sim.builder()
                                   .phoneNumber(argument.getPhoneNumber())
-                                  .operator(argument.getOperator())
+                                  .createDate(LocalDateTime.now())
+                                  .updateDate(LocalDateTime.now())
+                                  .franchiseeIds(argument.getFranchiseeIds())
                                   .build());
     }
 
@@ -42,7 +46,8 @@ public class SimService {
         Sim existing = getExisting(id);
 
         existing.setPhoneNumber(argument.getPhoneNumber());
-        existing.setOperator(argument.getOperator());
+        existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -62,7 +67,13 @@ public class SimService {
     private Predicate buildPredicate(SearchSimArgument argument) {
         return QPredicates.builder()
                           .add(argument.getPhoneNumber(), qSim.phoneNumber::containsIgnoreCase)
-                          .add(argument.getOperatorId(), qSim.operator.id::eq)
+                          .add(argument.isDeleted(), qSim.isDeleted::eq)
+                          .add(argument.getCreateDateFrom(), qSim.createDate::goe)
+                          .add(argument.getCreateDateTo(), qSim.createDate::loe)
+                          .add(argument.getUpdateDateFrom(), qSim.updateDate::goe)
+                          .add(argument.getUpdateDateTo(), qSim.updateDate::loe)
+                          .add(argument.getFranchiseeIds(), qSim.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(), qSim.phoneNumber::containsIgnoreCase)
                           .buildAnd();
     }
 

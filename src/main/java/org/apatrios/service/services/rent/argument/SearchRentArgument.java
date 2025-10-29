@@ -6,37 +6,28 @@ import org.apatrios.model.management.PaymentStatus;
 import org.apatrios.model.services.RentStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Value
 @Builder
 public class SearchRentArgument {
-
+    Set<UUID> franchiseeIds;
     UUID staffId;
-
+    String searchString;
     LocalDateTime rentStart;
-
     LocalDateTime rentEnd;
-
     RentStatus rentStatus;
-
     UUID clientId;
-
-    PaymentStatus paymentStatus;
-
+    UUID paymentId;
     String comment;
-
     UUID parentRentId;
-
     UUID parentRequestId;
-
     LocalDateTime createDateFrom;
-
     LocalDateTime createDateTo;
-
     LocalDateTime updateDateFrom;
-
     LocalDateTime updateDateTo;
-
     boolean isDeleted;
+    UUID partnerId;
+    UUID tariffId;
 }

@@ -20,19 +20,16 @@ import org.springframework.transaction.annotation.Transactional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CreateRecruitAction implements Action<CreateRecruitActionArgument, Recruit> {
 
-    ServiceDictionaryService serviceService;
     ClientService clientService;
     RecruitService recruitService;
 
     @Override
     @Transactional
     public Recruit execute(@NonNull CreateRecruitActionArgument argument) {
-        ServiceDictionary service = serviceService.getExisting(argument.getServiceId());
         Client client = clientService.getExisting(argument.getClientId());
-
         return recruitService.create(CreateRecruitArgument.builder()
                                                           .client(client)
-                                                          .service(service)
+                                                          .franchiseeIds(argument.getFranchiseeIds())
                                                           .build());
     }
 }

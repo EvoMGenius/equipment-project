@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.api.equipment.sim.internal.dto.SimDto;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -22,6 +23,9 @@ public class SimBalanceDto {
     @Schema(description = "Уникальный идентификатор")
     UUID id;
 
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
     @Schema(description = "Баланс")
     Integer value;
 
@@ -30,4 +34,10 @@ public class SimBalanceDto {
 
     @Schema(description = "Дата создания")
     LocalDateTime createDate;
+
+    @Schema(description = "Дата обновления")
+    LocalDateTime updateDate;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
 }

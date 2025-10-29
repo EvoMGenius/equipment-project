@@ -3,6 +3,7 @@ package org.apatrios.api.equipment.bike.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.api.management.franchisee.internal.dto.FranchiseeDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,6 +23,10 @@ public class CreateBikeDto {
     @NotNull
     @Schema(description = "Идентификатор модели велосипеда")
     UUID modelBikeId;
+
+    @NotNull
+    @Schema(description = "Франчизи ID")
+    UUID franchiseeId;
 
     @NotNull
     @Schema(description = "Порядковый номер внутри модели")

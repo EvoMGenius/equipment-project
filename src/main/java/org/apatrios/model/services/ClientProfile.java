@@ -27,4 +27,8 @@ public class ClientProfile {
     /** Имя */
     @Column(nullable = false)
     String name;
+
+    /** Отчество */
+    @Column(nullable = false)
+    String patronymic;
 }

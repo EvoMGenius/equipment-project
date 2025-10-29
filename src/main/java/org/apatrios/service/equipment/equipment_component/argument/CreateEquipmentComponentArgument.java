@@ -4,11 +4,14 @@ import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.dictoinary.ComponentModel;
 
+import java.util.Set;
+import java.util.UUID;
+
 @Value
 @Builder
 public class CreateEquipmentComponentArgument {
     ComponentModel model;
     Integer invNumber;
-    String status;
     String comment;
+    Set<UUID> franchiseeIds;
 }

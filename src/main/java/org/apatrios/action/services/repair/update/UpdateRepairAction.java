@@ -39,6 +39,7 @@ public class UpdateRepairAction implements Action<UpdateRepairActionArgument, Re
                                                         .objectId(argument.getObjectId())
                                                         .dateEnd(argument.getDateEnd())
                                                         .status(argument.getStatus())
+                                                        .franchiseeIds(argument.getFranchiseeIds())
                                                         .build());
     }
 }

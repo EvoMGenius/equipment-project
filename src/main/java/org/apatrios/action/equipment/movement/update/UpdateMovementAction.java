@@ -24,16 +24,22 @@ public class UpdateMovementAction implements Action<UpdateMovementActionArgument
     @Override
     @Transactional
     public Movement execute(@NonNull UpdateMovementActionArgument argument) {
-        Point from = pointService.getExisting(argument.getPointFromId());
-        Point to = pointService.getExisting(argument.getPointToId());
+        Point pointFrom = argument.getPointFromId() != null
+                          ? pointService.getExisting(argument.getPointFromId())
+                          : null;
+
+        Point pointTo = argument.getPointToId() != null
+                        ? pointService.getExisting(argument.getPointToId())
+                        : null;
 
         return movementService.update(argument.getId(),
                                       UpdateMovementArgument.builder()
-                                                            .pointTo(to)
-                                                            .pointFrom(from)
+                                                            .pointTo(pointTo)
+                                                            .pointFrom(pointFrom)
                                                             .dateEnd(argument.getDateEnd())
                                                             .note(argument.getNote())
                                                             .status(argument.getStatus())
+                                                            .franchiseeIds(argument.getFranchiseeIds())
                                                             .build());
     }
 }

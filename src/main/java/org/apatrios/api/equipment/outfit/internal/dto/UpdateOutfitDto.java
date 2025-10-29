@@ -29,10 +29,10 @@ public class UpdateOutfitDto {
     UUID outfitModelId;
 
     @NotNull
-    @Schema(description = "Инвентарный номер экипировки")
-    Integer invNumber;
+    @Schema(description = "id франчизи")
+    UUID franchiseeId;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Текущий статус экипировки")
     OutfitStatus status;
 

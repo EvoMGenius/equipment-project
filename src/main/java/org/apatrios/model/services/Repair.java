@@ -1,14 +1,19 @@
 package org.apatrios.model.services;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.RepairType;
 import org.apatrios.model.management.Staff;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -20,6 +25,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class Repair extends BaseEntity {
 
     /** ID велосипеда, экипировки или запчасти */
@@ -54,10 +60,17 @@ public class Repair extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    boolean isDeleted = false;
 
     /** Комментарий */
     @Column(columnDefinition = "text")
     String comment;
+
+    /** Идентификаторы франчайзи */
+    @Builder.Default
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
+    Set<UUID> franchiseeIds = new HashSet<>();
 }

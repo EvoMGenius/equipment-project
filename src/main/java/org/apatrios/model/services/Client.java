@@ -24,8 +24,13 @@ public class Client extends BaseEntity {
     @Embedded
     ClientProfile clientProfile;
 
+    /** Статус */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    ClientStatus status;
+
     /** Компания */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     Franchisee franchisee;
 
     /** Дата и время создания */
@@ -36,6 +41,7 @@ public class Client extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    boolean isDeleted = false;
 }

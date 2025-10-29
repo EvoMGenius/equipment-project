@@ -8,6 +8,7 @@ import org.apatrios.model.management.PaymentStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -23,6 +24,12 @@ public class SearchPaymentDto {
 
     @Schema(description = "Сумма платежа", example = "100.00")
     BigDecimal amount;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
 
     @Schema(description = "Валюта платежа", example = "RUB")
     String currency;

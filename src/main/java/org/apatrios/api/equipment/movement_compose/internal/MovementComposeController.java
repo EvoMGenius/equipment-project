@@ -44,6 +44,11 @@ public class MovementComposeController {
         return MOVEMENT_COMPOSE_MAPPER.toDto(updateMovementComposeAction.execute(MOVEMENT_COMPOSE_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public MovementComposeDto get(@PathVariable UUID id) {
+        return MOVEMENT_COMPOSE_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<MovementComposeDto> list(SearchMovementComposeDto dto, Sort sort) {
         SearchMovementComposeArgument argument = MOVEMENT_COMPOSE_MAPPER.toSearchArgument(dto);

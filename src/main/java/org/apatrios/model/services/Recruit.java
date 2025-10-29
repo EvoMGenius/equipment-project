@@ -1,16 +1,18 @@
 package org.apatrios.model.services;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.ServiceDictionary;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -21,14 +23,11 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class Recruit extends BaseEntity {
 
-    /** Услуга */
-    @ManyToOne(fetch = FetchType.LAZY)
-    ServiceDictionary service;
-
     /** Клиент */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     Client client;
 
     /** Дата и время создания */
@@ -39,6 +38,13 @@ public class Recruit extends BaseEntity {
     LocalDateTime updateDate;
 
     /** Признак удаления */
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted;
+    boolean isDeleted = false;
+
+    /** Идентификаторы франчайзи */
+    @Builder.Default
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
+    Set<UUID> franchiseeIds = new HashSet<>();
 }

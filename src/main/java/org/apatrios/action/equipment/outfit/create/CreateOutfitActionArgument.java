@@ -9,6 +9,6 @@ import java.util.UUID;
 @Builder
 public class CreateOutfitActionArgument {
     UUID outfitModelId;
-    Integer invNumber;
     String comment;
+    UUID franchiseeId;
 }

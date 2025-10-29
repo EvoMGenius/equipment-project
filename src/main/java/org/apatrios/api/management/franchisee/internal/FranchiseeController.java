@@ -39,6 +39,11 @@ public class FranchiseeController {
         return FRANCHISEE_MAPPER.toDto(service.update(dto.getId(), FRANCHISEE_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public FranchiseeDto get(@PathVariable UUID id) {
+        return FRANCHISEE_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<FranchiseeDto> list(SearchFranchiseeDto dto, Sort sort) {
         SearchFranchiseeArgument searchArgument = FRANCHISEE_MAPPER.toSearchArgument(dto);

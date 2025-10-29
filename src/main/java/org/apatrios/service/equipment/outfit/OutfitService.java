@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.apatrios.exception.EntityNotFoundException;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,9 +36,11 @@ public class OutfitService {
     public Outfit create(@NonNull CreateOutfitArgument argument) {
         return repository.save(Outfit.builder()
                                      .model(argument.getModel())
-                                     .invNumber(argument.getInvNumber())
-                                     .status(OutfitStatus.ACTIVE)
+                                     .franchisee(argument.getFranchisee())
+                                     .status(OutfitStatus.NEW)
                                      .comment(argument.getComment())
+                                     .createDate(LocalDateTime.now())
+                                     .updateDate(LocalDateTime.now())
                                      .build());
     }
 
@@ -45,7 +49,8 @@ public class OutfitService {
         Outfit existing = getExisting(id);
 
         existing.setModel(argument.getModel());
-        existing.setInvNumber(argument.getInvNumber());
+        existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchisee(argument.getFranchisee());
         existing.setStatus(argument.getStatus());
         existing.setComment(argument.getComment());
 
@@ -67,9 +72,20 @@ public class OutfitService {
     private Predicate buildPredicate(SearchOutfitArgument argument) {
         return QPredicates.builder()
                           .add(argument.getModelId(), qOutfit.model.id::eq)
-                          .add(argument.getInvNumber(), qOutfit.invNumber::eq)
+                          .add(argument.getFranchiseeId(), qOutfit.franchisee.id::eq)
                           .add(argument.getStatus(), qOutfit.status::eq)
                           .add(argument.getComment(), qOutfit.comment::containsIgnoreCase)
+                          .add(argument.isDeleted(), qOutfit.isDeleted::eq)
+                          .add(argument.getCreateDateFrom(), qOutfit.createDate::goe)
+                          .add(argument.getCreateDateTo(), qOutfit.createDate::loe)
+                          .add(argument.getUpdateDateFrom(), qOutfit.updateDate::goe)
+                          .add(argument.getUpdateDateTo(), qOutfit.updateDate::loe)
+                          .addAnyString(argument.getSearchString(),
+                                        qOutfit.franchisee.franchiseeProfile.name::containsIgnoreCase,
+                                        qOutfit.status.stringValue()::containsIgnoreCase,
+                                        qOutfit.comment::containsIgnoreCase,
+                                        qOutfit.model.name::containsIgnoreCase,
+                                        qOutfit.franchisee.franchiseeProfile.name::containsIgnoreCase)
                           .buildAnd();
     }
 

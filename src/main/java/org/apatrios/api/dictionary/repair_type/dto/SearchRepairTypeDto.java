@@ -11,6 +11,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO модели поиска IOT")
+@Schema(description = "Поиска типа ремонта")
 public class SearchRepairTypeDto extends BaseDictionarySearchDto {
 }

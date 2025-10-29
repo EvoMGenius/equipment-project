@@ -55,6 +55,7 @@ public class UserService {
                                    .updateDate(LocalDateTime.now())
                                    .lastLogin(LocalDateTime.now())
                                    .userProfile(argument.getUserProfile())
+                                   .franchiseeIds(argument.getFranchiseeIds())
                                    .build());
     }
 
@@ -67,6 +68,7 @@ public class UserService {
         existing.setStatus(argument.getStatus());
         existing.setUserProfile(argument.getUserProfile());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -95,9 +97,16 @@ public class UserService {
                           .add(argument.getUpdateDateFrom(), qUser.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qUser.updateDate::loe)
                           .add(argument.isEnabled(), qUser.enabled::eq)
-                          .add(argument.getFirstName(), qUser.userProfile.firstName::eq)
-                          .add(argument.getLastName(), qUser.userProfile.lastName::eq)
-                          .add(argument.getMiddleName(), qUser.userProfile.middleName::eq)
+                          .add(argument.getFirstName(), qUser.userProfile.firstName::containsIgnoreCase)
+                          .add(argument.getLastName(), qUser.userProfile.lastName::containsIgnoreCase)
+                          .add(argument.getMiddleName(), qUser.userProfile.middleName::containsIgnoreCase)
+                          .add(argument.getFranchiseeIds(), qUser.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qUser.username::containsIgnoreCase,
+                                        qUser.status.stringValue()::containsIgnoreCase,
+                                        qUser.userProfile.firstName::containsIgnoreCase,
+                                        qUser.userProfile.lastName::containsIgnoreCase,
+                                        qUser.userProfile.middleName::containsIgnoreCase)
                           .buildAnd();
     }
 

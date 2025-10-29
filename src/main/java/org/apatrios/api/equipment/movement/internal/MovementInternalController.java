@@ -44,6 +44,11 @@ public class MovementInternalController {
         return MOVEMENT_MAPPER.toDto(updateMovementAction.execute(MOVEMENT_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public MovementDto get(@PathVariable UUID id) {
+        return MOVEMENT_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<MovementDto> list(SearchMovementDto dto, Sort sort) {
         SearchMovementArgument argument = MOVEMENT_MAPPER.toSearchArgument(dto);

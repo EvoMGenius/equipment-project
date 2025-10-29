@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 @Value
 @Builder
 public class SearchFranchiseeArgument {
+    String searchString;
+
     String phone;
 
     String name;

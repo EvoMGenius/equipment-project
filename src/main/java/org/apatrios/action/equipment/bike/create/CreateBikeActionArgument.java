@@ -13,6 +13,8 @@ public class CreateBikeActionArgument {
 
     UUID modelBikeId;
 
+    UUID franchiseeId;
+
     Integer seqNumber;
 
     Integer invNumber;

@@ -5,7 +5,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -22,7 +23,6 @@ public class CreateSimDto {
     @Schema(description = "Номер телефона")
     String phoneNumber;
 
-    @NotNull
-    @Schema(description = "id оператора")
-    UUID operatorId;
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 }

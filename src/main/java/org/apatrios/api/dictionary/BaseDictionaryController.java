@@ -1,5 +1,7 @@
 package org.apatrios.api.dictionary;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apatrios.api.dictionary.common.dto.BaseDictionaryDto;
 import org.apatrios.api.dictionary.common.dto.BaseDictionarySearchDto;
 import org.apatrios.api.dictionary.common.mapper.BaseDictionaryMapper;
@@ -11,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,12 +30,12 @@ public abstract class BaseDictionaryController<
     protected abstract BaseDictionaryMapper<T, DictionaryDtoT, SearchDtoT, SearchArgumentT> getMapper();
 
     @GetMapping("/page")
-    public CollectionDto<DictionaryDtoT> page(@RequestBody SearchDtoT dto, Pageable pageable) {
+    public CollectionDto<DictionaryDtoT> page(SearchDtoT dto, Pageable pageable) {
         return CollectionDto.of(getService().page(pageable, getMapper().toSearchArgument(dto)).map(getMapper()::toDto));
     }
 
     @GetMapping("/list")
-    public List<DictionaryDtoT> getAll(@RequestBody SearchDtoT dto, Sort sort) {
+    public List<DictionaryDtoT> getAll(SearchDtoT dto, Sort sort) {
         return getService().list(getMapper().toSearchArgument(dto), sort).stream()
                            .map(getMapper()::toDto)
                            .collect(Collectors.toList());
@@ -55,5 +59,16 @@ public abstract class BaseDictionaryController<
     @DeleteMapping("/{id}/delete")
     public void delete(@PathVariable UUID id) {
         getService().delete(id);
+    }
+
+    @GetMapping("/sub-class/metadata")
+    public List<Map<String, String>> getAllSubClassMetadata() {
+        return Arrays.stream(BaseDictionaryDto.class.getAnnotation(JsonSubTypes.class).value())
+                     .map(subType -> Map.of(
+                             "name", subType.value().getAnnotation(Schema.class).description(),
+                             "type", subType.name(),
+                             "path", subType.name().replaceAll("([a-z])([A-Z]+)", "$1-$2").toLowerCase(),
+                             "className", subType.value().getSimpleName()))
+                     .toList();
     }
 }

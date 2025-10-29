@@ -79,6 +79,13 @@ public class FranchiseeService {
                           .add(argument.getCreateDateTo(), qFranchisee.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qFranchisee.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qFranchisee.updateDate::loe)
+                          .addAnyString(argument.getSearchString(),
+                                        qFranchisee.status.stringValue()::containsIgnoreCase,
+                                        qFranchisee.inn::containsIgnoreCase,
+                                        qFranchisee.franchiseeProfile.name::containsIgnoreCase,
+                                        qFranchisee.franchiseeProfile.email::containsIgnoreCase,
+                                        qFranchisee.franchiseeProfile.address::containsIgnoreCase,
+                                        qFranchisee.franchiseeProfile.phone::containsIgnoreCase)
                           .buildAnd();
     }
 

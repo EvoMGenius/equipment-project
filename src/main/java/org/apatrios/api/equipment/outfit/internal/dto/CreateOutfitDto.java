@@ -23,8 +23,8 @@ public class CreateOutfitDto {
     UUID outfitModelId;
 
     @NotNull
-    @Schema(description = "Инвентарный номер экипировки")
-    Integer invNumber;
+    @Schema(description = "id франчизи")
+    UUID franchiseeId;
 
     @Schema(description = "Комментарий", example = "Выдана на сезонное использование")
     String comment;

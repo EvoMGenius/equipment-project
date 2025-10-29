@@ -32,6 +32,7 @@ public class CreatePaymentAction implements Action<CreatePaymentActionArgument, 
                                                           .currency(argument.getCurrency())
                                                           .entityId(argument.getEntityId())
                                                           .entityType(argument.getEntityType())
+                                                          .franchiseeIds(argument.getFranchiseeIds())
                                                           .build());
     }
 }

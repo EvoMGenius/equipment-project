@@ -3,9 +3,11 @@ package org.apatrios.api.equipment.equipment_component.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.equipment.EquipmentComponentStatus;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -31,10 +33,13 @@ public class UpdateEquipmentComponentDto {
     @Schema(description = "Инвентарный номер компонента", example = "56789")
     Integer invNumber;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Статус компонента", example = "ACTIVE")
-    String status;
+    EquipmentComponentStatus status;
 
     @Schema(description = "Комментарий или примечание", example = "Требуется диагностика")
     String comment;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 }

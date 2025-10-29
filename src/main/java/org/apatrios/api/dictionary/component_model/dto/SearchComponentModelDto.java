@@ -11,6 +11,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @FieldDefaults(level = PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "DTO модели поиска компонента")
+@Schema(description = "Модели поиска компонента")
 public class SearchComponentModelDto extends BaseDictionarySearchDto {
 }

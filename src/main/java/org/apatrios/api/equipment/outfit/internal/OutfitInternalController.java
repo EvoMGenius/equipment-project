@@ -44,6 +44,11 @@ public class OutfitInternalController {
         return OUTFIT_MAPPER.toDto(updateOutfitAction.execute(OUTFIT_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public OutfitDto get(@PathVariable UUID id) {
+        return OUTFIT_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<OutfitDto> list(SearchOutfitDto dto, Sort sort) {
         SearchOutfitArgument searchArgument = OUTFIT_MAPPER.toSearchArgument(dto);

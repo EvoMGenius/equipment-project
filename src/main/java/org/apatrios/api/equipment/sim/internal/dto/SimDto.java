@@ -3,9 +3,9 @@ package org.apatrios.api.equipment.sim.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.api.dictionary.operator.dto.OperatorDto;
-import org.apatrios.model.dictoinary.Operator;
 
+import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -22,9 +22,18 @@ public class SimDto {
     @Schema(description = "Уникальный идентификатор")
     UUID id;
 
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
     @Schema(description = "Номер телефона")
     String phoneNumber;
 
-    @Schema(description = "Оператор")
-    OperatorDto operator;
+    @Schema(description = "Дата создания")
+    LocalDateTime createDate;
+
+    @Schema(description = "Дата обновления")
+    LocalDateTime updateDate;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
 }

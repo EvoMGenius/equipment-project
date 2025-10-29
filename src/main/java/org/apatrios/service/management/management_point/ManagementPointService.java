@@ -88,6 +88,14 @@ public class ManagementPointService {
                           .add(argument.getUpdateDateFrom(), qPoint.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qPoint.updateDate::loe)
                           .add(argument.isDeleted(), qPoint.isDeleted::eq)
+                          .addAnyString(argument.getSearchString(),
+                                        qPoint.name::containsIgnoreCase,
+                                        qPoint.pointType.name::containsIgnoreCase,
+                                        qPoint.address::containsIgnoreCase,
+                                        qPoint.franchisee.franchiseeProfile.name::containsIgnoreCase,
+                                        qPoint.latitude.stringValue()::containsIgnoreCase,
+                                        qPoint.longitude.stringValue()::containsIgnoreCase,
+                                        qPoint.status.stringValue()::containsIgnoreCase)
                           .buildAnd();
     }
 

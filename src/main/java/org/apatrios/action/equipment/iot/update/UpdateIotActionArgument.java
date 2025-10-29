@@ -2,8 +2,9 @@ package org.apatrios.action.equipment.iot.update;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.equipment.BikeStatus;
+import org.apatrios.model.equipment.IotStatus;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Value
@@ -13,6 +14,8 @@ public class UpdateIotActionArgument {
     UUID iotModelId;
     String invNumber;
     UUID simId;
-    BikeStatus status;
+    IotStatus status;
     String comment;
+    String imei;
+    Set<UUID> franchiseeIds;
 }

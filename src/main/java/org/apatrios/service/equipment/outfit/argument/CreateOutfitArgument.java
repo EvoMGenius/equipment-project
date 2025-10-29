@@ -3,11 +3,12 @@ package org.apatrios.service.equipment.outfit.argument;
 import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.dictoinary.OutfitModel;
+import org.apatrios.model.management.Franchisee;
 
 @Value
 @Builder
 public class CreateOutfitArgument {
     OutfitModel model;
-    Integer invNumber;
     String comment;
+    Franchisee franchisee;
 }

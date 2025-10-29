@@ -5,18 +5,16 @@ import lombok.Value;
 import org.apatrios.model.dictoinary.RepairType;
 import org.apatrios.model.management.Staff;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Value
 @Builder
 public class CreateRepairArgument {
     UUID objectId;
-
     RepairType repairType;
-
     Staff staff;
-
     String description;
-
     String comment;
+    Set<UUID> franchiseeIds;
 }

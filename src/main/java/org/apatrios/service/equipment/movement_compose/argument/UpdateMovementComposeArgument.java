@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.equipment.Movement;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Value
@@ -11,6 +12,8 @@ import java.util.UUID;
 public class UpdateMovementComposeArgument {
 
     Movement movement;
+
+    Set<UUID> franchiseeIds;
 
     UUID objectId;
 

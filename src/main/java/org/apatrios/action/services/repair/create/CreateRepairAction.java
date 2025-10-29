@@ -36,6 +36,7 @@ public class CreateRepairAction implements Action<CreateRepairActionArgument, Re
                                                         .comment(argument.getComment())
                                                         .description(argument.getDescription())
                                                         .objectId(argument.getObjectId())
+                                                        .franchiseeIds(argument.getFranchiseeIds())
                                                         .build());
     }
 }

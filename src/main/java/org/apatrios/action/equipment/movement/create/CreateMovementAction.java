@@ -24,14 +24,20 @@ public class CreateMovementAction implements Action<CreateMovementActionArgument
     @Override
     @Transactional
     public Movement execute(@NonNull CreateMovementActionArgument argument) {
-        Point pointFrom = pointService.getExisting(argument.getPointFromId());
-        Point pointTo = pointService.getExisting(argument.getPointToId());
+        Point pointFrom = argument.getPointFromId() != null
+                          ? pointService.getExisting(argument.getPointFromId())
+                          : null;
+
+        Point pointTo = argument.getPointToId() != null
+                        ? pointService.getExisting(argument.getPointToId())
+                        : null;
 
         return movementService.create(CreateMovementArgument.builder()
                                                             .note(argument.getNote())
                                                             .dateEnd(argument.getDateEnd())
                                                             .pointFrom(pointFrom)
                                                             .pointTo(pointTo)
+                                                            .franchiseeIds(argument.getFranchiseeIds())
                                                             .build());
     }
 }

@@ -30,6 +30,7 @@ public class CreateRentComposeAction implements Action<CreateRentComposeActionAr
                                                                   .rent(rent)
                                                                   .amount(argument.getAmount())
                                                                   .objectId(argument.getObjectId())
+                                                                  .franchiseeIds(argument.getFranchiseeIds())
                                                                   .build());
     }
 }

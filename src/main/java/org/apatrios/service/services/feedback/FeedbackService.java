@@ -33,10 +33,12 @@ public class FeedbackService {
     @Transactional
     public Feedback create(@NonNull CreateFeedbackArgument argument) {
         return repository.save(Feedback.builder()
+                                       .serviceDictionary(argument.getServiceDictionary())
                                        .rate(argument.getRate())
                                        .note(argument.getNote())
                                        .createDate(LocalDateTime.now())
                                        .updateDate(LocalDateTime.now())
+                                       .franchiseeIds(argument.getFranchiseeIds())
                                        .build());
     }
 
@@ -47,6 +49,8 @@ public class FeedbackService {
         existing.setRate(argument.getRate());
         existing.setNote(argument.getNote());
         existing.setUpdateDate(LocalDateTime.now());
+        existing.setServiceDictionary(argument.getServiceDictionary());
+        existing.setFranchiseeIds(argument.getFranchiseeIds());
 
         return repository.save(existing);
     }
@@ -72,6 +76,12 @@ public class FeedbackService {
                           .add(argument.getCreateDateTo(), qFeedback.createDate::loe)
                           .add(argument.getUpdateDateFrom(), qFeedback.updateDate::goe)
                           .add(argument.getUpdateDateTo(), qFeedback.updateDate::loe)
+                          .add(argument.getServiceDictionaryId(), qFeedback.serviceDictionary.id::eq)
+                          .add(argument.getFranchiseeIds(), qFeedback.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qFeedback.note::containsIgnoreCase,
+                                        qFeedback.rate.stringValue()::containsIgnoreCase,
+                                        qFeedback.serviceDictionary.name::containsIgnoreCase)
                           .buildAnd();
     }
 

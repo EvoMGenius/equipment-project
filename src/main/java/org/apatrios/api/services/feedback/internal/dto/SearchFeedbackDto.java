@@ -5,6 +5,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -19,6 +21,12 @@ public class SearchFeedbackDto {
 
     @Schema(description = "Оценка отзыва (точное значение)", example = "5")
     Integer rate;
+
+    @Schema(description = "Строка поиска")
+    String searchString;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "Поиск по тексту отзыва", example = "Очень понравилось обслуживание")
     String note;
@@ -37,4 +45,7 @@ public class SearchFeedbackDto {
 
     @Schema(description = "Признак удаления", example = "false")
     boolean isDeleted;
+
+    @Schema(description = "Услуга ID")
+    UUID serviceDictionaryId;
 }

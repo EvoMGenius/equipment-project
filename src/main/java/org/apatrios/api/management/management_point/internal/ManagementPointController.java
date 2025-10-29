@@ -44,6 +44,11 @@ public class ManagementPointController {
         return POINT_MAPPER.toDto(updatePointAction.execute(POINT_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public ManagementPointDto get(@PathVariable UUID id) {
+        return POINT_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<ManagementPointDto> list(SearchManagementPointDto dto, Sort sort) {
         SearchManagementPointArgument argument = POINT_MAPPER.toSearchArgument(dto);

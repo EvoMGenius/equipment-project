@@ -45,6 +45,11 @@ public class PaymentController {
         return PAYMENT_MAPPER.toDto(updatePaymentAction.execute(PAYMENT_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public PaymentDto get(@PathVariable UUID id) {
+        return PAYMENT_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<PaymentDto> list(SearchPaymentDto dto, Sort sort) {
         SearchPaymentArgument argument = PAYMENT_MAPPER.toSearchArgument(dto);

@@ -32,6 +32,7 @@ public class CreateUserAction implements Action<CreateUserActionArgument, OAuth2
                                              .password(argument.getPassword())
                                              .authorities(Set.of("USER"))
                                              .userProfile(argument.getUserProfile())
+                                             .franchiseeIds(argument.getFranchiseeIds())
                                              .build());
 
         return authenticationService.login(username, argument.getPassword());

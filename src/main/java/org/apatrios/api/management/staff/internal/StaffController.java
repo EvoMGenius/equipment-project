@@ -44,6 +44,11 @@ public class StaffController {
         return STAFF_MAPPER.toDto(updateStaffAction.execute(STAFF_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public StaffDto get(@PathVariable UUID id) {
+        return STAFF_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<StaffDto> list(SearchStaffDto dto, Sort sort) {
         SearchStaffArgument argument = STAFF_MAPPER.toSearchArgument(dto);

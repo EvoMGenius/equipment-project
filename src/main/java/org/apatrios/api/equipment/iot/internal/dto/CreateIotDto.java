@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -30,7 +31,13 @@ public class CreateIotDto {
     @Schema(description = "id SIM-карты")
     UUID simId;
 
+    @NotBlank
+    @Schema(description = "IMEI")
+    String imei;
 
     @Schema(description = "Комментарий или примечание", example = "Устройство установлено на велосипед №12")
     String comment;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 }

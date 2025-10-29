@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.model.services.RequestProfile;
 
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -23,6 +24,9 @@ public class CreateRequestDto {
     @Schema(description = "Контактная информация клиента")
     RequestProfile requestProfile;
 
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
     @NotNull
     @Schema(description = "ID типа услуги", example = "111e8400-e29b-41d4-a716-446655440000")
     UUID serviceTypeId;
@@ -36,4 +40,10 @@ public class CreateRequestDto {
     @NotNull
     @Schema(description = "ID клиента", example = "333e8400-e29b-41d4-a716-446655440000")
     UUID clientId;
+
+    @Schema(description = "Причина отказа ID")
+    UUID rejectionReasonId;
+
+    @Schema(description = "Доп написание для причины отказа")
+    String rejectNote;
 }

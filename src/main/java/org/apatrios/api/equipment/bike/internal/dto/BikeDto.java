@@ -5,8 +5,10 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.model_bike.dto.ModelBikeDto;
 import org.apatrios.api.equipment.iot.internal.dto.IotDto;
+import org.apatrios.api.management.franchisee.internal.dto.FranchiseeDto;
 import org.apatrios.model.equipment.BikeStatus;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -25,6 +27,9 @@ public class BikeDto {
 
     @Schema(description = "Модель велосипеда (из справочника)")
     ModelBikeDto modelBike;
+
+    @Schema(description = "Франчизи")
+    FranchiseeDto franchisee;
 
     @Schema(description = "Порядковый номер внутри модели")
     Integer seqNumber;
@@ -46,4 +51,13 @@ public class BikeDto {
 
     @Schema(description = "Комментарий или дополнительная информация")
     String comment;
+
+    @Schema(description = "Дата создания")
+    LocalDateTime createDate;
+
+    @Schema(description = "Дата обновления")
+    LocalDateTime updateDate;
+
+    @Schema(description = "Признак удаления")
+    boolean isDeleted;
 }

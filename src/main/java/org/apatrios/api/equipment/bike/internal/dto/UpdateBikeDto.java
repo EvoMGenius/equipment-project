@@ -25,6 +25,10 @@ public class UpdateBikeDto {
     UUID id;
 
     @NotNull
+    @Schema(description = "Франчизи ID")
+    UUID franchiseeId;
+
+    @NotNull
     @Schema(description = "Идентификатор модели велосипеда")
     UUID modelBikeId;
 
@@ -48,7 +52,7 @@ public class UpdateBikeDto {
     @Schema(description = "Идентификатор привязанного IoT-устройства")
     UUID iotId;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Статус велосипеда")
     BikeStatus status;
 

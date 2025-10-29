@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -22,9 +23,8 @@ public class UpdateRecruitDto {
     @Schema(description = "Уникальный идентификатор", example = "550e8400-e29b-41d4-a716-446655440000")
     UUID id;
 
-    @NotNull
-    @Schema(description = "ID услуги", example = "111e8400-e29b-41d4-a716-446655440000", required = true)
-    UUID serviceId;
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotNull
     @Schema(description = "ID клиента", example = "222e8400-e29b-41d4-a716-446655440000", required = true)

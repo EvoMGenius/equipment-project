@@ -43,6 +43,11 @@ public class RentComposeController {
         return RENT_COMPOSE_MAPPER.toDto(updateRentComposeAction.execute(RENT_COMPOSE_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public RentComposeDto get(@PathVariable UUID id) {
+        return RENT_COMPOSE_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<RentComposeDto> list(SearchRentComposeDto dto, Sort sort) {
         return service.list(RENT_COMPOSE_MAPPER.toSearchArgument(dto), sort)

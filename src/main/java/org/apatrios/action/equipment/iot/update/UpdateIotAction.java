@@ -1,7 +1,9 @@
 package org.apatrios.action.equipment.iot.update;
 
+import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
 import org.apatrios.model.equipment.Iot;
 import org.apatrios.model.equipment.Sim;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UpdateIotAction implements Action<UpdateIotActionArgument, Iot> {
 
     IotService iotService;
@@ -34,6 +37,8 @@ public class UpdateIotAction implements Action<UpdateIotActionArgument, Iot> {
                                                   .sim(sim)
                                                   .status(argument.getStatus())
                                                   .comment(argument.getComment())
+                                                  .imei(argument.getImei())
+                                                  .franchiseeIds(argument.getFranchiseeIds())
                                                   .build());
     }
 }

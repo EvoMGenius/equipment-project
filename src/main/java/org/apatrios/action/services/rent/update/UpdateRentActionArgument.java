@@ -2,32 +2,26 @@ package org.apatrios.action.services.rent.update;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.management.PaymentStatus;
 import org.apatrios.model.services.RentStatus;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Value
 @Builder
 public class UpdateRentActionArgument {
     UUID id;
-
+    Set<UUID> franchiseeIds;
     UUID clientId;
-
     UUID staffId;
-
     LocalDateTime rentStart;
-
     LocalDateTime rentEnd;
-
     String comment;
-
     UUID parentRentId;
-
     UUID parentRequestId;
-
-    PaymentStatus paymentStatus;
-
+    UUID paymentId;
     RentStatus rentStatus;
+    UUID partnerId;
+    UUID tariffId;
 }

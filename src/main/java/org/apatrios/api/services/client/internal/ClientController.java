@@ -45,6 +45,11 @@ public class ClientController {
         return CLIENT_MAPPER.toDto(updateClientAction.execute(CLIENT_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public ClientDto get(@PathVariable UUID id) {
+        return CLIENT_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<ClientDto> list(SearchClientDto dto, Sort sort) {
         SearchClientArgument argument = CLIENT_MAPPER.toSearchArgument(dto);

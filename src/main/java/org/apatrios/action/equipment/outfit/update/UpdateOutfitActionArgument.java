@@ -11,7 +11,7 @@ import java.util.UUID;
 public class UpdateOutfitActionArgument {
     UUID id;
     UUID outfitModelId;
-    Integer invNumber;
     OutfitStatus status;
     String comment;
+    UUID franchiseeId;
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.apatrios.model.equipment.Movement;
 import org.apatrios.model.equipment.MovementStatus;
 import org.apatrios.model.equipment.QMovement;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.apatrios.exception.EntityNotFoundException;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -34,12 +36,15 @@ public class MovementService {
     @Transactional
     public Movement create(@NonNull CreateMovementArgument argument) {
         return repository.save(Movement.builder()
-                                       .createDate(LocalDateTime.now())
+                                       .startDate(LocalDateTime.now())
                                        .note(argument.getNote())
                                        .dateEnd(argument.getDateEnd())
                                        .pointFrom(argument.getPointFrom())
                                        .pointTo(argument.getPointTo())
-                                       .status(MovementStatus.ACTIVE)
+                                       .status(MovementStatus.NEW)
+                                       .createDate(LocalDateTime.now())
+                                       .updateDate(LocalDateTime.now())
+                                       .franchiseeIds(argument.getFranchiseeIds())
                                        .build());
     }
 
@@ -52,6 +57,9 @@ public class MovementService {
         movement.setPointFrom(argument.getPointFrom());
         movement.setPointTo(argument.getPointTo());
         movement.setDateEnd(argument.getDateEnd());
+        movement.setUpdateDate(LocalDateTime.now());
+        movement.setFranchiseeIds(argument.getFranchiseeIds());
+
         return repository.save(movement);
     }
 
@@ -83,8 +91,21 @@ public class MovementService {
                           .add(argument.getPointFromId(), qMovement.pointFrom.id::eq)
                           .add(argument.getStatus(), qMovement.status::eq)
                           .add(argument.getNote(), qMovement.note::containsIgnoreCase)
-                          .add(argument.getCreateDate(), qMovement.createDate::goe)
-                          .add(argument.getDateEnd(), qMovement.dateEnd::loe)
+                          .add(argument.getCreateDateFrom(), qMovement.createDate::goe)
+                          .add(argument.getCreateDateTo(), qMovement.createDate::loe)
+                          .add(argument.getStartDateFrom(), qMovement.startDate::goe)
+                          .add(argument.getStartDateTo(), qMovement.startDate::loe)
+                          .add(argument.getUpdateDateFrom(), qMovement.updateDate::goe)
+                          .add(argument.getUpdateDateTo(), qMovement.updateDate::loe)
+                          .add(argument.isDeleted(), qMovement.isDeleted::eq)
+                          .add(argument.getDateEndFrom(), qMovement.dateEnd::goe)
+                          .add(argument.getDateEndTo(), qMovement.dateEnd::loe)
+                          .add(argument.getFranchiseeIds(), qMovement.franchiseeIds.any()::in)
+                          .addAnyString(argument.getSearchString(),
+                                        qMovement.note::containsIgnoreCase,
+                                        qMovement.status.stringValue()::containsIgnoreCase,
+                                        qMovement.pointTo.name::containsIgnoreCase,
+                                        qMovement.pointFrom.name::containsIgnoreCase)
                           .buildAnd();
     }
 }

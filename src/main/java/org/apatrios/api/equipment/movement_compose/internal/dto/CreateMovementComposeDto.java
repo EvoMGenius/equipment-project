@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,6 +22,9 @@ public class CreateMovementComposeDto {
     @NotNull
     @Schema(description = "Идентификатор перемещения", example = "c1f2a3b4-5678-49ab-90cd-1234567890ef")
     UUID movementId;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @NotNull
     @Schema(description = "Идентификатор объекта (например, велосипеда или компонента)", example = "d4e5f6a7-8901-42bc-a1de-abcdef123456")

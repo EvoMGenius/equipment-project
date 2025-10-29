@@ -27,6 +27,6 @@ public class UpdatePasswordAction implements Action<UpdatePasswordActionArgument
     public OAuth2AccessToken execute(@NonNull UpdatePasswordActionArgument argument) {
         User user = userService.updatePasswordByCode(argument.getPassword(), argument.getCode());
 
-        return authenticationService.login(user.getUsername(), user.getPassword());
+        return authenticationService.login(user.getUsername(),  argument.getPassword());
     }
 }

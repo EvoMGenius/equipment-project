@@ -27,6 +27,9 @@ public class UpdateUserInternalDto {
     @Schema(description = "ID", requiredMode = REQUIRED)
     UUID id;
 
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
+
     @Schema(description = "Логин")
     @NotBlank
     String username;

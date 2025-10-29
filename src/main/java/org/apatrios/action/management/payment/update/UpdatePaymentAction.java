@@ -34,6 +34,7 @@ public class UpdatePaymentAction implements Action<UpdatePaymentActionArgument, 
                                                           .entityId(argument.getEntityId())
                                                           .entityType(argument.getEntityType())
                                                           .status(argument.getStatus())
+                                                          .franchiseeIds(argument.getFranchiseeIds())
                                                           .build());
     }
 }

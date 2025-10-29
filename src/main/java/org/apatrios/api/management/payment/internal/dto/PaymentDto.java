@@ -9,6 +9,7 @@ import org.apatrios.model.management.PaymentStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -24,6 +25,9 @@ public class PaymentDto {
 
     @Schema(description = "Уникальный идентификатор")
     UUID id;
+
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 
     @Schema(description = "Сумма платежа", example = "1000.50", required = true)
     BigDecimal amount;

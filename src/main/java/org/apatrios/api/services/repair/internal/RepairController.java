@@ -43,6 +43,11 @@ public class RepairController {
         return REPAIR_MAPPER.toDto(updateRepairAction.execute(REPAIR_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public RepairDto get(@PathVariable UUID id) {
+        return REPAIR_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<RepairDto> list(SearchRepairDto dto, Sort sort) {
         return service.list(REPAIR_MAPPER.toSearchArgument(dto), sort)

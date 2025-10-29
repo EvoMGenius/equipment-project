@@ -29,8 +29,8 @@ public class UpdateSimBalanceAction implements Action<UpdateSimBalanceActionArgu
         return simBalanceService.update(argument.getId(),
                                         UpdateSimBalanceArgument.builder()
                                                                 .value(argument.getValue())
-                                                                .createDate(argument.getCreateDate())
                                                                 .sim(sim)
+                                                                .franchiseeIds(argument.getFranchiseeIds())
                                                                 .build());
     }
 }

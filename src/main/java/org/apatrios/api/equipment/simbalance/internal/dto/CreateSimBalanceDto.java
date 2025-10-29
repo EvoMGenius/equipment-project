@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -21,7 +21,6 @@ public class CreateSimBalanceDto {
     @Schema(description = "id Sim-карты")
     UUID simId;
 
-    @NotNull
-    @Schema(description = "Дата создания")
-    LocalDateTime createDate;
+    @Schema(description = "ids франчайзи")
+    Set<UUID> franchiseeIds;
 }

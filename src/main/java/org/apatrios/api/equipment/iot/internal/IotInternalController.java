@@ -44,6 +44,11 @@ public class IotInternalController {
         return IOT_MAPPER.toDto(updateIotAction.execute(IOT_MAPPER.toUpdateArgument(dto)));
     }
 
+    @GetMapping("{id}")
+    public IotDto get(@PathVariable UUID id) {
+        return IOT_MAPPER.toDto(service.getExisting(id));
+    }
+
     @GetMapping("list")
     public List<IotDto> list(SearchIotDto dto, Sort sort) {
         SearchIotArgument searchArgument = IOT_MAPPER.toSearchArgument(dto);

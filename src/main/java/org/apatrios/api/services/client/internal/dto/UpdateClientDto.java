@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.services.ClientProfile;
+import org.apatrios.model.services.ClientStatus;
 
 import javax.validation.constraints.NotNull;
 
@@ -31,4 +32,8 @@ public class UpdateClientDto {
     @NotNull
     @Schema(description = "ID Компании (франчайзи)")
     UUID franchiseeId;
+
+    @NotNull
+    @Schema(description = "Статус")
+    ClientStatus status;
 }
