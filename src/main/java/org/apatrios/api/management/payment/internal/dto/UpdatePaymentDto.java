@@ -3,6 +3,8 @@ package org.apatrios.api.management.payment.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.management.Amount;
+import org.apatrios.model.management.IncomeAmount;
 import org.apatrios.model.management.PaymentStatus;
 
 import javax.validation.constraints.NotBlank;
@@ -29,13 +31,11 @@ public class UpdatePaymentDto {
     @Schema(description = "ids франчайзи")
     Set<UUID> franchiseeIds;
 
-    @Schema(description = "Сумма платежа", example = "1000.50", required = true)
-    @NotNull
-    BigDecimal amount;
+    @Schema(description = "Сумма платежа до оплаты")
+    Amount amount;
 
-    @Schema(description = "Валюта платежа", example = "RUB", required = true)
-    @NotBlank
-    String currency;
+    @Schema(description = "Сумма платежа после оплаты")
+    IncomeAmount incomeAmount;
 
     @Schema(description = "id Тип оплаты")
     @NotNull
@@ -51,4 +51,7 @@ public class UpdatePaymentDto {
 
     @Schema(description = "Статус оплаты", example = "PAID", required = true)
     PaymentStatus status;
+
+    @Schema(description = "URL возврата с ЮКассы")
+    String returnUrl;
 }

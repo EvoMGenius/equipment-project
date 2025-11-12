@@ -1,7 +1,9 @@
 package org.apatrios.model.management;
 
 public enum PaymentStatus {
-    IN_PROGRESS,
+    PENDING,
     CANCELED,
-    SUCCESSFULLY
+    SUCCEEDED,
+    REFUND_PENDING,
+    REFUND_SUCCEEDED
 }

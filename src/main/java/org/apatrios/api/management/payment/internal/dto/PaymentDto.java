@@ -4,7 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.payment_type.dto.PaymentTypeDto;
-import org.apatrios.model.dictoinary.PaymentType;
+import org.apatrios.model.management.Amount;
+import org.apatrios.model.management.IncomeAmount;
 import org.apatrios.model.management.PaymentStatus;
 
 import java.math.BigDecimal;
@@ -29,11 +30,11 @@ public class PaymentDto {
     @Schema(description = "ids франчайзи")
     Set<UUID> franchiseeIds;
 
-    @Schema(description = "Сумма платежа", example = "1000.50", required = true)
-    BigDecimal amount;
+    @Schema(description = "Сумма платежа до оплаты")
+    Amount amount;
 
-    @Schema(description = "Валюта платежа", example = "RUB", required = true)
-    String currency;
+    @Schema(description = "Сумма платежа после оплаты")
+    IncomeAmount incomeAmount;
 
     @Schema(description = "Тип оплаты", example = "CASH", required = true)
     PaymentTypeDto paymentType;
@@ -55,4 +56,10 @@ public class PaymentDto {
 
     @Schema(description = "Признак удаления", example = "false")
     boolean isDeleted;
+
+    @Schema(description = "URL по оплате с ЮКассы")
+    String confirmationUrl;
+
+    @Schema(description = "URL возврата с ЮКассы")
+    String returnUrl;
 }

@@ -3,10 +3,10 @@ package org.apatrios.api.management.payment.internal.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.management.Amount;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,16 +21,11 @@ import static lombok.AccessLevel.PRIVATE;
 @Schema(description = "DTO для создания нового платежа")
 public class CreatePaymentDto {
 
-    @Schema(description = "Сумма платежа", example = "1000.50", required = true)
-    @NotNull
-    BigDecimal amount;
+    @Schema(description = "Сумма платежа до оплаты")
+    Amount amount;
 
     @Schema(description = "ids франчайзи")
     Set<UUID> franchiseeIds;
-
-    @Schema(description = "Валюта платежа", example = "RUB", required = true)
-    @NotBlank
-    String currency;
 
     @Schema(description = "id Тип оплаты")
     @NotNull
@@ -43,4 +38,7 @@ public class CreatePaymentDto {
     @Schema(description = "Тип связанной сущности (например 'rent', 'service')", example = "rent")
     @NotBlank
     String entityType;
+
+    @Schema(description = "URL возврата с ЮКассы")
+    String returnUrl;
 }
