@@ -43,7 +43,7 @@ public class PaymentService {
                                       .returnUrl(argument.getReturnUrl())
                                       .confirmationUrl(argument.getConfirmationUrl())
                                       .paymentType(argument.getPaymentType())
-                                      .status(PaymentStatus.PENDING)
+                                      .status(PaymentStatus.PAYMENT_PENDING)
                                       .entityId(argument.getEntityId())
                                       .entityType(argument.getEntityType())
                                       .createDate(LocalDateTime.now())

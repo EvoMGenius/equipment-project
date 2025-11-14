@@ -4,7 +4,7 @@ import feign.FeignException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.action.management.payment.create.CreatePaymentActionArgument;
-import org.apatrios.feign.YookassaFeign;
+import org.apatrios.feign.PaymentClient;
 import org.apatrios.feign.dto.CreateYookassaPaymentDto;
 import org.apatrios.feign.dto.YookassaAmountDto;
 import org.apatrios.feign.dto.YookassaConfirmationDto;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class YooKassaPaymentProvider implements PaymentProvider {
 
-    private final YookassaFeign yookassaFeign;
+    private final PaymentClient paymentClient;
 
     @Override
     public String getProviderName() {
@@ -37,7 +37,7 @@ public class YooKassaPaymentProvider implements PaymentProvider {
             }
     )
     public ExternalPayment createExternalPayment(@NonNull String idempotencyKey, @NonNull CreatePaymentActionArgument argument) {
-        YookassaPaymentDto yookassaPayment = yookassaFeign.createYookassaPayment(idempotencyKey, CreateYookassaPaymentDto.builder()
+        YookassaPaymentDto yookassaPayment = paymentClient.createYookassaPayment(idempotencyKey, CreateYookassaPaymentDto.builder()
                                                                                                                          .capture(true)
                                                                                                                          .amount(YookassaAmountDto.builder()
                                                                                                                                                   .value(argument.getAmount().getValue())

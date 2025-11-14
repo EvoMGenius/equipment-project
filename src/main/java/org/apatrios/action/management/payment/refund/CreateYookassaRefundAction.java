@@ -5,7 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.action.VoidAction;
 import org.apatrios.action.management.payment.refund.argument.CreateYookassaRefundActionArgument;
-import org.apatrios.feign.YookassaFeign;
+import org.apatrios.feign.PaymentClient;
 import org.apatrios.feign.dto.CreateYookassaRefundDto;
 import org.apatrios.feign.dto.YookassaAmountDto;
 import org.apatrios.model.management.Payment;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class CreateYookassaRefundAction implements VoidAction<CreateYookassaRefundActionArgument> {
 
     private final PaymentService paymentService;
-    private final YookassaFeign yookassaFeign;
+    private final PaymentClient paymentClient;
 
     @Override
     @Transactional
@@ -46,7 +46,7 @@ public class CreateYookassaRefundAction implements VoidAction<CreateYookassaRefu
     )
     private void createRefund(String idempotencyKey, Payment payment) {
         if (payment.getStatus().equals(PaymentStatus.REFUND_SUCCEEDED)) return;
-        yookassaFeign.createYookassaRefund(idempotencyKey, CreateYookassaRefundDto.builder()
+        paymentClient.createYookassaRefund(idempotencyKey, CreateYookassaRefundDto.builder()
                                                                                   .paymentId(payment.getExternalPaymentId())
                                                                                   .amount(YookassaAmountDto.builder()
                                                                                                            .value(payment.getAmount().getValue())

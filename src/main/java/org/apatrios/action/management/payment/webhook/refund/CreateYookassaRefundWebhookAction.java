@@ -36,7 +36,7 @@ public class CreateYookassaRefundWebhookAction implements YookassaWebhookHandler
         return switch (status.toLowerCase()) {
             case "pending" -> PaymentStatus.REFUND_PENDING;
             case "succeeded" -> PaymentStatus.REFUND_SUCCEEDED;
-            case "canceled" -> PaymentStatus.CANCELED;
+            case "canceled" -> PaymentStatus.PAYMENT_CANCELED;
             default -> throw new IllegalStateException("Unknown YooKassa status: " + status);
         };
     }

@@ -43,9 +43,9 @@ public class CreateYookassaPaymentWebhookAction implements YookassaWebhookHandle
 
     private PaymentStatus mapYookassaStatus(String status) {
         return switch (status.toLowerCase()) {
-            case "pending" -> PaymentStatus.PENDING;
-            case "succeeded" -> PaymentStatus.SUCCEEDED;
-            case "canceled" -> PaymentStatus.CANCELED;
+            case "pending" -> PaymentStatus.PAYMENT_PENDING;
+            case "succeeded" -> PaymentStatus.PAYMENT_SUCCEEDED;
+            case "canceled" -> PaymentStatus.PAYMENT_CANCELED;
             default -> throw new IllegalStateException("Unknown YooKassa status: " + status);
         };
     }

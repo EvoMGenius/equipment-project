@@ -7,12 +7,12 @@ import org.apatrios.feign.interceptor.YookassaInterceptor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "yookassa-client",  url = "${yookassa.url}", configuration = YookassaInterceptor.class)
-public interface YookassaFeign {
+@FeignClient(name = "payment-client",  url = "${yookassa.url}", configuration = YookassaInterceptor.class)
+public interface PaymentClient {
 
     @PostMapping("/payments")
     YookassaPaymentDto createYookassaPayment(@RequestHeader("Idempotence-Key") String idempotenceKey, @RequestBody CreateYookassaPaymentDto dto);
 
     @PostMapping("/refunds")
-    YookassaPaymentDto createYookassaRefund(@RequestHeader("Idempotence-Key") String idempotenceKey, @RequestBody CreateYookassaRefundDto dto);
+    void createYookassaRefund(@RequestHeader("Idempotence-Key") String idempotenceKey, @RequestBody CreateYookassaRefundDto dto);
 }
