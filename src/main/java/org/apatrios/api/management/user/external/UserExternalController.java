@@ -1,52 +1,78 @@
 package org.apatrios.api.management.user.external;
 
-import io.swagger.v3.oas.annotations.Operation;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
 import org.apatrios.action.VoidAction;
-import org.apatrios.action.management.user.create.CreateUserActionArgument;
-import org.apatrios.action.management.user.password.argument.UpdatePasswordActionArgument;
-import org.apatrios.api.management.user.external.dto.CreateUserExternalDto;
-import org.apatrios.api.management.user.external.dto.ResetPasswordByCodeExternalDto;
-import org.apatrios.api.management.user.external.dto.UpdatePasswordByCodeExternalDto;
+import org.apatrios.action.management.user.authentication.call.approve.argument.CallAuthenticationApproveActionArgument;
+import org.apatrios.action.management.user.authentication.create.argument.CreateUserActionArgument;
+import org.apatrios.action.management.user.authentication.telegram.approve.argument.TelegramAuthenticationApproveActionArgument;
+import org.apatrios.api.management.user.external.dto.*;
 import org.apatrios.api.management.user.external.mapper.UserExternalMapper;
+import org.apatrios.service.storage.MinioFileService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("external/user")
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@RequestMapping("auth")
 public class UserExternalController {
 
-    VoidAction<String> resetPasswordAction;
-    Action<UpdatePasswordActionArgument, OAuth2AccessToken> updatePasswordAction;
-    UserExternalMapper userMapper;
-    Action<CreateUserActionArgument, OAuth2AccessToken> createUserAction;
+    private final VoidAction<String> telegramAuthenticationRequestAction;
+    private final Action<TelegramAuthenticationApproveActionArgument, OAuth2AccessToken> telegramAuthenticationApproveAction;
+    private final VoidAction<String> callAuthenticationRequestAction;
+    private final Action<CallAuthenticationApproveActionArgument, OAuth2AccessToken> callAuthenticationApproveAction;
+    private final Action<CreateUserActionArgument, OAuth2AccessToken> createUserAction;
+    private final UserExternalMapper userMapper;
+    private final MinioFileService fileService;
 
-    @Operation(summary = "Создание кода для изменения пароля")
-    @PostMapping("reset-password-by-code")
-    public void resetPasswordByCode(@Valid @RequestBody ResetPasswordByCodeExternalDto dto) {
-        resetPasswordAction.execute(dto.getUsername());
+    @Value("${legal.documents.offer.path:legal/offer.pdf}")
+    private String offerPath;
+    @Value("${legal.documents.opd.path:legal/opd.pdf}")
+    private String opdPath;
+
+    @PostMapping("/auth_by_tg/request")
+    public void authenticationByTelegramRequest(@RequestBody TelegramAuthenticationRequestDto dto) {
+        telegramAuthenticationRequestAction.execute(dto.getLogin());
     }
 
-    @Operation(summary = "Изменение пароля по коду")
-    @PostMapping("update-password-by-code")
-    public OAuth2AccessToken updatePasswordByCode(@Valid @RequestBody UpdatePasswordByCodeExternalDto dto) {
-        UpdatePasswordActionArgument argument = userMapper.toUpdatePasswordArgument(dto);
-        return updatePasswordAction.execute(argument);
+    @PostMapping("/auth_by_tg/approve")
+    public OAuth2AccessToken authenticationByTelegramApprove(@RequestBody TelegramAuthenticationApproveDto dto) {
+        return telegramAuthenticationApproveAction.execute(userMapper.toTelegramApproveArgument(dto));
     }
 
-    @Operation(summary = "Создание учетной записи пользователя с последующей выдачей токенов доступа")
-    @PostMapping("login")
-    public OAuth2AccessToken login(@Valid @RequestBody CreateUserExternalDto dto) {
+    @PostMapping("/auth_by_call/request")
+    public void authenticationByCallRequest(@RequestBody CallAuthenticationRequestDto dto) {
+        callAuthenticationRequestAction.execute(dto.getLogin());
+    }
+
+    @PostMapping("/auth_by_call/approve")
+    public OAuth2AccessToken authenticationByCallApprove(@RequestBody CallAuthenticationApproveDto dto) {
+        return callAuthenticationApproveAction.execute(userMapper.toCallApproveArgument(dto));
+    }
+
+    @PostMapping("/registration")
+    public OAuth2AccessToken create(@RequestBody CreateUserDto dto) {
         return createUserAction.execute(userMapper.toCreateArgument(dto));
+    }
+
+    @GetMapping("offer")
+    public ResponseEntity<Void> getOffer() {
+        String url = fileService.getFullUrl(offerPath);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                             .location(URI.create(url))
+                             .build();
+    }
+
+    @GetMapping("opd")
+    public ResponseEntity<Void> getOpd() {
+        String url = fileService.getFullUrl(opdPath);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                             .location(URI.create(url))
+                             .build();
     }
 }

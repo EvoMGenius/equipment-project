@@ -2,7 +2,7 @@ package org.apatrios.api.management.payment.webhook.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.feign.dto.YookassaPaymentDto;
+import org.apatrios.feign.payment.dto.YookassaPaymentDto;
 
 import static lombok.AccessLevel.PRIVATE;
 

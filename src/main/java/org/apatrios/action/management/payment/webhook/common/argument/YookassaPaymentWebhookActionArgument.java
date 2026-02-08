@@ -2,7 +2,7 @@ package org.apatrios.action.management.payment.webhook.common.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.feign.dto.YookassaPaymentDto;
+import org.apatrios.feign.payment.dto.YookassaPaymentDto;
 
 @Value
 @Builder

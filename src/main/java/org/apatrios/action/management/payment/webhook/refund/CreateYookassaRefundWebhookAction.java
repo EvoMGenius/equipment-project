@@ -4,7 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.action.management.payment.webhook.common.argument.YookassaPaymentWebhookActionArgument;
 import org.apatrios.action.management.payment.webhook.handler.YookassaWebhookHandler;
-import org.apatrios.feign.dto.YookassaPaymentDto;
+import org.apatrios.feign.payment.dto.YookassaPaymentDto;
 import org.apatrios.model.management.PaymentStatus;
 import org.apatrios.service.management.payment.PaymentService;
 import org.springframework.stereotype.Component;

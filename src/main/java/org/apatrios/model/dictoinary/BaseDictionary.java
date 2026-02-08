@@ -21,13 +21,19 @@ public abstract class BaseDictionary extends BaseEntity {
     @Column(nullable = false)
     String name;
 
-    /** Статус */
-    @Enumerated(EnumType.STRING)
+    /** Внешний ID записи */
     @Column(nullable = false)
-    EntityStatus status = EntityStatus.ACTIVE;
+    String dictId;
 
-    /** Дата создания */
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    LocalDateTime createDate;
+    /** Наименование справочников */
+    @Column(nullable = false)
+    String dictName;
+
+    /** Поле для управления порядком вывода элементов справочника */
+    @Column(nullable = false)
+    Integer order;
+
+    /** Язык */
+    @Column(nullable = false)
+    String locale;
 }

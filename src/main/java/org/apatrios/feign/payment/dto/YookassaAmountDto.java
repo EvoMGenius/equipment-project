@@ -1,0 +1,24 @@
+package org.apatrios.feign.payment.dto;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
+
+import static lombok.AccessLevel.PRIVATE;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = PRIVATE)
+public class YookassaAmountDto {
+
+    @JsonProperty("value")
+    BigDecimal value;
+
+    @JsonProperty("currency")
+    String currency;
+}
