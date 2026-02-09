@@ -1,4 +1,4 @@
-package org.apatrios.action.management.user.change.avatar;
+package org.apatrios.action.management.user.profile.avatar;
 
 import lombok.AccessLevel;
 import lombok.NonNull;

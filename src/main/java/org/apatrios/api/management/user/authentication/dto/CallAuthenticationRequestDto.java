@@ -1,4 +1,4 @@
-package org.apatrios.api.management.user.external.dto;
+package org.apatrios.api.management.user.authentication.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -15,13 +15,9 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-@Schema(description = "ДТО подтверждения кода через звонок")
-public class CallAuthenticationApproveDto {
+@Schema(description = "ДТО отправки кода через звонок")
+public class CallAuthenticationRequestDto {
     @Schema(description = "Логин", requiredMode = REQUIRED)
     @NotBlank
     String login;
-
-    @Schema(description = "Код", requiredMode = REQUIRED)
-    @NotBlank
-    String code;
 }

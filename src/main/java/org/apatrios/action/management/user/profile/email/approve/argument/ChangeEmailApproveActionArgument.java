@@ -1,4 +1,4 @@
-package org.apatrios.action.management.user.change.email.approve.argument;
+package org.apatrios.action.management.user.profile.email.approve.argument;
 
 import lombok.Builder;
 import lombok.Value;

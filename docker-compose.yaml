@@ -8,18 +8,18 @@ services:
     environment:
       APP_PORT: 8082
       DATASOURCE_URL: jdbc:postgresql://db/postgres?createDatabaseIfNotExists=true
-      DATASOURCE_USERNAME: postgres
-      DATASOURCE_PASSWORD: password
+      DATASOURCE_USERNAME: ${DB_USER:-postgres}
+      DATASOURCE_PASSWORD: ${DB_PASSWORD:-password}
 
       MINIO_ENDPOINT: http://minio:9000
-      MINIO_ACCESS_KEY: admin
-      MINIO_SECRET_KEY: password123
-      MINIO_BUCKET: velochka-bucket
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-admin}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-password123}
+      MINIO_BUCKET: ${MINIO_BUCKET_NAME:-velochka-bucket}
 
-      MINIO_PUBLIC_URL: http://localhost:9000/velochka-bucket
+      MINIO_PUBLIC_URL: ${MINIO_PUBLIC_URL:-http://localhost:9000/velochka-bucket}
 
-      LEGAL_OFFER_PATH: legal/offer.pdf
-      LEGAL_OPD_PATH: legal/opd.pdf
+      LEGAL_OFFER_PATH: ${LEGAL_OFFER_PATH:-legal/offer.pdf}
+      LEGAL_OPD_PATH: ${LEGAL_OPD_PATH:-legal/opd.pdf}
     depends_on:
       - db
       - minio
@@ -32,8 +32,8 @@ services:
       - "9000:9000" # API
       - "9001:9001" # Консоль
     environment:
-      MINIO_ROOT_USER: admin
-      MINIO_ROOT_PASSWORD: password123
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-password123}
     command: server /data --console-address ":9001"
     volumes:
       - minio-data:/data
@@ -43,9 +43,9 @@ services:
     container_name: postgres-db
     restart: always
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
       POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
+      POSTGRES_USER: ${DB_USER:-postgres}
     ports:
       - 5432:5432
 

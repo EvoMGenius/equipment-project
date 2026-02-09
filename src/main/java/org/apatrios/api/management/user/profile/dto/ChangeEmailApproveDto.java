@@ -1,4 +1,4 @@
-package org.apatrios.api.management.user.internal.dto;
+package org.apatrios.api.management.user.profile.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

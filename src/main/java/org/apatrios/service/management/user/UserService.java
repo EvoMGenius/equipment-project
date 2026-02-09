@@ -12,7 +12,6 @@ import org.apatrios.service.management.user.argument.CreateUserArgument;
 import org.apatrios.service.management.user.argument.UpdateUserArgument;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -71,21 +70,5 @@ public class UserService {
     @Transactional(readOnly = true)
     public Optional<User> getByLogin(@NonNull String login) {
         return repository.findByLogin(login);
-    }
-
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void delete(@NonNull UUID id) {
-        User existing = getExisting(id);
-        existing.setEnabled(false);
-        existing.setDeleted(true);
-        existing.setStatus(UserStatus.BLOCKED);
-        repository.save(existing);
-    }
-
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void enable(@NonNull UUID id) {
-        User user = getExisting(id);
-        user.setEnabled(true);
-        repository.save(user);
     }
 }

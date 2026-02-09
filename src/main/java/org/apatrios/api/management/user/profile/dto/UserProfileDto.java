@@ -1,9 +1,8 @@
-package org.apatrios.api.management.user.internal.dto;
+package org.apatrios.api.management.user.profile.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.api.management.staff.internal.dto.StaffDto;
 import org.apatrios.model.management.UserProfile;
 import org.apatrios.model.management.UserStatus;
 
@@ -21,7 +20,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
 @Schema(description = "ДТО юзера")
-public class UserInternalDto {
+public class UserProfileDto {
 
     @Schema(description = "Логин", requiredMode = REQUIRED)
     String username;

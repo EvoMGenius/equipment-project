@@ -1,4 +1,4 @@
-package org.apatrios.action.management.user.change.email.request;
+package org.apatrios.action.management.user.profile.email.request;
 
 import lombok.AccessLevel;
 import lombok.NonNull;

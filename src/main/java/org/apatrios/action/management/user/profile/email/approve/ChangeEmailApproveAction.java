@@ -1,11 +1,11 @@
-package org.apatrios.action.management.user.change.email.approve;
+package org.apatrios.action.management.user.profile.email.approve;
 
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
-import org.apatrios.action.management.user.change.email.approve.argument.ChangeEmailApproveActionArgument;
+import org.apatrios.action.management.user.profile.email.approve.argument.ChangeEmailApproveActionArgument;
 import org.apatrios.model.management.User;
 import org.apatrios.service.authentication.AuthenticationCodeService;
 import org.apatrios.service.management.user.UserService;
