@@ -10,14 +10,10 @@ import org.apatrios.model.services.QRent;
 import org.apatrios.model.services.RentStatus;
 import org.apatrios.repository.services.RentRepository;
 import org.apatrios.service.services.rent.argument.CreateRentArgument;
-import org.apatrios.service.services.rent.argument.UpdateRentArgument;
 import org.apatrios.service.services.rent.argument.SearchRentArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -51,37 +47,10 @@ public class RentService {
                                    .build());
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public Rent update(@NonNull UUID id, @NonNull UpdateRentArgument argument) {
-        Rent existing = getExisting(id);
-
-        existing.setStaff(argument.getStaff());
-        existing.setRentStart(argument.getRentStart());
-        existing.setRentEnd(argument.getRentEnd());
-        existing.setRentStatus(argument.getRentStatus());
-        existing.setClient(argument.getClient());
-        existing.setPayment(argument.getPayment());
-        existing.setComment(argument.getComment());
-        existing.setParentRent(argument.getParentRent());
-        existing.setParentRequest(argument.getParentRequest());
-        existing.setUpdateDate(LocalDateTime.now());
-        existing.setPartner(argument.getPartner());
-        existing.setTariff(argument.getTariff());
-        existing.setFranchiseeIds(argument.getFranchiseeIds());
-
-        return repository.save(existing);
-    }
-
     @Transactional(readOnly = true)
     public List<Rent> list(@NonNull SearchRentArgument argument, Sort sort) {
         Predicate predicate = buildPredicate(argument);
         return Lists.newArrayList(repository.findAll(predicate, sort));
-    }
-
-    @Transactional(readOnly = true)
-    public Page<Rent> page(@NonNull SearchRentArgument argument, Pageable pageable) {
-        Predicate predicate = buildPredicate(argument);
-        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchRentArgument argument) {
@@ -114,12 +83,5 @@ public class RentService {
     public Rent getExisting(@NonNull UUID id) {
         return repository.findById(id)
                          .orElseThrow(() -> new EntityNotFoundException("Rent.notFound"));
-    }
-
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void delete(@NonNull UUID id) {
-        Rent existing = getExisting(id);
-        existing.setDeleted(true);
-        repository.save(existing);
     }
 }

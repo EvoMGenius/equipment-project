@@ -9,14 +9,10 @@ import org.apatrios.model.services.Recruit;
 import org.apatrios.model.services.QRecruit;
 import org.apatrios.repository.services.RecruitRepository;
 import org.apatrios.service.services.recruit.argument.CreateRecruitArgument;
-import org.apatrios.service.services.recruit.argument.UpdateRecruitArgument;
 import org.apatrios.service.services.recruit.argument.SearchRecruitArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -40,27 +36,10 @@ public class RecruitService {
                                       .build());
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public Recruit update(@NonNull UUID id, @NonNull UpdateRecruitArgument argument) {
-        Recruit existing = getExisting(id);
-
-        existing.setClient(argument.getClient());
-        existing.setUpdateDate(LocalDateTime.now());
-        existing.setFranchiseeIds(argument.getFranchiseeIds());
-
-        return repository.save(existing);
-    }
-
     @Transactional(readOnly = true)
     public List<Recruit> list(@NonNull SearchRecruitArgument argument, Sort sort) {
         Predicate predicate = buildPredicate(argument);
         return Lists.newArrayList(repository.findAll(predicate, sort));
-    }
-
-    @Transactional(readOnly = true)
-    public Page<Recruit> page(@NonNull SearchRecruitArgument argument, Pageable pageable) {
-        Predicate predicate = buildPredicate(argument);
-        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchRecruitArgument argument) {
@@ -81,12 +60,5 @@ public class RecruitService {
     public Recruit getExisting(@NonNull UUID id) {
         return repository.findById(id)
                          .orElseThrow(() -> new EntityNotFoundException("Recruit.notFound"));
-    }
-
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void delete(@NonNull UUID id) {
-        Recruit existing = getExisting(id);
-        existing.setDeleted(true);
-        repository.save(existing);
     }
 }

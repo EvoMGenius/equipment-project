@@ -1,11 +1,9 @@
 package org.apatrios.api.services.recruit.internal.mapper;
 
 import org.apatrios.action.services.recruit.create.CreateRecruitActionArgument;
-import org.apatrios.action.services.recruit.update.UpdateRecruitActionArgument;
 import org.apatrios.api.services.recruit.internal.dto.CreateRecruitDto;
 import org.apatrios.api.services.recruit.internal.dto.RecruitDto;
 import org.apatrios.api.services.recruit.internal.dto.SearchRecruitDto;
-import org.apatrios.api.services.recruit.internal.dto.UpdateRecruitDto;
 import org.apatrios.model.services.Recruit;
 import org.apatrios.service.services.recruit.argument.SearchRecruitArgument;
 import org.mapstruct.Mapper;
@@ -17,6 +15,5 @@ public interface RecruitMapper {
 
     RecruitDto toDto(Recruit recruit);
     CreateRecruitActionArgument toCreateArgument(CreateRecruitDto dto);
-    UpdateRecruitActionArgument toUpdateArgument(UpdateRecruitDto dto);
     SearchRecruitArgument toSearchArgument(SearchRecruitDto dto);
 }

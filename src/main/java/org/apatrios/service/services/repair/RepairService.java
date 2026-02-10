@@ -11,13 +11,9 @@ import org.apatrios.model.services.RepairStatus;
 import org.apatrios.repository.services.RepairRepository;
 import org.apatrios.service.services.repair.argument.CreateRepairArgument;
 import org.apatrios.service.services.repair.argument.SearchRepairArgument;
-import org.apatrios.service.services.repair.argument.UpdateRepairArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -46,33 +42,10 @@ public class RepairService {
                                      .build());
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public Repair update(@NonNull UUID id, @NonNull UpdateRepairArgument argument) {
-        Repair existing = getExisting(id);
-
-        existing.setObjectId(argument.getObjectId());
-        existing.setRepairType(argument.getRepairType());
-        existing.setStaff(argument.getStaff());
-        existing.setDescription(argument.getDescription());
-        existing.setStatus(argument.getStatus());
-        existing.setDateEnd(argument.getDateEnd());
-        existing.setComment(argument.getComment());
-        existing.setUpdateDate(LocalDateTime.now());
-        existing.setFranchiseeIds(argument.getFranchiseeIds());
-
-        return repository.save(existing);
-    }
-
     @Transactional(readOnly = true)
     public List<Repair> list(@NonNull SearchRepairArgument argument, Sort sort) {
         Predicate predicate = buildPredicate(argument);
         return Lists.newArrayList(repository.findAll(predicate, sort));
-    }
-
-    @Transactional(readOnly = true)
-    public Page<Repair> page(@NonNull SearchRepairArgument argument, Pageable pageable) {
-        Predicate predicate = buildPredicate(argument);
-        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchRepairArgument argument) {
@@ -101,12 +74,5 @@ public class RepairService {
     @Transactional(readOnly = true)
     public Repair getExisting(@NonNull UUID id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Repair.notFound"));
-    }
-
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void delete(@NonNull UUID id) {
-        Repair existing = getExisting(id);
-        existing.setDeleted(true);
-        repository.save(existing);
     }
 }

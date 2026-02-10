@@ -11,13 +11,9 @@ import org.apatrios.model.management.QManagementPoint;
 import org.apatrios.repository.managment.ManagementPointRepository;
 import org.apatrios.service.management.management_point.argument.CreateManagementPointArgument;
 import org.apatrios.service.management.management_point.argument.SearchManagementPointArgument;
-import org.apatrios.service.management.management_point.argument.UpdateManagementPointArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -46,32 +42,10 @@ public class ManagementPointService {
                                               .build());
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public ManagementPoint update(@NonNull UUID id, @NonNull UpdateManagementPointArgument argument) {
-        ManagementPoint existing = getExisting(id);
-
-        existing.setName(argument.getName());
-        existing.setAddress(argument.getAddress());
-        existing.setFranchisee(argument.getFranchisee());
-        existing.setPointType(argument.getPointType());
-        existing.setStatus(argument.getStatus());
-        existing.setLatitude(argument.getLatitude());
-        existing.setLongitude(argument.getLongitude());
-        existing.setUpdateDate(LocalDateTime.now());
-
-        return repository.save(existing);
-    }
-
     @Transactional(readOnly = true)
     public List<ManagementPoint> list(@NonNull SearchManagementPointArgument argument, Sort sort) {
         Predicate predicate = buildPredicate(argument);
         return Lists.newArrayList(repository.findAll(predicate, sort));
-    }
-
-    @Transactional(readOnly = true)
-    public Page<ManagementPoint> page(@NonNull SearchManagementPointArgument argument, Pageable pageable) {
-        Predicate predicate = buildPredicate(argument);
-        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchManagementPointArgument argument) {
@@ -102,12 +76,5 @@ public class ManagementPointService {
     @Transactional(readOnly = true)
     public ManagementPoint getExisting(@NonNull UUID id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Point.notFound"));
-    }
-
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void delete(@NonNull UUID id) {
-        ManagementPoint existing = getExisting(id);
-        existing.setDeleted(true);
-        repository.save(existing);
     }
 }
