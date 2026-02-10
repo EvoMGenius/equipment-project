@@ -18,6 +18,7 @@ public class ElBikesUserDetails implements UserDetails {
 
     UUID id;
     String username;
+    String login;
     String password;
     Set<? extends GrantedAuthority> authorities;
     @Builder.Default

@@ -4,12 +4,11 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
+import org.apatrios.action.VoidAction;
 import org.apatrios.action.management.payment.create.CreatePaymentActionArgument;
+import org.apatrios.action.management.payment.refund.argument.CreateYookassaRefundActionArgument;
 import org.apatrios.action.management.payment.update.UpdatePaymentActionArgument;
-import org.apatrios.api.management.payment.internal.dto.CreatePaymentDto;
-import org.apatrios.api.management.payment.internal.dto.PaymentDto;
-import org.apatrios.api.management.payment.internal.dto.SearchPaymentDto;
-import org.apatrios.api.management.payment.internal.dto.UpdatePaymentDto;
+import org.apatrios.api.management.payment.internal.dto.*;
 import org.apatrios.model.management.Payment;
 import org.apatrios.service.management.payment.PaymentService;
 import org.apatrios.service.management.payment.argument.SearchPaymentArgument;
@@ -34,6 +33,7 @@ public class PaymentController {
     PaymentService service;
     Action<CreatePaymentActionArgument, Payment> createPaymentAction;
     Action<UpdatePaymentActionArgument, Payment> updatePaymentAction;
+    VoidAction<CreateYookassaRefundActionArgument> createYookassaRefundAction;
 
     @PostMapping("create")
     public PaymentDto create(@Valid @RequestBody CreatePaymentDto dto) {
@@ -73,5 +73,10 @@ public class PaymentController {
     @PostMapping("{id}/delete")
     public void delete(@PathVariable UUID id) {
         service.delete(id);
+    }
+
+    @PostMapping("refund")
+    public void refund(@RequestBody CreateYookassaRefundDto dto) {
+        createYookassaRefundAction.execute(PAYMENT_MAPPER.toCreateRefundArgument(dto));
     }
 }

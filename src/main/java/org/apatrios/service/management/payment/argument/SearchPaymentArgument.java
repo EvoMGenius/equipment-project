@@ -12,8 +12,12 @@ import java.util.UUID;
 @Value
 @Builder
 public class SearchPaymentArgument {
-    BigDecimal amount;
+    BigDecimal value;
     String currency;
+    BigDecimal incomeValue;
+    String incomeCurrency;
+    String returnUrl;
+    String confirmationUrl;
     String searchString;
     UUID paymentTypeId;
     PaymentStatus status;

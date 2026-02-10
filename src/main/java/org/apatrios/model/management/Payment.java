@@ -10,7 +10,6 @@ import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,13 +27,22 @@ import static lombok.AccessLevel.PRIVATE;
 @TypeDef(name = "json", typeClass = JsonType.class)
 public class Payment extends BaseEntity {
 
-    /** Сумма оплаты */
-    @Column(nullable = false)
-    BigDecimal amount;
+    /** Ключ в системе платежей */
+    String externalPaymentId;
 
-    /** Валюта */
-    @Column(nullable = false)
-    String currency;
+    /** Ссылка подтверждения оплаты от Юкассы */
+    String confirmationUrl;
+
+    /** Ссылка для возврата после оплаты от Юкассы */
+    String returnUrl;
+
+    /** Общая сумма для оплаты */
+    @Embedded
+    Amount amount;
+
+    /** Общая сумма после оплаты */
+    @Embedded
+    IncomeAmount incomeAmount;
 
     /** Тип оплаты */
     @ManyToOne(fetch = FetchType.LAZY)

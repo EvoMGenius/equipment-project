@@ -27,19 +27,10 @@ public class SendNotificationService {
     /**
      * Отправляет код подтверждения учетной записи
      */
-    public void sendAuthenticationCode(String email, UUID code) {
+    public void sendAuthenticationCode(String email, String code) {
         String htmlContent = loader.loadTemplate("templates/authentication-code.html");
         String content = String.format(htmlContent, code);
         sendEmail(email, "Код для подтверждения учетной записи", content);
-    }
-
-    /**
-     * Отправляет код для сброса пароля
-     */
-    public void sendPasswordResetCode(String email, String code) {
-        String htmlContent = loader.loadTemplate("templates/reset-password-email.html");
-        String content = String.format(htmlContent, code);
-        sendEmail(email, "Сброс пароля", content);
     }
 
     /**

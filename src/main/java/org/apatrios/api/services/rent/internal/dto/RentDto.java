@@ -9,7 +9,6 @@ import org.apatrios.api.management.payment.internal.dto.PaymentDto;
 import org.apatrios.api.management.staff.internal.dto.StaffDto;
 import org.apatrios.api.services.client.internal.dto.ClientDto;
 import org.apatrios.api.services.request.internal.dto.RequestDto;
-import org.apatrios.model.dictoinary.Tariff;
 import org.apatrios.model.services.RentStatus;
 
 import java.time.LocalDateTime;

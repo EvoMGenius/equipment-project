@@ -51,7 +51,11 @@ public abstract class BaseDictionaryService<T extends BaseDictionary,
     public T update(@NonNull UUID id, @NonNull T entity) {
         T existing = getExisting(id);
         entity.setId(id);
-        entity.setCreateDate(existing.getCreateDate());
+        entity.setDictId(existing.getDictId());
+        entity.setName(existing.getName());
+        entity.setLocale(existing.getLocale());
+        entity.setDictName(existing.getDictName());
+        entity.setOrder(existing.getOrder());
         return getRepository().save(entity);
     }
 
@@ -61,18 +65,10 @@ public abstract class BaseDictionaryService<T extends BaseDictionary,
         getRepository().delete(entity);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void softDelete(@NonNull UUID id) {
-        T entity = getExisting(id);
-        entity.setStatus(EntityStatus.DELETED);
-        getRepository().save(entity);
-    }
-
     protected Predicate buildPredicates(@NonNull SearchArgumentT argument) {
         QT qRoot = getQRoot();
         return QPredicates.builder()
                           .add(argument.getName(), qRoot.name::containsIgnoreCase)
-                          .add(argument.getStatus(), qRoot.status::eq)
                           .buildAnd();
     }
 }

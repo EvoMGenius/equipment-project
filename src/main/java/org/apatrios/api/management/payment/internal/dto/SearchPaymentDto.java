@@ -23,7 +23,13 @@ import static lombok.AccessLevel.PRIVATE;
 public class SearchPaymentDto {
 
     @Schema(description = "Сумма платежа", example = "100.00")
-    BigDecimal amount;
+    BigDecimal value;
+
+    @Schema(description = "Сумма платежа после оплаты", example = "100.00")
+    BigDecimal incomeValue;
+
+    @Schema(description = "Валюта платежа после оплаты", example = "RUB")
+    String incomeCurrency;
 
     @Schema(description = "ids франчайзи")
     Set<UUID> franchiseeIds;
@@ -60,4 +66,10 @@ public class SearchPaymentDto {
 
     @Schema(description = "Признак удаления", example = "false")
     Boolean isDeleted;
+
+    @Schema(description = "URL по оплате с ЮКассы")
+    String confirmationUrl;
+
+    @Schema(description = "URL возврата с ЮКассы")
+    String returnUrl;
 }

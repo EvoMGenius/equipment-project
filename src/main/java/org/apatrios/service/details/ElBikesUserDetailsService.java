@@ -21,8 +21,8 @@ public class ElBikesUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.findByUsername(username)
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        User user = repository.findByLogin(login)
                               .orElseThrow(() -> new ConflictException("User.Bad.Credentials"));
 
         if (!user.isEnabled()) throw new ConflictException("User.Access.Denied");
@@ -33,10 +33,11 @@ public class ElBikesUserDetailsService implements UserDetailsService {
     private ElBikesUserDetails getUserDetails(User user) {
         return ElBikesUserDetails.builder()
                                  .id(user.getId())
-                                 .authorities(user.getAuthorities().stream()
-                                                  .map(SimpleGrantedAuthority::new)
+                                 .authorities(user.getRoles().stream()
+                                                  .map(userRole -> new SimpleGrantedAuthority(userRole.getDictName()))
                                                   .collect(Collectors.toSet()))
                                  .username(user.getUsername())
+                                 .login(user.getLogin())
                                  .password(user.getPassword())
                                  .enabled(user.isEnabled())
                                  .build();

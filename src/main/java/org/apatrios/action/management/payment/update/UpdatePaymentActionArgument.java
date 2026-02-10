@@ -2,9 +2,10 @@ package org.apatrios.action.management.payment.update;
 
 import lombok.Builder;
 import lombok.Value;
+import org.apatrios.model.management.Amount;
+import org.apatrios.model.management.IncomeAmount;
 import org.apatrios.model.management.PaymentStatus;
 
-import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
 
@@ -12,9 +13,10 @@ import java.util.UUID;
 @Builder
 public class UpdatePaymentActionArgument {
     UUID id;
+    Amount amount;
+    IncomeAmount incomeAmount;
+    String returnUrl;
     PaymentStatus status;
-    BigDecimal amount;
-    String currency;
     UUID paymentTypeId;
     UUID entityId;
     String entityType;
