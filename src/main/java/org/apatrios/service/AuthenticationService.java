@@ -6,8 +6,8 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.management.User;
-import org.apatrios.model.management.UserProfile;
 import org.apatrios.service.details.ElBikesUserDetails;
 import org.apatrios.service.management.user.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,7 +39,8 @@ public class AuthenticationService {
         String scope = getRequestValue(request, "scope");
         String clientSecret = getRequestValue(request, "client_secret");
 
-        User user = userService.getByUsername(username);
+        User user = userService.getByLogin(username)
+                               .orElseThrow(() -> new EntityNotFoundException("User.notFound"));;
 
         return createAccessToken(ImmutableMap.<String, String>builder()
                                              .put("client_id", clientId)
@@ -56,8 +57,8 @@ public class AuthenticationService {
         String username = params.get("username");
         String password = params.get("password");
 
-        Set<SimpleGrantedAuthority> authorities = user.getAuthorities().stream()
-                                                      .map(SimpleGrantedAuthority::new)
+        Set<SimpleGrantedAuthority> authorities = user.getRoles().stream()
+                                                      .map(userRole -> new SimpleGrantedAuthority(userRole.getDictName()))
                                                       .collect(Collectors.toSet());
 
         OAuth2Request oauth2Request = new OAuth2Request(params,

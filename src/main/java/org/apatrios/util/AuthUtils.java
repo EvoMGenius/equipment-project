@@ -15,7 +15,7 @@ public class AuthUtils {
         if (!username.startsWith("+")) username = username.length() == 10 ?
                                                   "+7" + username :
                                                   "+7" + username.substring(1);
-        return username.replaceAll("\\(?\\)?-?", "");
+        return username.replaceAll("[^0-9+]", "");
     }
 
     public static boolean isLoginByPhone(String username) {

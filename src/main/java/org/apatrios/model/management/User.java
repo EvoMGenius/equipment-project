@@ -4,7 +4,7 @@ import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.hibernate.annotations.Type;
+import org.apatrios.model.dictoinary.UserRole;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
@@ -12,7 +12,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -27,20 +26,28 @@ import static lombok.AccessLevel.PRIVATE;
 @TypeDef(name = "json", typeClass = JsonType.class)
 public class User extends BaseEntity {
 
-    /** Уникальное имя для входа в систему */
-    @Column(nullable = false)
+    /** Отображаемое имя */
     String username;
 
-    /** Пароль */
+    /** Уникальное имя для входа в систему */
     @Column(nullable = false)
+    String login;
+
+    /** Пароль */
     String password;
 
+    /** Аватарка */
+    String avatarPath;
+
     /** Роли */
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "authorities",
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "authorities"})})
-    Set<String> authorities;
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    @Builder.Default
+    Set<UserRole> roles = new HashSet<>();
 
     /** Информация пользователя */
     @Embedded
@@ -61,14 +68,21 @@ public class User extends BaseEntity {
     /** Дата и время обновления */
     LocalDateTime updateDate;
 
-    /** Признак удаления */
+    /** Доступен ли для входа аккаунт */
     @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default true")
     boolean enabled = true;
 
-    /** Идентификаторы франчайзи */
+    /** Признак удаления */
     @Builder.Default
-    @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
-    Set<UUID> franchiseeIds = new HashSet<>();
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    boolean isDeleted = false;
+
+    /** Франчайзи */
+    @ManyToOne(fetch = FetchType.LAZY)
+    Franchisee company;
+
+    /** Сотрудник */
+    @ManyToOne(fetch = FetchType.LAZY)
+    Staff staff;
 }
