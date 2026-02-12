@@ -3,7 +3,10 @@ package org.apatrios.model.management;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+
+import java.time.LocalDate;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -15,13 +18,13 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE)
 public class UserProfile {
-
-    /** Фамилия */
-    String lastName;
-
-    /** Имя */
+    /** Имя пользователя */
+    @Column(nullable = false)
     String firstName;
 
-    /** Отчество */
-    String middleName;
+    /** Фамилия пользователя */
+    String lastName;
+
+    /** Дата рождения */
+    LocalDate dateOfBirth;
 }

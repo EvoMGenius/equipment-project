@@ -1,5 +1,6 @@
 package org.apatrios.service.storage;
 
+import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.InputStream;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +40,17 @@ public class MinioFileService {
         }
 
         return objectName;
+    }
+
+    public InputStream getStream(String path) {
+        try {
+            return minioClient.getObject(GetObjectArgs.builder()
+                                                      .bucket(bucketName)
+                                                      .object(path)
+                                                      .build());
+        } catch (Exception e) {
+            throw new EntityNotFoundException("MinIo.download.error");
+        }
     }
 
     public void delete(String path) {

@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 @Schema(description = "ДТО отправки кода через звонок")
 public class CallAuthenticationRequestDto {
-    @Schema(description = "Логин", requiredMode = REQUIRED)
+    @Schema(description = "Телефон", requiredMode = REQUIRED)
     @NotBlank
-    String login;
+    String phoneNumber;
 }

@@ -29,10 +29,9 @@ public class RecruitService {
     @Transactional
     public Recruit create(@NonNull CreateRecruitArgument argument) {
         return repository.save(Recruit.builder()
-                                      .client(argument.getClient())
                                       .createDate(LocalDateTime.now())
-                                      .updateDate(LocalDateTime.now())
-                                      .franchiseeIds(argument.getFranchiseeIds())
+                                      .recruitCompanyName(argument.getRecruitCompanyName())
+                                      .status(argument.getStatus())
                                       .build());
     }
 
@@ -44,15 +43,11 @@ public class RecruitService {
 
     private Predicate buildPredicate(SearchRecruitArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getClientId(), qRecruit.client.id::eq)
-                          .add(argument.isDeleted(), qRecruit.isDeleted::eq)
-                          .add(argument.getCreateDateFrom(), qRecruit.createDate::goe)
-                          .add(argument.getCreateDateTo(), qRecruit.createDate::loe)
-                          .add(argument.getUpdateDateFrom(), qRecruit.updateDate::goe)
-                          .add(argument.getUpdateDateTo(), qRecruit.updateDate::loe)
-                          .add(argument.getFranchiseeIds(), qRecruit.franchiseeIds.any()::in)
-                          .addAnyString(argument.getSearchString(),
-                                        qRecruit.client.clientProfile.name::containsIgnoreCase)
+                          .add(argument.getStatusId(), qRecruit.status.id::eq)
+                          .add(argument.getRecruitCompanyName(), qRecruit.recruitCompanyName::containsIgnoreCase)
+                          .add(argument.getStartDate(), qRecruit.createDate::goe)
+                          .add(argument.getEndDate(), qRecruit.createDate::loe)
+                          .addAnyString(argument.getSearchString(), qRecruit.recruitCompanyName::containsIgnoreCase)
                           .buildAnd();
     }
 

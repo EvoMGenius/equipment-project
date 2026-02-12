@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.services.Rent;
 import org.apatrios.model.services.QRent;
-import org.apatrios.model.services.RentStatus;
 import org.apatrios.repository.services.RentRepository;
 import org.apatrios.service.services.rent.argument.CreateRentArgument;
 import org.apatrios.service.services.rent.argument.SearchRentArgument;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,20 +28,20 @@ public class RentService {
     @Transactional
     public Rent create(@NonNull CreateRentArgument argument) {
         return repository.save(Rent.builder()
-                                   .staff(argument.getStaff())
-                                   .rentStart(argument.getRentStart())
-                                   .rentEnd(argument.getRentEnd())
-                                   .rentStatus(RentStatus.NEW)
-                                   .client(argument.getClient())
-                                   .payment(argument.getPayment())
-                                   .comment(argument.getComment())
-                                   .parentRent(argument.getParentRent())
-                                   .parentRequest(argument.getParentRequest())
-                                   .createDate(LocalDateTime.now())
-                                   .updateDate(LocalDateTime.now())
-                                   .tariff(argument.getTariff())
-                                   .partner(argument.getPartner())
-                                   .franchiseeIds(argument.getFranchiseeIds())
+                                   .bike(argument.getBike())
+                                   .point(argument.getPoint())
+                                   .currentDays(argument.getCurrentDays())
+                                   .debts(argument.getDebts())
+                                   .delay(argument.getDelay())
+                                   .delayCost(argument.getDelayCost())
+                                   .total(argument.getTotal())
+                                   .documents(argument.getDocuments())
+                                   .endDate(argument.getEndDate())
+                                   .number(argument.getNumber())
+                                   .outfits(argument.getOutfits())
+                                   .startDate(argument.getStartDate())
+                                   .user(argument.getUser())
+                                   .status(argument.getStatus())
                                    .build());
     }
 
@@ -55,27 +53,21 @@ public class RentService {
 
     private Predicate buildPredicate(SearchRentArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getStaffId(), qRent.staff.id::eq)
-                          .add(argument.getClientId(), qRent.client.id::eq)
-                          .add(argument.getRentStatus(), qRent.rentStatus::eq)
-                          .add(argument.getPaymentId(), qRent.payment.id::eq)
-                          .add(argument.getParentRentId(), qRent.parentRent.id::eq)
-                          .add(argument.getParentRequestId(), qRent.parentRequest.id::eq)
-                          .add(argument.isDeleted(), qRent.isDeleted::eq)
-                          .add(argument.getCreateDateFrom(), qRent.createDate::goe)
-                          .add(argument.getUpdateDateFrom(), qRent.updateDate::goe)
-                          .add(argument.getUpdateDateTo(), qRent.updateDate::loe)
-                          .add(argument.getCreateDateTo(), qRent.createDate::loe)
-                          .add(argument.getPartnerId(), qRent.partner.id::eq)
-                          .add(argument.getTariffId(), qRent.tariff.id::eq)
-                          .add(argument.getFranchiseeIds(), qRent.franchiseeIds.any()::in)
-                          .addAnyString(argument.getSearchString(),
-                                        qRent.comment::containsIgnoreCase,
-                                        qRent.partner.name::containsIgnoreCase,
-                                        qRent.client.clientProfile.name::containsIgnoreCase,
-                                        qRent.rentStatus.stringValue()::containsIgnoreCase,
-                                        qRent.staff.staffProfile.name::containsIgnoreCase,
-                                        qRent.tariff.name::containsIgnoreCase)
+                          .add(argument.getNumber(), qRent.number::containsIgnoreCase)
+                          .add(argument.getDelay(), qRent.delay::eq)
+                          .add(argument.getOutfits(), qRent.outfits.any().id::in)
+                          .add(argument.getDebtIds(), qRent.debts.any().id::in)
+                          .add(argument.getCurrentDays(), qRent.currentDays::eq)
+                          .add(argument.getDelayCost(), qRent.delayCost::eq)
+                          .add(argument.getStatusId(), qRent.status.id::eq)
+                          .add(argument.getUserId(), qRent.user.id::eq)
+                          .add(argument.getTotal(), qRent.total::eq)
+                          .add(argument.getStartDate(), qRent.startDate::goe)
+                          .add(argument.getEndDate(), qRent.endDate::loe)
+                          .add(argument.getBikeId(), qRent.bike.id::eq)
+                          .add(argument.getPointId(), qRent.point.id::eq)
+                          .add(argument.getDelay(), qRent.delay::eq)
+                          .addAnyString(argument.getSearchString(), qRent.number::containsIgnoreCase)
                           .buildAnd();
     }
 

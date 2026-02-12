@@ -17,8 +17,8 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 @Schema(description = "Запрос на регистрацию пользователя через телеграмм")
 public class TelegramAuthenticationRequestDto {
-    @Schema(description = "Логин", requiredMode = REQUIRED)
+    @Schema(description = "Телефон", requiredMode = REQUIRED)
     @NotBlank
-    String login;
+    String phoneNumber;
 }
 

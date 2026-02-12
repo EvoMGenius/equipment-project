@@ -27,6 +27,7 @@ public class ChangeEmailApproveAction implements Action<ChangeEmailApproveAction
         authenticationCodeService.verifyCode(argument.getEmail(), argument.getCode());
         return userService.update(argument.getId(), UpdateUserArgument.builder()
                                                                       .email(argument.getEmail())
+                                                                      .isEmailVerified(true)
                                                                       .build());
     }
 }

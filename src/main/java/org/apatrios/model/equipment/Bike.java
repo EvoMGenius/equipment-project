@@ -4,11 +4,13 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.ModelBike;
-import org.apatrios.model.management.Franchisee;
+import org.apatrios.model.management.Tariff;
+import org.apatrios.model.management.Telemetry;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -21,52 +23,46 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class Bike extends BaseEntity {
 
-    /** Модель велосипеда */
+    /** Инвентарный номер */
+    @Column(nullable = false, unique = true)
+    String invNumber;
+
+    /** Ссылка на модель велосипеда */
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "model_id")
     ModelBike modelBike;
 
-    /** Франчайзи */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Franchisee franchisee;
+    /** Последние данные телеметрии */
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "telemetry_id")
+    Telemetry telemetry;
 
-    /** Порядковый номер внутри модели */
-    @Column(nullable = false)
-    Integer seqNumber;
+    /** Флаг блокировки */
+    Boolean isBlocked;
 
-    /** Инвентарный номер */
-    @Column(nullable = false)
-    Integer invNumber;
+    /** Состояние сигнализации */
+    Boolean isAlarmOn;
 
-    /** VIN — уникальный идентификатор транспортного средства */
-    @Column(nullable = false)
-    String vin;
+    /** Состояние фонарей */
+    Boolean isHeadlightsOn;
 
-    /** Марка/модель моторного колеса */
-    @Column(nullable = false)
-    String motorWheel;
-
-    /** Ссылка на SIM/IOT устройство, привязанное к этому Bike */
-    @OneToOne(fetch = FetchType.LAZY)
-    Iot iot;
-
-    /** Статус велосипеда */
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    BikeStatus status;
-
-    /** Комментарий */
-    @Column(columnDefinition = "text")
-    String comment;
-
-    /** Дата и время создания */
-    @Column(nullable = false)
-    LocalDateTime createDate;
-
-    /** Дата и время обновления */
-    LocalDateTime updateDate;
-
-    /** Признак удаления */
+    /** Список доступных тарифов для этого велосипеда */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "bike_tariffs",
+            joinColumns = @JoinColumn(name = "bike_id"),
+            inverseJoinColumns = @JoinColumn(name = "tariff_id")
+    )
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted = false;
+    List<Tariff> tariff = new ArrayList<>();
+
+    /** Текущий выбранный тариф */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chosen_tariff_id")
+    Tariff chosenTariff;
+
+    /** Статус */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    Status status;
 }

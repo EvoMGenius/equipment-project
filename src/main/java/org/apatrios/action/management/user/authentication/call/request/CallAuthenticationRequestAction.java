@@ -19,11 +19,11 @@ public class CallAuthenticationRequestAction implements VoidAction<String> {
     AuthenticationCodeService authenticationCodeService;
 
     @Override
-    public void execute(@NonNull String argument) {
-        String code = authenticationCodeService.createCode(argument);
+    public void execute(@NonNull String phoneNumber) {
+        String code = authenticationCodeService.createCode(phoneNumber);
         redSmsClient.sendFlashCall(RedSmsRequestDto.builder()
                                                    .route("fcall")
-                                                   .to(argument)
+                                                   .to(phoneNumber)
                                                    .text(code)
                                                    .build());
     }

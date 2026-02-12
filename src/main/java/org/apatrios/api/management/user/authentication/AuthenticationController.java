@@ -11,6 +11,7 @@ import org.apatrios.action.management.user.authentication.telegram.approve.argum
 import org.apatrios.api.management.user.authentication.dto.*;
 import org.apatrios.api.management.user.authentication.mapper.AuthenticationMapper;
 import org.apatrios.config.properties.DocumentProperties;
+import org.apatrios.service.AuthenticationService;
 import org.apatrios.service.storage.MinioFileService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +34,11 @@ public class AuthenticationController {
     AuthenticationMapper userMapper;
     MinioFileService fileService;
     DocumentProperties documentProperties;
+    AuthenticationService authenticationService;
 
     @PostMapping("/auth_by_tg/request")
     public void authenticationByTelegramRequest(@RequestBody TelegramAuthenticationRequestDto dto) {
-        telegramAuthenticationRequestAction.execute(dto.getLogin());
+        telegramAuthenticationRequestAction.execute(dto.getPhoneNumber());
     }
 
     @PostMapping("/auth_by_tg/approve")
@@ -46,7 +48,7 @@ public class AuthenticationController {
 
     @PostMapping("/auth_by_call/request")
     public void authenticationByCallRequest(@RequestBody CallAuthenticationRequestDto dto) {
-        callAuthenticationRequestAction.execute(dto.getLogin());
+        callAuthenticationRequestAction.execute(dto.getPhoneNumber());
     }
 
     @PostMapping("/auth_by_call/approve")
@@ -57,6 +59,11 @@ public class AuthenticationController {
     @PostMapping("/registration")
     public OAuth2AccessToken create(@RequestBody CreateUserDto dto) {
         return createUserAction.execute(userMapper.toCreateArgument(dto));
+    }
+
+    @GetMapping("/logout")
+    public void logout() {
+        authenticationService.logout();
     }
 
     @GetMapping("offer")

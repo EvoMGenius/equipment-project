@@ -2,13 +2,19 @@ package org.apatrios.service.equipment.outfit.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.dictoinary.OutfitModel;
-import org.apatrios.model.management.Franchisee;
+import org.apatrios.model.equipment.Status;
+import org.apatrios.model.management.Tariff;
+
+import java.util.List;
 
 @Value
 @Builder
 public class CreateOutfitArgument {
-    OutfitModel model;
-    String comment;
-    Franchisee franchisee;
+    String name;
+
+    List<Tariff> tariff;
+
+    Tariff chosenTariff;
+
+    Status status;
 }

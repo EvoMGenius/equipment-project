@@ -18,9 +18,9 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 @Schema(description = "ДТО создания пользователя")
 public class CreateUserDto {
-    @Schema(description = "Логин", requiredMode = REQUIRED)
+    @Schema(description = "Телефон", requiredMode = REQUIRED)
     @NotBlank
-    String login;
+    String phoneNumber;
 
     @Schema(description = "Профиль", requiredMode = REQUIRED)
     @NonNull

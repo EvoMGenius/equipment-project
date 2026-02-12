@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.services.QRepair;
 import org.apatrios.model.services.Repair;
-import org.apatrios.model.services.RepairStatus;
 import org.apatrios.repository.services.RepairRepository;
 import org.apatrios.service.services.repair.argument.CreateRepairArgument;
 import org.apatrios.service.services.repair.argument.SearchRepairArgument;
@@ -30,15 +29,13 @@ public class RepairService {
     @Transactional
     public Repair create(@NonNull CreateRepairArgument argument) {
         return repository.save(Repair.builder()
-                                     .objectId(argument.getObjectId())
-                                     .repairType(argument.getRepairType())
-                                     .staff(argument.getStaff())
-                                     .description(argument.getDescription())
-                                     .status(RepairStatus.NEW)
+                                     .point(argument.getPoint())
+                                     .fixType(argument.getFixType())
+                                     .photos(argument.getPhotos())
+                                     .problem(argument.getProblem())
+                                     .number(argument.getNumber())
                                      .createDate(LocalDateTime.now())
-                                     .updateDate(LocalDateTime.now())
-                                     .comment(argument.getComment())
-                                     .franchiseeIds(argument.getFranchiseeIds())
+                                     .status(argument.getStatus())
                                      .build());
     }
 
@@ -50,24 +47,15 @@ public class RepairService {
 
     private Predicate buildPredicate(SearchRepairArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getObjectId(), qRepair.objectId::eq)
-                          .add(argument.getRepairTypeId(), qRepair.repairType.id::eq)
-                          .add(argument.getStaffId(), qRepair.staff.id::eq)
-                          .add(argument.getDescription(), qRepair.description::containsIgnoreCase)
-                          .add(argument.getStatus(), qRepair.status::eq)
-                          .add(argument.getDateEnd(), qRepair.dateEnd::loe)
-                          .add(argument.getCreateDate(), qRepair.createDate::goe)
-                          .add(argument.getUpdateDateFrom(), qRepair.updateDate::goe)
-                          .add(argument.getUpdateDateTo(), qRepair.updateDate::loe)
-                          .add(argument.isDeleted(), qRepair.isDeleted::eq)
-                          .add(argument.getComment(), qRepair.comment::containsIgnoreCase)
-                          .add(argument.getFranchiseeIds(), qRepair.franchiseeIds.any()::in)
-                          .addAnyString(argument.getSearchString(),
-                                        qRepair.repairType.name::containsIgnoreCase,
-                                        qRepair.comment::containsIgnoreCase,
-                                        qRepair.staff.staffProfile.name::containsIgnoreCase,
-                                        qRepair.description::containsIgnoreCase,
-                                        qRepair.status.stringValue()::containsIgnoreCase)
+                          .add(argument.getProblem(), qRepair.problem::containsIgnoreCase)
+                          .add(argument.getNumber(), qRepair.number::containsIgnoreCase)
+                          .add(argument.getFixTypeId(), qRepair.fixType.id::eq)
+                          .add(argument.getPhotoIds(), qRepair.photos.any().id::in)
+                          .add(argument.getStatusId(), qRepair.status.id::eq)
+                          .add(argument.getCreateDateTo(), qRepair.createDate::loe)
+                          .add(argument.getCreateDateFrom(), qRepair.createDate::goe)
+                          .add(argument.getPointId(), qRepair.point.id::eq)
+                          .addAnyString(argument.getSearchString(), qRepair.number::containsIgnoreCase, qRepair.problem::containsIgnoreCase)
                           .buildAnd();
     }
 

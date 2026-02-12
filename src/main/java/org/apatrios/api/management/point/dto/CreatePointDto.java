@@ -1,0 +1,36 @@
+package org.apatrios.api.management.point.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = PRIVATE)
+@Schema(description = "DTO для создания новой точки")
+public class CreatePointDto {
+    @Schema(description = "Идентификатор типа точки из справочника Dict (Парковка, Склад и т.д.)")
+    UUID pointTypeId;
+
+    @Schema(description = "Наименование новой точки", example = "Парковка Северная-1")
+    String name;
+
+    @Schema(description = "Контактный номер телефона для связи с точкой")
+    String number;
+
+    @Schema(description = "Полный физический адрес")
+    String address;
+
+    @Schema(description = "График работы в текстовом формате")
+    String workTime;
+
+    @Schema(description = "Идентификатор начального статуса (ссылка на сущность Status)")
+    UUID statusId;
+}

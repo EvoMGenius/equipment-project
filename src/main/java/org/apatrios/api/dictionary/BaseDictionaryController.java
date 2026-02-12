@@ -34,7 +34,7 @@ public abstract class BaseDictionaryController<
         return CollectionDto.of(getService().page(pageable, getMapper().toSearchArgument(dto)).map(getMapper()::toDto));
     }
 
-    @GetMapping("/list")
+    @GetMapping("/search")
     public List<DictionaryDtoT> getAll(SearchDtoT dto, Sort sort) {
         return getService().list(getMapper().toSearchArgument(dto), sort).stream()
                            .map(getMapper()::toDto)
@@ -46,7 +46,7 @@ public abstract class BaseDictionaryController<
         return getMapper().toDto(getService().getExisting(id));
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public DictionaryDtoT create(@RequestBody T entity) {
         return getMapper().toDto(getService().create(entity));
     }

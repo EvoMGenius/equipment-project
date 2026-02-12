@@ -5,11 +5,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
-import org.apatrios.model.dictoinary.ServiceDictionary;
-import org.apatrios.model.services.Client;
+import org.apatrios.model.equipment.Status;
 import org.apatrios.model.services.Recruit;
-import org.apatrios.service.dictionary.ServiceDictionaryService;
-import org.apatrios.service.services.client.ClientService;
+import org.apatrios.service.equipment.status.StatusService;
 import org.apatrios.service.services.recruit.RecruitService;
 import org.apatrios.service.services.recruit.argument.CreateRecruitArgument;
 import org.springframework.stereotype.Component;
@@ -20,16 +18,16 @@ import org.springframework.transaction.annotation.Transactional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CreateRecruitAction implements Action<CreateRecruitActionArgument, Recruit> {
 
-    ClientService clientService;
     RecruitService recruitService;
+    StatusService statusService;
 
     @Override
     @Transactional
     public Recruit execute(@NonNull CreateRecruitActionArgument argument) {
-        Client client = clientService.getExisting(argument.getClientId());
+        Status status = statusService.getExisting(argument.getStatusId());
         return recruitService.create(CreateRecruitArgument.builder()
-                                                          .client(client)
-                                                          .franchiseeIds(argument.getFranchiseeIds())
+                                                          .status(status)
+                                                          .recruitCompanyName(argument.getRecruitCompanyName())
                                                           .build());
     }
 }

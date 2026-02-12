@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,12 +28,10 @@ public class FeedbackService {
     @Transactional
     public Feedback create(@NonNull CreateFeedbackArgument argument) {
         return repository.save(Feedback.builder()
-                                       .serviceDictionary(argument.getServiceDictionary())
-                                       .rate(argument.getRate())
-                                       .note(argument.getNote())
-                                       .createDate(LocalDateTime.now())
-                                       .updateDate(LocalDateTime.now())
-                                       .franchiseeIds(argument.getFranchiseeIds())
+                                       .parentEntityId(argument.getParentEntityId())
+                                       .entityType(argument.getEntityType())
+                                       .description(argument.getDescription())
+                                       .evaluation(argument.getEvaluation())
                                        .build());
     }
 
@@ -46,19 +43,11 @@ public class FeedbackService {
 
     private Predicate buildPredicate(SearchFeedbackArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getRate(), qFeedback.rate::eq)
-                          .add(argument.getNote(), qFeedback.note::containsIgnoreCase)
-                          .add(argument.isDeleted(), qFeedback.isDeleted::eq)
-                          .add(argument.getCreateDateFrom(), qFeedback.createDate::goe)
-                          .add(argument.getCreateDateTo(), qFeedback.createDate::loe)
-                          .add(argument.getUpdateDateFrom(), qFeedback.updateDate::goe)
-                          .add(argument.getUpdateDateTo(), qFeedback.updateDate::loe)
-                          .add(argument.getServiceDictionaryId(), qFeedback.serviceDictionary.id::eq)
-                          .add(argument.getFranchiseeIds(), qFeedback.franchiseeIds.any()::in)
-                          .addAnyString(argument.getSearchString(),
-                                        qFeedback.note::containsIgnoreCase,
-                                        qFeedback.rate.stringValue()::containsIgnoreCase,
-                                        qFeedback.serviceDictionary.name::containsIgnoreCase)
+                          .add(argument.getDescription(), qFeedback.description::containsIgnoreCase)
+                          .add(argument.getParentEntityId(), qFeedback.parentEntityId::eq)
+                          .add(argument.getEvaluation(), qFeedback.evaluation::eq)
+                          .add(argument.getEntityTypeId(), qFeedback.entityType.id::eq)
+                          .addAnyString(argument.getSearchString(), qFeedback.description::containsIgnoreCase)
                           .buildAnd();
     }
 

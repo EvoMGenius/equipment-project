@@ -1,20 +1,17 @@
 package org.apatrios.model.services;
 
-import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.RepairType;
-import org.apatrios.model.management.Staff;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.apatrios.model.dictoinary.Dict;
+import org.apatrios.model.equipment.Status;
+import org.apatrios.model.management.Point;
 
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -25,52 +22,37 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-@TypeDef(name = "json", typeClass = JsonType.class)
 public class Repair extends BaseEntity {
 
-    /** ID велосипеда, экипировки или запчасти */
+    /** Номер заявки на ремонт */
+    @Column(nullable = false, unique = true)
+    String number;
+
+    /** Тип произведенного ремонта */
     @Column(nullable = false)
-    UUID objectId;
+    Dict fixType;
 
-    /** Тип ремонта */
-    @ManyToOne(fetch = FetchType.LAZY)
-    RepairType repairType;
-
-    /** Исполнитель */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Staff staff;
-
-    /** Выполненные работы */
-    @Column(columnDefinition = "text")
-    String description;
-
-    /** Статус ремонта */
-    @Enumerated(EnumType.STRING)
+    /** Проблема со слов клиента */
     @Column(nullable = false)
-    RepairStatus status;
+    String problem;
 
-    /** Дата и время начала ремонта */
+    /** Статус */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    Status status;
+
+    /** Дата создания заявки на ремонт */
     @Column(nullable = false)
     LocalDateTime createDate;
 
-    /** Дата и время фактического завершения ремонта */
-    LocalDateTime dateEnd;
+    /** Сервисный центр */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "point_id")
+    Point point;
 
-    /** Дата и время обновления */
-    LocalDateTime updateDate;
-
-    /** Признак удаления */
+    /** Фотографии */
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "repair_id")
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted = false;
-
-    /** Комментарий */
-    @Column(columnDefinition = "text")
-    String comment;
-
-    /** Идентификаторы франчайзи */
-    @Builder.Default
-    @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
-    Set<UUID> franchiseeIds = new HashSet<>();
+    List<Photo> photos = new ArrayList<>();
 }
