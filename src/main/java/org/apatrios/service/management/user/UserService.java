@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.management.User;
-import org.apatrios.model.management.UserStatus;
 import org.apatrios.repository.managment.UserRepository;
 import org.apatrios.service.management.user.argument.CreateUserArgument;
 import org.apatrios.service.management.user.argument.UpdateUserArgument;
@@ -29,17 +28,12 @@ public class UserService {
     @Transactional
     public User create(@NonNull CreateUserArgument argument) {
         return repository.save(User.builder()
-                                   .username(argument.getUsername())
-                                   .password(encoder.encode(argument.getPassword()))
-                                   .roles(argument.getUserRoles())
-                                   .status(UserStatus.ACTIVE)
-                                   .createDate(LocalDateTime.now())
-                                   .updateDate(LocalDateTime.now())
-                                   .lastLogin(LocalDateTime.now())
+                                   .email(argument.getEmail())
+                                   .avatar(argument.getAvatar())
                                    .userProfile(argument.getUserProfile())
-                                   .company(argument.getCompany())
-                                   .login(argument.getLogin())
-                                   .staff(argument.getStaff())
+                                   .createDate(LocalDateTime.now())
+                                   .phoneNumber(argument.getPhoneNumber())
+                                   .password(encoder.encode(argument.getPassword()))
                                    .build());
     }
 
@@ -47,17 +41,11 @@ public class UserService {
     public User update(@NonNull UUID id, @NonNull UpdateUserArgument argument) {
         User user = getExisting(id);
 
-        user.setUsername(argument.getEmail());
-        user.setLastLogin(LocalDateTime.now());
-        user.setUpdateDate(LocalDateTime.now());
+        Optional.ofNullable(argument.getUserProfile()).ifPresent(user::setUserProfile);
+        Optional.ofNullable(argument.getPhoneNumber()).ifPresent(user::setPhoneNumber);
+        Optional.ofNullable(argument.getEmail()).ifPresent(user::setEmail);
+        Optional.ofNullable(argument.getAvatar()).ifPresent(user::setAvatar);
 
-        return repository.save(user);
-    }
-
-    @Transactional
-    public User setAvatarPath(@NonNull UUID id, @NonNull String avatarPath) {
-        User user = getExisting(id);
-        user.setAvatarPath(avatarPath);
         return repository.save(user);
     }
 
@@ -68,7 +56,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<User> getByLogin(@NonNull String login) {
-        return repository.findByLogin(login);
+    public Optional<User> getByPhoneNumber(@NonNull String phoneNumber) {
+        return repository.findByPhoneNumber(phoneNumber);
     }
 }

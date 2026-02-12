@@ -11,19 +11,21 @@ import org.apatrios.model.management.User;
 import org.apatrios.service.details.ElBikesUserDetails;
 import org.apatrios.service.management.user.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 public class AuthenticationService {
 
     AuthorizationServerTokenServices tokenServices;
+    ConsumerTokenServices consumerTokenServices;
     UserService userService;
 
     public OAuth2AccessToken login(@NonNull String username, @NonNull String password) {
@@ -39,7 +42,7 @@ public class AuthenticationService {
         String scope = getRequestValue(request, "scope");
         String clientSecret = getRequestValue(request, "client_secret");
 
-        User user = userService.getByLogin(username)
+        User user = userService.getByPhoneNumber(username)
                                .orElseThrow(() -> new EntityNotFoundException("User.notFound"));;
 
         return createAccessToken(ImmutableMap.<String, String>builder()
@@ -57,13 +60,9 @@ public class AuthenticationService {
         String username = params.get("username");
         String password = params.get("password");
 
-        Set<SimpleGrantedAuthority> authorities = user.getRoles().stream()
-                                                      .map(userRole -> new SimpleGrantedAuthority(userRole.getDictName()))
-                                                      .collect(Collectors.toSet());
-
         OAuth2Request oauth2Request = new OAuth2Request(params,
                                                         clientId,
-                                                        authorities,
+                                                        Collections.emptySet(),
                                                         true,
                                                         ImmutableSet.of(params.get("scope")),
                                                         null,
@@ -73,16 +72,32 @@ public class AuthenticationService {
 
         ElBikesUserDetails userDetails = ElBikesUserDetails.builder()
                                                            .id(user.getId())
-                                                           .authorities(authorities)
                                                            .username(username)
                                                            .password(user.getPassword())
-                                                           .enabled(user.isEnabled())
                                                            .build();
+
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails,
                                                                                             password,
-                                                                                            authorities);
+                                                                                            Collections.emptySet());
 
         return tokenServices.createAccessToken(new OAuth2Authentication(oauth2Request, token));
+    }
+
+    public void logout() {
+        removeToken();
+        SecurityContextHolder.clearContext();
+    }
+
+    private void removeToken() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null) return;
+
+        if (!(authentication.getDetails() instanceof OAuth2AuthenticationDetails)) return;
+
+        String tokenValue = ((OAuth2AuthenticationDetails) authentication.getDetails()).getTokenValue();
+        consumerTokenServices.revokeToken(tokenValue);
     }
 
 
