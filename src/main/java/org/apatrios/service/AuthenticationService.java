@@ -27,6 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Map;
 
+/**
+ * Сервис аутентификации, управляющий жизненным циклом OAuth2 токенов.
+ */
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -36,6 +39,15 @@ public class AuthenticationService {
     ConsumerTokenServices consumerTokenServices;
     UserService userService;
 
+    /**
+     * Выполняет процедуру входа: проверяет существование пользователя и генерирует OAuth2 Access Token.
+     * Данные клиента (client_id, scope) извлекаются напрямую из текущего HTTP-запроса.
+     *
+     * @param username Имя пользователя (телефон/логин).
+     * @param password Пароль или временный секрет.
+     * @return Объект токена доступа.
+     * @throws EntityNotFoundException если пользователь не найден.
+     */
     public OAuth2AccessToken login(@NonNull String username, @NonNull String password) {
         HttpServletRequest request = getHttpServletRequest();
         String clientId = getRequestValue(request, "client_id");
@@ -55,6 +67,9 @@ public class AuthenticationService {
                                              .build(), user);
     }
 
+    /**
+     * Внутренний метод для ручной сборки объектов Spring Security и генерации токена.
+     */
     private OAuth2AccessToken createAccessToken(Map<String, String> params, User user) {
         String clientId = params.get("client_id");
         String username = params.get("username");
@@ -83,11 +98,17 @@ public class AuthenticationService {
         return tokenServices.createAccessToken(new OAuth2Authentication(oauth2Request, token));
     }
 
+    /**
+     * Завершает сессию пользователя: отзывает текущий токен и очищает SecurityContext.
+     */
     public void logout() {
         removeToken();
         SecurityContextHolder.clearContext();
     }
 
+    /**
+     * Извлекает текущий токен из контекста безопасности и аннулирует его в хранилище.
+     */
     private void removeToken() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -100,11 +121,16 @@ public class AuthenticationService {
         consumerTokenServices.revokeToken(tokenValue);
     }
 
-
+    /**
+     * Вспомогательный метод для получения текущего HttpServletRequest через контекст Spring.
+     */
     private HttpServletRequest getHttpServletRequest() {
         return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
     }
 
+    /**
+     * Ищет значение параметра сначала в заголовках, затем в параметрах запроса.
+     */
     private String getRequestValue(HttpServletRequest request, String name) {
         String headerValue = request.getHeader(name);
 

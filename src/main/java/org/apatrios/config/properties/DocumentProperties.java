@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @NoArgsConstructor
-@ConfigurationProperties(prefix = "legal.documents")
+@ConfigurationProperties(prefix = "documents")
 public class DocumentProperties {
     private String offerPath;
     private String opdPath;
+    private String docFolder;
 }

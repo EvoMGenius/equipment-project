@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.management.Document;
+import org.apatrios.model.management.File;
 import org.apatrios.model.management.QDocument;
 import org.apatrios.repository.managment.DocumentRepository;
 import org.apatrios.service.management.document.argument.CreateDocumentArgument;
@@ -29,7 +30,6 @@ public class DocumentService {
     public Document create(@NonNull CreateDocumentArgument argument) {
         return repository.save(Document.builder()
                                        .docType(argument.getDocType())
-                                       .file(argument.getFile())
                                        .name(argument.getName())
                                        .status(argument.getStatus())
                                        .build());
@@ -44,6 +44,13 @@ public class DocumentService {
     @Transactional(readOnly = true)
     public List<Document> getAllByIds(@NonNull List<UUID> ids) {
         return repository.findAllById(ids);
+    }
+
+    @Transactional
+    public void setFileInfo(@NonNull UUID id, @NonNull File file) {
+        Document document = getExisting(id);
+        document.setFile(file);
+        repository.save(document);
     }
 
     @Transactional(readOnly = true)

@@ -24,7 +24,7 @@ public class CreatePaymentWebhookAction implements VoidAction<CreatePaymentWebho
     @Transactional
     public void execute(@NonNull CreatePaymentWebhookActionArgument argument) {
         YookassaPaymentDto dto = argument.getObject();
-        UUID paymentId = (UUID) dto.getMetadata().get("payment_id");
+        UUID paymentId = UUID.fromString(dto.getMetadata().get("payment_id").toString());
         Status status = statusService.getByCode(mapStatusToCode(dto.getStatus()));
 
         paymentService.update(paymentId, UpdatePaymentArgument.builder()

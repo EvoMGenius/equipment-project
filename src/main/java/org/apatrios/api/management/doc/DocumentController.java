@@ -4,19 +4,24 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
+import org.apatrios.action.management.doc.create.argument.CreateDocumentActionArgument;
+import org.apatrios.action.management.doc.upload.UploadDocumentAction;
+import org.apatrios.api.management.doc.dto.CreateDocumentDto;
 import org.apatrios.api.management.doc.dto.DocumentDto;
 import org.apatrios.api.management.doc.dto.SearchDocumentDto;
+import org.apatrios.model.management.Document;
 import org.apatrios.service.management.document.DocumentService;
 import org.apatrios.service.management.document.argument.SearchDocumentArgument;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,10 +34,12 @@ import static org.apatrios.api.management.doc.mapper.DocumentMapper.DOCUMENT_MAP
 public class DocumentController {
 
     DocumentService service;
-    Action<UUID, InputStream> downloadDocumentAction;
+    Action<UUID, InputStreamResource> downloadDocumentAction;
+    Action<CreateDocumentActionArgument, Document> createDocumentAction;
+    UploadDocumentAction uploadDocumentAction;
 
-    @PostMapping("search")
-    public List<DocumentDto> list(@RequestBody SearchDocumentDto dto, Sort sort) {
+    @GetMapping("search")
+    public List<DocumentDto> list(SearchDocumentDto dto, Sort sort) {
         SearchDocumentArgument argument = DOCUMENT_MAPPER.toSearchArgument(dto);
         return service.list(argument, sort)
                       .stream()
@@ -46,12 +53,25 @@ public class DocumentController {
     }
 
     @GetMapping("{id}/download")
-    public ResponseEntity<Resource> download(@PathVariable UUID id) {
-        InputStream stream = downloadDocumentAction.execute(id);
-        InputStreamResource resource = new InputStreamResource(stream);
+    public ResponseEntity<InputStreamResource> download(@PathVariable UUID id) {
+        InputStreamResource resource = downloadDocumentAction.execute(id);
+        String desc = resource.getDescription();
+        String name = desc.substring(desc.lastIndexOf("[") + 1, desc.indexOf("]"));
         return ResponseEntity.ok()
-                             .header(HttpHeaders.CONTENT_DISPOSITION)
                              .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                             .header(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment()
+                                                                                        .filename(name, StandardCharsets.UTF_8)
+                                                                                        .build().toString())
                              .body(resource);
+    }
+
+    @PostMapping("{id}/upload")
+    public void upload(@PathVariable UUID id, @RequestParam("file") MultipartFile file) {
+        uploadDocumentAction.execute(id, file);
+    }
+
+    @PostMapping
+    public DocumentDto create(@RequestBody CreateDocumentDto dto) {
+        return DOCUMENT_MAPPER.toDto(createDocumentAction.execute(DOCUMENT_MAPPER.toCreateArgument(dto)));
     }
 }

@@ -7,6 +7,7 @@ import org.apatrios.api.dictionary.dict.dto.DictDto;
 import org.apatrios.api.equipment.status.dto.StatusDto;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -18,6 +19,10 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 @Schema(description = "DTO для информации об оплате")
 public class PaymentDto {
+
+    @Schema(description = "ID")
+    UUID id;
+
     @Schema(description = "Способ оплаты (например: Картой, СБП, Электронный кошелек)")
     DictDto paymentType;
 

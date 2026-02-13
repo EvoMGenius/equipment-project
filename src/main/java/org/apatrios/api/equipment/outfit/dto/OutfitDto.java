@@ -7,6 +7,7 @@ import org.apatrios.api.equipment.status.dto.StatusDto;
 import org.apatrios.api.management.tariff.dto.TariffDto;
 
 import java.util.List;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -18,6 +19,10 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 @Schema(description = "DTO экипировки")
 public class OutfitDto {
+
+    @Schema(description = "ID")
+    UUID id;
+
     @Schema(description = "Наименование экипировки", example = "Шлем защитный (размер L)")
     String name;
 

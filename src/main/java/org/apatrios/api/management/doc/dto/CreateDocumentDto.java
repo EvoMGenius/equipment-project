@@ -3,7 +3,6 @@ package org.apatrios.api.management.doc.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.model.management.File;
 
 import java.util.UUID;
 
@@ -26,7 +25,4 @@ public class CreateDocumentDto {
 
     @Schema(description = "ID начального статуса")
     UUID statusId;
-
-    @Schema(description = "Метаданные файла (размер, mime-type)")
-    File file;
 }

@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.model_bike.dto.ModelBikeDto;
 import org.apatrios.api.equipment.status.dto.StatusDto;
 import org.apatrios.api.management.tariff.dto.TariffDto;
+import org.apatrios.api.management.telemetry.dto.TelemetryDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +30,9 @@ public class BikeDto {
 
     @Schema(description = "Инвентарный номер устройства")
     String invNumber;
+
+    @Schema(description = "Телеметрия")
+    TelemetryDto telemetry;
 
     @Schema(description = "Флаг блокировки колеса/двигателя")
     Boolean isBlocked;

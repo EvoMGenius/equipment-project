@@ -28,6 +28,7 @@ public class BikeService {
     @Transactional
     public Bike create(@NonNull CreateBikeArgument argument) {
         return repository.save(Bike.builder()
+                                   .invNumber(argument.getInvNumber())
                                    .modelBike(argument.getModelBike())
                                    .status(argument.getStatus())
                                    .chosenTariff(argument.getChosenTariff())

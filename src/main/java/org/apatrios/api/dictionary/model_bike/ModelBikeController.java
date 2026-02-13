@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("model-bike")
+@RequestMapping("dict/model-bike")
 public class ModelBikeController extends BaseDictionaryController<ModelBike, SearchModelBikeArgument, SearchModelBikeDto, ModelBikeDto> {
 
     private final ModelBikeService service;

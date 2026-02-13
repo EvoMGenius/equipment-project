@@ -13,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 
+/**
+ * Сервис для работы с объектным хранилищем MinIO.
+ */
 @Service
 @RequiredArgsConstructor
 public class MinioFileService {
@@ -25,6 +28,14 @@ public class MinioFileService {
     @Value("${minio.public-url}")
     String publicUrl;
 
+    /**
+     * Загружает файл в хранилище.
+     * * @param file Объект файла из HTTP-запроса.
+     * @param folder   Папка внутри бакета (например, 'avatars' или 'contracts').
+     * @param fileName Имя, под которым файл будет сохранен.
+     * @return Полный путь к объекту внутри бакета (objectName).
+     * @throws EntityNotFoundException если не удалось загрузить поток данных в MinIO.
+     */
     public String upload(MultipartFile file, String folder, String fileName) {
         String objectName = folder + "/" + fileName;
 
@@ -42,6 +53,12 @@ public class MinioFileService {
         return objectName;
     }
 
+    /**
+     * Получает поток данных (InputStream) файла по указанному пути.
+     * Используется для скачивания файлов.
+     * * @param path Путь к файлу в бакете.
+     * @return InputStream содержимого файла.
+     */
     public InputStream getStream(String path) {
         try {
             return minioClient.getObject(GetObjectArgs.builder()
@@ -53,6 +70,10 @@ public class MinioFileService {
         }
     }
 
+    /**
+     * Удаляет файл из хранилища.
+     * * @param path Путь к удаляемому файлу.
+     */
     public void delete(String path) {
         try {
             minioClient.removeObject(RemoveObjectArgs.builder()
@@ -64,11 +85,21 @@ public class MinioFileService {
         }
     }
 
+    /**
+     * Формирует абсолютную ссылку на файл для использования на фронтенде.
+     * * @param path Путь к файлу внутри бакета.
+     * @return Строка вида 'http://storage.url/bucket/folder/file.jpg'.
+     */
     public String getFullUrl(String path) {
         if (!StringUtils.hasText(path)) return null;
         return String.format("%s/%s/%s", publicUrl, bucketName, path);
     }
 
+    /**
+     * Вспомогательный метод для извлечения расширения файла (например, 'jpg' или 'pdf').
+     * * @param fileName Имя файла.
+     * @return Расширение файла без точки.
+     */
     public String getExtension(String fileName) {
         return StringUtils.getFilenameExtension(fileName);
     }

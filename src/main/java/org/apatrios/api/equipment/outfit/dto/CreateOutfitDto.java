@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -17,15 +17,15 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 @Schema(description = "DTO создания экипировки")
 public class CreateOutfitDto {
+    @Schema(description = "Имя")
+    String name;
 
-    @NotNull
-    @Schema(description = "id Модели экипировки")
-    UUID outfitModelId;
+    @Schema(description = "Тарифы")
+    List<UUID> tariffIds;
 
-    @NotNull
-    @Schema(description = "id франчизи")
-    UUID franchiseeId;
+    @Schema(description = "Выбранный тариф")
+    UUID chosenTariffId;
 
-    @Schema(description = "Комментарий", example = "Выдана на сезонное использование")
-    String comment;
+    @Schema(description = "Статус")
+    UUID statusId;
 }

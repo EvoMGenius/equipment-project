@@ -27,7 +27,7 @@ public class CreatePointAction implements Action<CreatePointActionArgument, Poin
     @Override
     @Transactional
     public Point execute(@NonNull CreatePointActionArgument argument) {
-        Dict dict = dictService.getExisting(argument.getStatusId());
+        Dict dict = dictService.getExisting(argument.getPointTypeId());
         Status status = statusService.getExisting(argument.getStatusId());
 
         return pointService.create(CreatePointArgument.builder()

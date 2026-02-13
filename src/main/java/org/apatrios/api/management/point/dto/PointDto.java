@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.dict.dto.DictDto;
 import org.apatrios.api.equipment.status.dto.StatusDto;
 
+import java.util.UUID;
+
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
@@ -16,6 +18,8 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 @Schema(description = "DTO для информации о точке")
 public class PointDto {
+    @Schema(description = "ID")
+    UUID id;
 
     @Schema(description = "Тип точки")
     DictDto pointType;

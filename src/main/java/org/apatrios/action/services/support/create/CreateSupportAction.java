@@ -35,7 +35,7 @@ public class CreateSupportAction implements Action<CreateSupportActionArgument, 
     @Override
     @Transactional
     public Support execute(@NonNull CreateSupportActionArgument argument) {
-        Dict dict = dictService.getExisting(argument.getStatusId());
+        Dict dict = dictService.getExisting(argument.getTypeId());
         List<Photo> photos = photoService.getAllByIds(argument.getPhotoIds());
         Status status = statusService.getExisting(argument.getStatusId());
         Repair repair = repairService.getExisting(argument.getChildRepairId());
