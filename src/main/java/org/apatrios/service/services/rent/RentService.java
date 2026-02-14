@@ -1,6 +1,5 @@
 package org.apatrios.service.services.rent;
 
-import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +10,11 @@ import org.apatrios.repository.services.RentRepository;
 import org.apatrios.service.services.rent.argument.CreateRentArgument;
 import org.apatrios.service.services.rent.argument.SearchRentArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -46,9 +45,9 @@ public class RentService {
     }
 
     @Transactional(readOnly = true)
-    public List<Rent> list(@NonNull SearchRentArgument argument, Sort sort) {
+    public Page<Rent> page(@NonNull SearchRentArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
-        return Lists.newArrayList(repository.findAll(predicate, sort));
+        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchRentArgument argument) {

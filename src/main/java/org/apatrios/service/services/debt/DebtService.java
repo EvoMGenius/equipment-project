@@ -1,6 +1,5 @@
 package org.apatrios.service.services.debt;
 
-import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,8 @@ import org.apatrios.repository.services.DebtRepository;
 import org.apatrios.service.services.debt.argument.CreateDebtArgument;
 import org.apatrios.service.services.debt.argument.SearchDebtArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,9 +48,9 @@ public class DebtService {
     }
 
     @Transactional(readOnly = true)
-    public List<Debt> list(@NonNull SearchDebtArgument argument, Sort sort) {
+    public Page<Debt> page(@NonNull SearchDebtArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
-        return Lists.newArrayList(repository.findAll(predicate, sort));
+        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchDebtArgument argument) {

@@ -1,6 +1,5 @@
 package org.apatrios.service.equipment.outfit;
 
-import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,8 @@ import org.apatrios.repository.equipment.OutfitRepository;
 import org.apatrios.service.equipment.outfit.argument.CreateOutfitArgument;
 import org.apatrios.service.equipment.outfit.argument.SearchOutfitArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,9 +37,9 @@ public class OutfitService {
     }
 
     @Transactional(readOnly = true)
-    public List<Outfit> list(@NonNull SearchOutfitArgument argument, Sort sort) {
+    public Page<Outfit> page(@NonNull SearchOutfitArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
-        return Lists.newArrayList(repository.findAll(predicate, sort));
+        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchOutfitArgument argument) {

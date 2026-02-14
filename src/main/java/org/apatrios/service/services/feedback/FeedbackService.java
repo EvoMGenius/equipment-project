@@ -1,6 +1,5 @@
 package org.apatrios.service.services.feedback;
 
-import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +10,11 @@ import org.apatrios.repository.services.FeedbackRepository;
 import org.apatrios.service.services.feedback.argument.CreateFeedbackArgument;
 import org.apatrios.service.services.feedback.argument.SearchFeedbackArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -36,9 +35,9 @@ public class FeedbackService {
     }
 
     @Transactional(readOnly = true)
-    public List<Feedback> list(@NonNull SearchFeedbackArgument argument, Sort sort) {
+    public Page<Feedback> page(@NonNull SearchFeedbackArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
-        return Lists.newArrayList(repository.findAll(predicate, sort));
+        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchFeedbackArgument argument) {

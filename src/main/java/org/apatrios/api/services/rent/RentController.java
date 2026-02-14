@@ -10,11 +10,11 @@ import org.apatrios.api.services.rent.dto.RentDto;
 import org.apatrios.api.services.rent.dto.SearchRentDto;
 import org.apatrios.model.services.Rent;
 import org.apatrios.service.services.rent.RentService;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.services.rent.mapper.RentMapper.RENT_MAPPER;
@@ -39,10 +39,8 @@ public class RentController {
     }
 
     @GetMapping("search")
-    public List<RentDto> list(SearchRentDto dto, Sort sort) {
-        return service.list(RENT_MAPPER.toSearchArgument(dto), sort)
-                      .stream()
-                      .map(RENT_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<RentDto> page(SearchRentDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(RENT_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(RENT_MAPPER::toDto));
     }
 }

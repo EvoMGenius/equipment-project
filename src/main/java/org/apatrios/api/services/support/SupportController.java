@@ -10,12 +10,11 @@ import org.apatrios.api.services.support.dto.CreateSupportDto;
 import org.apatrios.api.services.support.dto.SearchSupportDto;
 import org.apatrios.model.services.Support;
 import org.apatrios.service.services.support.SupportService;
-import org.apatrios.service.services.support.argument.SearchSupportArgument;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.services.support.mapper.SupportMapper.SUPPORT_MAPPER;
@@ -40,11 +39,8 @@ public class SupportController {
     }
 
     @GetMapping("search")
-    public List<SupportDto> list(SearchSupportDto dto, Sort sort) {
-        SearchSupportArgument searchArgument = SUPPORT_MAPPER.toSearchArgument(dto);
-        return service.list(searchArgument, sort)
-                      .stream()
-                      .map(SUPPORT_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<SupportDto> page(SearchSupportDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(SUPPORT_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(SUPPORT_MAPPER::toDto));
     }
 }

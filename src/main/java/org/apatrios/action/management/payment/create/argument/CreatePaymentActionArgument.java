@@ -1,4 +1,4 @@
-package org.apatrios.action.management.payment.create;
+package org.apatrios.action.management.payment.create.argument;
 
 import lombok.Builder;
 import lombok.Value;

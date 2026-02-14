@@ -4,16 +4,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
-import org.apatrios.action.management.payment.create.CreatePaymentActionArgument;
+import org.apatrios.action.management.payment.create.argument.CreatePaymentActionArgument;
 import org.apatrios.api.management.payment.create.dto.*;
 import org.apatrios.model.management.Payment;
 import org.apatrios.service.management.payment.PaymentService;
-import org.apatrios.service.management.payment.argument.SearchPaymentArgument;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.management.payment.create.mapper.PaymentMapper.PAYMENT_MAPPER;
@@ -38,12 +37,8 @@ public class PaymentController {
     }
 
     @GetMapping("search")
-    public List<PaymentDto> list(SearchPaymentDto dto, Sort sort) {
-        SearchPaymentArgument argument = PAYMENT_MAPPER.toSearchArgument(dto);
-
-        return service.list(argument, sort)
-                      .stream()
-                      .map(PAYMENT_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<PaymentDto> page(SearchPaymentDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(PAYMENT_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(PAYMENT_MAPPER::toDto));
     }
 }

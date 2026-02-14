@@ -6,6 +6,7 @@ import org.apatrios.model.dictoinary.Dict;
 import org.apatrios.model.equipment.Status;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Value
 @Builder
@@ -19,4 +20,6 @@ public class CreatePaymentArgument {
     BigDecimal amount;
 
     Status status;
+
+    Map<String, String> metadata;
 }

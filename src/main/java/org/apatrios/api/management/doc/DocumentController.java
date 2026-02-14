@@ -5,15 +5,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
 import org.apatrios.action.management.doc.create.argument.CreateDocumentActionArgument;
+import org.apatrios.action.management.doc.download.response.FileResponse;
 import org.apatrios.action.management.doc.upload.UploadDocumentAction;
 import org.apatrios.api.management.doc.dto.CreateDocumentDto;
 import org.apatrios.api.management.doc.dto.DocumentDto;
 import org.apatrios.api.management.doc.dto.SearchDocumentDto;
 import org.apatrios.model.management.Document;
 import org.apatrios.service.management.document.DocumentService;
-import org.apatrios.service.management.document.argument.SearchDocumentArgument;
+import org.apatrios.util.CollectionDto;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.management.doc.mapper.DocumentMapper.DOCUMENT_MAPPER;
@@ -34,17 +34,14 @@ import static org.apatrios.api.management.doc.mapper.DocumentMapper.DOCUMENT_MAP
 public class DocumentController {
 
     DocumentService service;
-    Action<UUID, InputStreamResource> downloadDocumentAction;
+    Action<UUID, FileResponse> downloadDocumentAction;
     Action<CreateDocumentActionArgument, Document> createDocumentAction;
     UploadDocumentAction uploadDocumentAction;
 
     @GetMapping("search")
-    public List<DocumentDto> list(SearchDocumentDto dto, Sort sort) {
-        SearchDocumentArgument argument = DOCUMENT_MAPPER.toSearchArgument(dto);
-        return service.list(argument, sort)
-                      .stream()
-                      .map(DOCUMENT_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<DocumentDto> page(SearchDocumentDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(DOCUMENT_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(DOCUMENT_MAPPER::toDto));
     }
 
     @GetMapping("{id}")
@@ -54,15 +51,13 @@ public class DocumentController {
 
     @GetMapping("{id}/download")
     public ResponseEntity<InputStreamResource> download(@PathVariable UUID id) {
-        InputStreamResource resource = downloadDocumentAction.execute(id);
-        String desc = resource.getDescription();
-        String name = desc.substring(desc.lastIndexOf("[") + 1, desc.indexOf("]"));
+        FileResponse fileResponse = downloadDocumentAction.execute(id);
         return ResponseEntity.ok()
                              .contentType(MediaType.APPLICATION_OCTET_STREAM)
                              .header(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment()
-                                                                                        .filename(name, StandardCharsets.UTF_8)
+                                                                                        .filename(fileResponse.getFileName(), StandardCharsets.UTF_8)
                                                                                         .build().toString())
-                             .body(resource);
+                             .body(new InputStreamResource(fileResponse.getInputStream()));
     }
 
     @PostMapping("{id}/upload")

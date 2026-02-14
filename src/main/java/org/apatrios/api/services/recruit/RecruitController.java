@@ -10,11 +10,11 @@ import org.apatrios.api.services.recruit.dto.RecruitDto;
 import org.apatrios.api.services.recruit.dto.SearchRecruitDto;
 import org.apatrios.model.services.Recruit;
 import org.apatrios.service.services.recruit.RecruitService;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.services.recruit.mapper.RecruitMapper.RECRUIT_MAPPER;
@@ -39,10 +39,8 @@ public class RecruitController {
     }
 
     @GetMapping("search")
-    public List<RecruitDto> list(SearchRecruitDto dto, Sort sort) {
-        return service.list(RECRUIT_MAPPER.toSearchArgument(dto), sort)
-                      .stream()
-                      .map(RECRUIT_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<RecruitDto> page(SearchRecruitDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(RECRUIT_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(RECRUIT_MAPPER::toDto));
     }
 }

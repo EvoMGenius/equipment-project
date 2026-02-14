@@ -10,11 +10,11 @@ import org.apatrios.api.management.tariff.dto.SearchTariffDto;
 import org.apatrios.api.management.tariff.dto.TariffDto;
 import org.apatrios.model.management.Tariff;
 import org.apatrios.service.management.tariff.TariffService;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.management.tariff.mapper.TariffMapper.TARIFF_MAPPER;
@@ -39,10 +39,8 @@ public class TariffController {
     }
 
     @GetMapping("search")
-    public List<TariffDto> list(SearchTariffDto dto, Sort sort) {
-        return service.list(TARIFF_MAPPER.toSearchArgument(dto), sort)
-                      .stream()
-                      .map(TARIFF_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<TariffDto> page(SearchTariffDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(TARIFF_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(TARIFF_MAPPER::toDto));
     }
 }

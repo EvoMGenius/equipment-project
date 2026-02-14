@@ -6,11 +6,10 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.api.services.debt.dto.DebtDto;
 import org.apatrios.api.services.debt.dto.SearchDebtDto;
 import org.apatrios.service.services.debt.DebtService;
-import org.apatrios.service.services.debt.argument.SearchDebtArgument;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.services.debt.mapper.DebtMapper.DEBT_MAPPER;
@@ -29,11 +28,8 @@ public class DebtController {
     }
 
     @GetMapping("search")
-    public List<DebtDto> list(SearchDebtDto dto, Sort sort) {
-        SearchDebtArgument searchArgument = DEBT_MAPPER.toSearchArgument(dto);
-        return service.list(searchArgument, sort)
-                      .stream()
-                      .map(DEBT_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<DebtDto> page(SearchDebtDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(DEBT_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(DEBT_MAPPER::toDto));
     }
 }

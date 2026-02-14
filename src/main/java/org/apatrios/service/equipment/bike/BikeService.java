@@ -1,6 +1,5 @@
 package org.apatrios.service.equipment.bike;
 
-import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +10,11 @@ import org.apatrios.repository.equipment.BikeRepository;
 import org.apatrios.service.equipment.bike.argument.CreateBikeArgument;
 import org.apatrios.service.equipment.bike.argument.SearchBikeArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -42,9 +41,9 @@ public class BikeService {
     }
 
     @Transactional(readOnly = true)
-    public List<Bike> list(@NonNull SearchBikeArgument argument, Sort sort) {
+    public Page<Bike> page(@NonNull SearchBikeArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
-        return Lists.newArrayList(repository.findAll(predicate, sort));
+        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchBikeArgument argument) {

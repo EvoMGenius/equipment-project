@@ -7,12 +7,11 @@ import org.apatrios.api.equipment.status.dto.StatusDto;
 import org.apatrios.api.equipment.status.dto.CreateStatusDto;
 import org.apatrios.api.equipment.status.dto.SearchStatusDto;
 import org.apatrios.service.equipment.status.StatusService;
-import org.apatrios.service.equipment.status.argument.SearchStatusArgument;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.equipment.status.mapper.StatusMapper.STATUS_MAPPER;
@@ -36,11 +35,8 @@ public class StatusController {
     }
 
     @GetMapping("search")
-    public List<StatusDto> list(SearchStatusDto dto, Sort sort) {
-        SearchStatusArgument searchArgument = STATUS_MAPPER.toSearchArgument(dto);
-        return service.list(searchArgument, sort)
-                      .stream()
-                      .map(STATUS_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<StatusDto> page(SearchStatusDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(STATUS_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(STATUS_MAPPER::toDto));
     }
 }

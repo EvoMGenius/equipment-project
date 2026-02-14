@@ -1,6 +1,5 @@
 package org.apatrios.service.services.repair;
 
-import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +10,12 @@ import org.apatrios.repository.services.RepairRepository;
 import org.apatrios.service.services.repair.argument.CreateRepairArgument;
 import org.apatrios.service.services.repair.argument.SearchRepairArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -40,9 +39,9 @@ public class RepairService {
     }
 
     @Transactional(readOnly = true)
-    public List<Repair> list(@NonNull SearchRepairArgument argument, Sort sort) {
+    public Page<Repair> page(@NonNull SearchRepairArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
-        return Lists.newArrayList(repository.findAll(predicate, sort));
+        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchRepairArgument argument) {

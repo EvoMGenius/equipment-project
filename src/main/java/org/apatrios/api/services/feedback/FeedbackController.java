@@ -10,11 +10,11 @@ import org.apatrios.api.services.feedback.dto.FeedbackDto;
 import org.apatrios.api.services.feedback.dto.SearchFeedbackDto;
 import org.apatrios.model.services.Feedback;
 import org.apatrios.service.services.feedback.FeedbackService;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.services.feedback.mapper.FeedbackMapper.FEEDBACK_MAPPER;
@@ -39,10 +39,8 @@ public class FeedbackController {
     }
 
     @GetMapping("search")
-    public List<FeedbackDto> list(SearchFeedbackDto dto, Sort sort) {
-        return service.list(FEEDBACK_MAPPER.toSearchArgument(dto), sort)
-                      .stream()
-                      .map(FEEDBACK_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<FeedbackDto> page(SearchFeedbackDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(FEEDBACK_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(FEEDBACK_MAPPER::toDto));
     }
 }

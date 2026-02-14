@@ -29,12 +29,12 @@ public abstract class BaseDictionaryController<
 
     protected abstract BaseDictionaryMapper<T, DictionaryDtoT, SearchDtoT, SearchArgumentT> getMapper();
 
-    @GetMapping("/page")
+    @GetMapping("/search")
     public CollectionDto<DictionaryDtoT> page(SearchDtoT dto, Pageable pageable) {
         return CollectionDto.of(getService().page(pageable, getMapper().toSearchArgument(dto)).map(getMapper()::toDto));
     }
 
-    @GetMapping("/search")
+    @GetMapping("/list")
     public List<DictionaryDtoT> getAll(SearchDtoT dto, Sort sort) {
         return getService().list(getMapper().toSearchArgument(dto), sort).stream()
                            .map(getMapper()::toDto)

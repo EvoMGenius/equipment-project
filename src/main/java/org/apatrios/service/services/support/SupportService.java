@@ -1,6 +1,5 @@
 package org.apatrios.service.services.support;
 
-import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +10,12 @@ import org.apatrios.repository.services.SupportRepository;
 import org.apatrios.service.services.support.argument.CreateSupportArgument;
 import org.apatrios.service.services.support.argument.SearchSupportArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -45,9 +44,9 @@ public class SupportService {
     }
 
     @Transactional(readOnly = true)
-    public List<Support> list(@NonNull SearchSupportArgument argument, Sort sort) {
+    public Page<Support> page(@NonNull SearchSupportArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
-        return Lists.newArrayList(repository.findAll(predicate, sort));
+        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchSupportArgument argument) {

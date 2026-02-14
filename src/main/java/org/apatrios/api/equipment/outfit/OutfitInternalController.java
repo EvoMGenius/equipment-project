@@ -10,12 +10,11 @@ import org.apatrios.api.equipment.outfit.dto.CreateOutfitDto;
 import org.apatrios.api.equipment.outfit.dto.SearchOutfitDto;
 import org.apatrios.model.equipment.Outfit;
 import org.apatrios.service.equipment.outfit.OutfitService;
-import org.apatrios.service.equipment.outfit.argument.SearchOutfitArgument;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.equipment.outfit.mapper.OutfitMapper.OUTFIT_MAPPER;
@@ -40,11 +39,8 @@ public class OutfitInternalController {
     }
 
     @GetMapping("search")
-    public List<OutfitDto> list(SearchOutfitDto dto, Sort sort) {
-        SearchOutfitArgument searchArgument = OUTFIT_MAPPER.toSearchArgument(dto);
-        return service.list(searchArgument, sort)
-                      .stream()
-                      .map(OUTFIT_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<OutfitDto> page(SearchOutfitDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(OUTFIT_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(OUTFIT_MAPPER::toDto));
     }
 }

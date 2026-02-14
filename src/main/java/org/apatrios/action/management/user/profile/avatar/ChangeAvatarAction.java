@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.config.properties.DocumentProperties;
 import org.apatrios.model.management.User;
 import org.apatrios.model.services.Photo;
 import org.apatrios.service.management.user.UserService;
@@ -23,6 +24,7 @@ import java.util.UUID;
 public class ChangeAvatarAction {
 
     UserService userService;
+    DocumentProperties documentProperties;
     MinioFileService fileService;
 
     @Transactional
@@ -33,8 +35,9 @@ public class ChangeAvatarAction {
 
         String extension = fileService.getExtension(file.getOriginalFilename());
         String fileName = String.format("%s_%d.%s", user.getId(), System.currentTimeMillis(), extension);
+        String folder = documentProperties.getAvatarFolder();
 
-        String path = fileService.upload(file, "avatars", fileName);
+        String path = fileService.upload(file, folder, fileName);
         return userService.update(userId, UpdateUserArgument.builder()
                                                             .avatar(Photo.builder()
                                                                          .fileName(fileName)

@@ -6,11 +6,10 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.api.services.photo.dto.PhotoDto;
 import org.apatrios.api.services.photo.dto.SearchPhotoDto;
 import org.apatrios.service.services.photo.PhotoService;
-import org.apatrios.service.services.photo.argument.SearchPhotoArgument;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.services.photo.mapper.PhotoMapper.PHOTO_MAPPER;
@@ -29,11 +28,8 @@ public class PhotoController {
     }
 
     @GetMapping("search")
-    public List<PhotoDto> list(SearchPhotoDto dto, Sort sort) {
-        SearchPhotoArgument searchArgument = PHOTO_MAPPER.toSearchArgument(dto);
-        return service.list(searchArgument, sort)
-                      .stream()
-                      .map(PHOTO_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<PhotoDto> page(SearchPhotoDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(PHOTO_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(PHOTO_MAPPER::toDto));
     }
 }

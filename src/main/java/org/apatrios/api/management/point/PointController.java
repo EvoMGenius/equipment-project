@@ -10,12 +10,11 @@ import org.apatrios.api.management.point.dto.PointDto;
 import org.apatrios.api.management.point.dto.SearchPointDto;
 import org.apatrios.model.management.Point;
 import org.apatrios.service.management.point.PointService;
-import org.apatrios.service.management.point.argument.SearchPointArgument;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.management.point.mapper.PointMapper.POINT_MAPPER;
@@ -40,12 +39,8 @@ public class PointController {
     }
 
     @GetMapping("search")
-    public List<PointDto> list(SearchPointDto dto, Sort sort) {
-        SearchPointArgument argument = POINT_MAPPER.toSearchArgument(dto);
-
-        return service.list(argument, sort)
-                      .stream()
-                      .map(POINT_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<PointDto> page(SearchPointDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(POINT_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(POINT_MAPPER::toDto));
     }
 }

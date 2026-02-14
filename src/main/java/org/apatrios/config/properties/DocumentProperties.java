@@ -15,4 +15,5 @@ public class DocumentProperties {
     private String offerPath;
     private String opdPath;
     private String docFolder;
+    private String avatarFolder;
 }

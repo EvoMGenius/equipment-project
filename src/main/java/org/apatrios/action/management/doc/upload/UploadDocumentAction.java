@@ -28,7 +28,7 @@ public class UploadDocumentAction {
     public void execute(@NonNull UUID id, @NonNull MultipartFile file) {
         Document document = documentService.getExisting(id);
         String extension = minioFileService.getExtension(file.getOriginalFilename());
-        String fileName = document.getId().toString() + "." + extension;
+        String fileName = document.getName() + "." + extension;
         minioFileService.upload(file, documentProperties.getDocFolder(), fileName);
 
         documentService.setFileInfo(id, File.builder()

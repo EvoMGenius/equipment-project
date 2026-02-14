@@ -1,6 +1,5 @@
 package org.apatrios.service.management.document;
 
-import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,8 @@ import org.apatrios.repository.managment.DocumentRepository;
 import org.apatrios.service.management.document.argument.CreateDocumentArgument;
 import org.apatrios.service.management.document.argument.SearchDocumentArgument;
 import org.apatrios.util.QPredicates;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,9 +54,9 @@ public class DocumentService {
     }
 
     @Transactional(readOnly = true)
-    public List<Document> list(@NonNull SearchDocumentArgument argument, Sort sort) {
+    public Page<Document> page(@NonNull SearchDocumentArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
-        return Lists.newArrayList(repository.findAll(predicate, sort));
+        return repository.findAll(predicate, pageable);
     }
 
     private Predicate buildPredicate(SearchDocumentArgument argument) {

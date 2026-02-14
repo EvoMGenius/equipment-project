@@ -6,10 +6,10 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.api.management.telemetry.dto.SearchTelemetryDto;
 import org.apatrios.api.management.telemetry.dto.TelemetryDto;
 import org.apatrios.service.management.telemetry.TelemetryService;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.management.telemetry.mapper.TelemetryMapper.TELEMETRY_MAPPER;
@@ -27,11 +27,9 @@ public class TelemetryController {
         return TELEMETRY_MAPPER.toDto(service.getExisting(id));
     }
 
-    @PostMapping("search")
-    public List<TelemetryDto> list(@RequestBody SearchTelemetryDto dto, Sort sort) {
-        return service.list(TELEMETRY_MAPPER.toSearchArgument(dto), sort)
-                      .stream()
-                      .map(TELEMETRY_MAPPER::toDto)
-                      .toList();
+    @GetMapping("search")
+    public CollectionDto<TelemetryDto> page(SearchTelemetryDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(TELEMETRY_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(TELEMETRY_MAPPER::toDto));
     }
 }

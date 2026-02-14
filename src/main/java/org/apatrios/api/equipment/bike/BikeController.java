@@ -10,12 +10,11 @@ import org.apatrios.api.equipment.bike.dto.CreateBikeDto;
 import org.apatrios.api.equipment.bike.dto.SearchBikeDto;
 import org.apatrios.model.equipment.Bike;
 import org.apatrios.service.equipment.bike.BikeService;
-import org.apatrios.service.equipment.bike.argument.SearchBikeArgument;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.equipment.bike.mapper.BikeMapper.BIKE_MAPPER;
@@ -40,12 +39,8 @@ public class BikeController {
     }
 
     @GetMapping("search")
-    public List<BikeDto> list(SearchBikeDto dto, Sort sort) {
-        SearchBikeArgument searchArgument = BIKE_MAPPER.toSearchArgument(dto);
-
-        return service.list(searchArgument, sort)
-                      .stream()
-                      .map(BIKE_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<BikeDto> page(SearchBikeDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(BIKE_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(BIKE_MAPPER::toDto));
     }
 }

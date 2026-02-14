@@ -10,11 +10,11 @@ import org.apatrios.api.services.repair.dto.RepairDto;
 import org.apatrios.api.services.repair.dto.SearchRepairDto;
 import org.apatrios.model.services.Repair;
 import org.apatrios.service.services.repair.RepairService;
-import org.springframework.data.domain.Sort;
+import org.apatrios.util.CollectionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.apatrios.api.services.repair.mapper.RepairMapper.REPAIR_MAPPER;
@@ -39,10 +39,8 @@ public class RepairController {
     }
 
     @GetMapping("search")
-    public List<RepairDto> list(SearchRepairDto dto, Sort sort) {
-        return service.list(REPAIR_MAPPER.toSearchArgument(dto), sort)
-                      .stream()
-                      .map(REPAIR_MAPPER::toDto)
-                      .toList();
+    public CollectionDto<RepairDto> page(SearchRepairDto dto, Pageable pageable) {
+        return CollectionDto.of(service.page(REPAIR_MAPPER.toSearchArgument(dto), pageable)
+                                       .map(REPAIR_MAPPER::toDto));
     }
 }

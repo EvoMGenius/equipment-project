@@ -36,7 +36,8 @@ public class CreatePaymentWebhookAction implements VoidAction<CreatePaymentWebho
         return switch (status) {
             case "succeeded" -> "SUCCESS";
             case "canceled" -> "CANCELED";
-            case "waiting_for_capture" -> "PENDING";
+            case "waiting_for_capture" -> "WAITING_FOR_CAPTURE";
+            case "pending" -> "PENDING";
             default -> "ERROR";
         };
     }

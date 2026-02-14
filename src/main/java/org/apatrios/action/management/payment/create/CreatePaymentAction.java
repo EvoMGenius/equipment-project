@@ -4,6 +4,7 @@ import feign.FeignException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.action.Action;
+import org.apatrios.action.management.payment.create.argument.CreatePaymentActionArgument;
 import org.apatrios.feign.payment.PaymentClient;
 import org.apatrios.feign.payment.dto.CreateYookassaPaymentDto;
 import org.apatrios.feign.payment.dto.YookassaAmountDto;
@@ -21,7 +22,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.UUID;
@@ -37,8 +37,8 @@ public class CreatePaymentAction implements Action<CreatePaymentActionArgument, 
     @Value("${app.payment.return-url}")
     private String returnUrl;
 
+    // todo переделать под новое описание оплаты
     @Override
-    @Transactional
     public Payment execute(@NonNull CreatePaymentActionArgument argument) {
         Dict paymentType = dictService.getExisting(argument.getPaymentTypeId());
         Dict entityType = dictService.getExisting(argument.getEntityTypeId());
@@ -69,7 +69,7 @@ public class CreatePaymentAction implements Action<CreatePaymentActionArgument, 
                     FeignException.GatewayTimeout.class
             }
     )
-    private String createYookassaPayment(String idempotencyKey, Payment payment) {
+    public String createYookassaPayment(String idempotencyKey, Payment payment) {
         YookassaPaymentDto yookassaPayment = paymentClient.createYookassaPayment(idempotencyKey, CreateYookassaPaymentDto.builder()
                                                                                                                          .capture(true)
                                                                                                                          .amount(YookassaAmountDto.builder()
