@@ -11,9 +11,11 @@ import org.apatrios.feign.payment.dto.YookassaAmountDto;
 import org.apatrios.feign.payment.dto.YookassaConfirmationDto;
 import org.apatrios.feign.payment.dto.YookassaPaymentDto;
 import org.apatrios.model.dictoinary.Dict;
+import org.apatrios.model.dictoinary.PurchaseType;
 import org.apatrios.model.equipment.Status;
 import org.apatrios.model.management.Payment;
 import org.apatrios.service.dictionary.DictService;
+import org.apatrios.service.dictionary.PurchaseTypeService;
 import org.apatrios.service.equipment.status.StatusService;
 import org.apatrios.service.management.payment.PaymentService;
 import org.apatrios.service.management.payment.argument.CreatePaymentArgument;
@@ -32,6 +34,7 @@ public class CreatePaymentAction implements Action<CreatePaymentActionArgument, 
 
     private final PaymentService paymentService;
     private final StatusService statusService;
+    private final PurchaseTypeService purchaseTypeService;
     private final DictService dictService;
     private final PaymentClient paymentClient;
     @Value("${app.payment.return-url}")
@@ -40,7 +43,7 @@ public class CreatePaymentAction implements Action<CreatePaymentActionArgument, 
     // todo переделать под новое описание оплаты
     @Override
     public Payment execute(@NonNull CreatePaymentActionArgument argument) {
-        Dict paymentType = dictService.getExisting(argument.getPaymentTypeId());
+        PurchaseType paymentType = purchaseTypeService.getExisting(argument.getPaymentTypeId());
         Dict entityType = dictService.getExisting(argument.getEntityTypeId());
         Status status = statusService.getExisting(argument.getStatusId());
 

@@ -41,6 +41,7 @@ public class RentService {
                                    .startDate(argument.getStartDate())
                                    .user(argument.getUser())
                                    .status(argument.getStatus())
+                                   .rentType(argument.getRentType())
                                    .build());
     }
 
@@ -66,6 +67,7 @@ public class RentService {
                           .add(argument.getBikeId(), qRent.bike.id::eq)
                           .add(argument.getPointId(), qRent.point.id::eq)
                           .add(argument.getDelay(), qRent.delay::eq)
+                          .add(argument.getRentTypeId(), qRent.rentType.id::eq)
                           .addAnyString(argument.getSearchString(), qRent.number::containsIgnoreCase)
                           .buildAnd();
     }

@@ -3,6 +3,7 @@ package org.apatrios.model.services;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
+import org.apatrios.model.dictoinary.RentType;
 import org.apatrios.model.equipment.Status;
 import org.apatrios.model.equipment.Bike;
 import org.apatrios.model.equipment.Outfit;
@@ -25,6 +26,11 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
 public class Rent extends BaseEntity {
+
+    /** Тип аренды */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rent_type_id")
+    RentType rentType;
 
     /** Номер аренды */
     @Column(nullable = false, unique = true)

@@ -2,6 +2,7 @@ package org.apatrios.service.services.rent.argument;
 
 import lombok.Builder;
 import lombok.Value;
+import org.apatrios.model.dictoinary.RentType;
 import org.apatrios.model.equipment.Status;
 import org.apatrios.model.equipment.Bike;
 import org.apatrios.model.equipment.Outfit;
@@ -17,6 +18,7 @@ import java.util.*;
 @Value
 @Builder
 public class CreateRentArgument {
+    RentType rentType;
     String number;
     Status status;
     User user;

@@ -26,4 +26,5 @@ public class CreateRentActionArgument {
     BigDecimal delayCost;
     List<UUID> outfitIds;
     List<UUID> documentIds;
+    UUID rentTypeId;
 }

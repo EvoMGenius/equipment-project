@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
+import org.apatrios.model.dictoinary.RentType;
 import org.apatrios.model.equipment.Bike;
 import org.apatrios.model.equipment.Outfit;
 import org.apatrios.model.equipment.Status;
@@ -13,6 +14,7 @@ import org.apatrios.model.management.Point;
 import org.apatrios.model.management.User;
 import org.apatrios.model.services.Debt;
 import org.apatrios.model.services.Rent;
+import org.apatrios.service.dictionary.RentTypeService;
 import org.apatrios.service.equipment.bike.BikeService;
 import org.apatrios.service.equipment.outfit.OutfitService;
 import org.apatrios.service.equipment.status.StatusService;
@@ -40,10 +42,12 @@ public class CreateRentAction implements Action<CreateRentActionArgument, Rent> 
     OutfitService outfitService;
     UserService userService;
     StatusService statusService;
+    RentTypeService rentTypeService;
 
     @Override
     @Transactional
     public Rent execute(@NonNull CreateRentActionArgument argument) {
+        RentType type = rentTypeService.getExisting(argument.getRentTypeId());
         Bike bike = bikeService.getExisting(argument.getBikeId());
         Point point = pointService.getExisting(argument.getPointId());
         List<Debt> debts = debtService.getAllByIds(argument.getDebtIds());
@@ -53,6 +57,7 @@ public class CreateRentAction implements Action<CreateRentActionArgument, Rent> 
         Status status = statusService.getExisting(argument.getStatusId());
 
         return rentService.create(CreateRentArgument.builder()
+                                                    .rentType(type)
                                                     .bike(bike)
                                                     .point(point)
                                                     .currentDays(argument.getCurrentDays())

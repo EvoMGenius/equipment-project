@@ -14,6 +14,7 @@ import java.util.UUID;
 @Builder
 public class SearchRentArgument {
     String number;
+    UUID rentTypeId;
     UUID statusId;
     UUID userId;
     UUID bikeId;

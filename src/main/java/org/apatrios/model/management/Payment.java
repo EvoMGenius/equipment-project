@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.Dict;
+import org.apatrios.model.dictoinary.PurchaseType;
 import org.apatrios.model.equipment.Status;
 
 import javax.persistence.*;
@@ -24,7 +25,7 @@ public class Payment extends BaseEntity {
     /** * Тип платежа */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_type_id")
-    Dict paymentType;
+    PurchaseType paymentType;
 
     /** * Тип оплачиваемой сущности */
     @ManyToOne(fetch = FetchType.LAZY)
