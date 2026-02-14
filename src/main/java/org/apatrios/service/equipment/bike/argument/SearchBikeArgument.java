@@ -2,41 +2,28 @@ package org.apatrios.service.equipment.bike.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.equipment.BikeStatus;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Value
 @Builder
 public class SearchBikeArgument {
+    String invNumber;
+
     UUID modelBikeId;
 
-    String searchString;
+    UUID telemetryId;
 
-    UUID franchiseeId;
+    Boolean isBlocked;
 
-    Integer seqNumber;
+    Boolean isAlarmOn;
 
-    Integer invNumber;
+    Boolean isHeadlightsOn;
 
-    String vin;
+    List<UUID> tariffIds;
 
-    String motorWheel;
+    UUID chosenTariffId;
 
-    UUID iotId;
-
-    BikeStatus status;
-
-    String comment;
-
-    LocalDateTime createDateFrom;
-
-    LocalDateTime createDateTo;
-
-    LocalDateTime updateDateFrom;
-
-    LocalDateTime updateDateTo;
-
-    boolean isDeleted;
+    UUID statusId;
 }

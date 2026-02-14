@@ -18,9 +18,9 @@ import static lombok.AccessLevel.PRIVATE;
 @Schema(description = "ДТО подтверждения кода через телеграмм")
 public class TelegramAuthenticationApproveDto {
 
-    @Schema(description = "Логин", requiredMode = REQUIRED)
+    @Schema(description = "Телефон", requiredMode = REQUIRED)
     @NotBlank
-    String login;
+    String phoneNumber;
 
     @Schema(description = "Код", requiredMode = REQUIRED)
     @NotBlank

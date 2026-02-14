@@ -6,6 +6,6 @@ import lombok.Value;
 @Value
 @Builder
 public class TelegramAuthenticationApproveActionArgument {
-    String login;
+    String phoneNumber;
     String code;
 }

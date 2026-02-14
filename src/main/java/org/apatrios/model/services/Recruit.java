@@ -1,18 +1,13 @@
 package org.apatrios.model.services;
 
-import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.apatrios.model.equipment.Status;
 
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -23,28 +18,18 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-@TypeDef(name = "json", typeClass = JsonType.class)
 public class Recruit extends BaseEntity {
 
-    /** Клиент */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Client client;
+    /** Компания, в которую хочет устроится пользователь */
+    @Column(nullable = false)
+    String recruitCompanyName;
 
-    /** Дата и время создания */
+    /** Дата начала */
     @Column(nullable = false)
     LocalDateTime createDate;
 
-    /** Дата и время обновления */
-    LocalDateTime updateDate;
-
-    /** Признак удаления */
-    @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted = false;
-
-    /** Идентификаторы франчайзи */
-    @Builder.Default
-    @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
-    Set<UUID> franchiseeIds = new HashSet<>();
+    /** Статус */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    Status status;
 }

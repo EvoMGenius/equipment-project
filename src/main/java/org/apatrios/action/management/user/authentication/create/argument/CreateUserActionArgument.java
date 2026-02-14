@@ -8,5 +8,5 @@ import org.apatrios.model.management.UserProfile;
 @Builder
 public class CreateUserActionArgument {
     UserProfile userProfile;
-    String login;
+    String phoneNumber;
 }

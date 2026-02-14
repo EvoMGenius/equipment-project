@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Map;
+
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
@@ -22,4 +24,7 @@ public class CreateYookassaPaymentDto {
 
     @JsonProperty("confirmation")
     YookassaConfirmationDto confirmation;
+
+    @JsonProperty("metadata")
+    Map<String, Object> metadata;
 }

@@ -2,10 +2,11 @@ package org.apatrios.service.dictionary;
 
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringPath;
 import lombok.NonNull;
 import org.apatrios.model.dictoinary.BaseDictionary;
-import org.apatrios.model.dictoinary.EntityStatus;
-import org.apatrios.model.dictoinary.QBaseDictionary;
 import org.apatrios.repository.dictionary.BaseDictionaryRepository;
 import org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument;
 import org.apatrios.util.QPredicates;
@@ -18,9 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class BaseDictionaryService<T extends BaseDictionary,
-        SearchArgumentT extends BaseDictionarySearchArgument,
-        QT extends QBaseDictionary> {
+public abstract class BaseDictionaryService<T extends BaseDictionary, SearchArgumentT extends BaseDictionarySearchArgument, QT extends EntityPathBase<T>> {
 
     protected abstract BaseDictionaryRepository<T> getRepository();
 
@@ -51,11 +50,7 @@ public abstract class BaseDictionaryService<T extends BaseDictionary,
     public T update(@NonNull UUID id, @NonNull T entity) {
         T existing = getExisting(id);
         entity.setId(id);
-        entity.setDictId(existing.getDictId());
         entity.setName(existing.getName());
-        entity.setLocale(existing.getLocale());
-        entity.setDictName(existing.getDictName());
-        entity.setOrder(existing.getOrder());
         return getRepository().save(entity);
     }
 
@@ -66,9 +61,9 @@ public abstract class BaseDictionaryService<T extends BaseDictionary,
     }
 
     protected Predicate buildPredicates(@NonNull SearchArgumentT argument) {
-        QT qRoot = getQRoot();
+        StringPath namePath = Expressions.stringPath(getQRoot(), "name");
         return QPredicates.builder()
-                          .add(argument.getName(), qRoot.name::containsIgnoreCase)
+                          .add(argument.getName(), namePath::containsIgnoreCase)
                           .buildAnd();
     }
 }

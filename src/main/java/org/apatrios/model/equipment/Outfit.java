@@ -3,12 +3,12 @@ package org.apatrios.model.equipment;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.OutfitModel;
-import org.apatrios.model.management.Franchisee;
+import org.apatrios.model.management.Tariff;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -21,32 +21,28 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class Outfit extends BaseEntity {
 
-    /** Справочник моделей экипировки */
-    @ManyToOne(fetch = FetchType.LAZY)
-    OutfitModel model;
+    /** Название экипировки */
+    @Column(nullable = false)
+    String name;
 
-    /** Франчайзи */
+    /** * Список доступных тарифов для данной экипировки.*/
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "outfit_tariffs",
+            joinColumns = @JoinColumn(name = "outfit_id"),
+            inverseJoinColumns = @JoinColumn(name = "tariff_id")
+    )
+    @Builder.Default
+    List<Tariff> tariff = new ArrayList<>();
+
+    /** * Выбранный тариф для текущей единицы экипировки
+     */
     @ManyToOne(fetch = FetchType.LAZY)
-    Franchisee franchisee;
+    @JoinColumn(name = "chosen_tariff_id")
+    Tariff chosenTariff;
 
     /** Статус */
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    OutfitStatus status;
-
-    /** Комментарий */
-    @Column(columnDefinition = "text")
-    String comment;
-
-    /** Дата и время создания */
-    @Column(nullable = false)
-    LocalDateTime createDate;
-
-    /** Дата и время обновления */
-    LocalDateTime updateDate;
-
-    /** Признак удаления */
-    @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted = false;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    Status status;
 }

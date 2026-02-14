@@ -26,12 +26,13 @@ public class CreateUserAction implements Action<CreateUserActionArgument, OAuth2
     @Transactional
     public OAuth2AccessToken execute(@NonNull CreateUserActionArgument argument) {
         userService.create(CreateUserArgument.builder()
-                                             .login(argument.getLogin())
-                                             .password("N/A")
                                              .userProfile(UserProfile.builder()
                                                                      .firstName(argument.getUserProfile().getFirstName())
                                                                      .build())
+                                             .phoneNumber(argument.getPhoneNumber())
+                                             .password("N/A")
                                              .build());
-        return authenticationService.login(argument.getLogin(), "N/A");
+
+        return authenticationService.login(argument.getPhoneNumber(), "N/A");
     }
 }

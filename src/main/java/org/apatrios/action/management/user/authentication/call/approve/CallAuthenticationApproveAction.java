@@ -26,10 +26,10 @@ public class CallAuthenticationApproveAction implements Action<CallAuthenticatio
     @Override
     @Transactional
     public OAuth2AccessToken execute(@NonNull CallAuthenticationApproveActionArgument argument) {
-        String converted = AuthUtils.convertToPhone(argument.getLogin());
+        String converted = AuthUtils.convertUsername(argument.getPhoneNumber());
         authenticationCode.verifyCode(converted, argument.getCode());
-        return userService.getByLogin(converted)
-                          .map(user -> authenticationService.login(user.getLogin(), "N/A"))
+        return userService.getByPhoneNumber(converted)
+                          .map(user -> authenticationService.login(converted, "N/A"))
                           .orElse(null);
     }
 }
