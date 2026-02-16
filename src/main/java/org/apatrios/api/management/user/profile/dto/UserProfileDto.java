@@ -25,8 +25,6 @@ public class UserProfileDto {
 
     String phoneNumber;
 
-    String password;
-
     LocalDateTime createDate;
 
     Boolean isEmailVerified;

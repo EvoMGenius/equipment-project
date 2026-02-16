@@ -21,7 +21,7 @@ public class TelegramAuthenticationRequestAction implements VoidAction<String> {
 
     @Override
     public void execute(@NonNull String phoneNumber) {
-        String converted = AuthUtils.convertToPhone(phoneNumber);
+        String converted = AuthUtils.convertUsername(phoneNumber);
         String code = authenticationCode.createCode(converted);
         telegramGatewayClient.sendVerificationMessage("Bearer " + token, TelegramSendRequestDto.builder()
                                                                                                .code(code)

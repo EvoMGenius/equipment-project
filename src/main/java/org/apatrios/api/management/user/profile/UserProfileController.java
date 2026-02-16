@@ -31,7 +31,7 @@ public class UserProfileController {
     Action<ChangeEmailApproveActionArgument, User> changeEmailApproveAction;
     ChangeAvatarAction changeAvatarAction;
 
-    @Operation(summary = "Получение данных пользователя. Доступно с ролью ADMIN")
+    @Operation(summary = "Получение данных пользователя")
     @GetMapping("{id}")
     public UserProfileDto get(@PathVariable UUID id) {
         return mapper.toDto(service.getExisting(id));

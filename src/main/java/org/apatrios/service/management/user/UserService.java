@@ -45,6 +45,8 @@ public class UserService {
         Optional.ofNullable(argument.getPhoneNumber()).ifPresent(user::setPhoneNumber);
         Optional.ofNullable(argument.getEmail()).ifPresent(user::setEmail);
         Optional.ofNullable(argument.getAvatar()).ifPresent(user::setAvatar);
+        Optional.ofNullable(argument.getIsEmailVerified()).ifPresent(user::setIsEmailVerified);
+        Optional.ofNullable(argument.getIsDocVerified()).ifPresent(user::setIsDocVerified);
 
         return repository.save(user);
     }

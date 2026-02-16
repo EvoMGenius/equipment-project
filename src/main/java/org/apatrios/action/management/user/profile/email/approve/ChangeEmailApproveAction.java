@@ -10,6 +10,7 @@ import org.apatrios.model.management.User;
 import org.apatrios.service.authentication.AuthenticationCodeService;
 import org.apatrios.service.management.user.UserService;
 import org.apatrios.service.management.user.argument.UpdateUserArgument;
+import org.apatrios.util.AuthUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +25,10 @@ public class ChangeEmailApproveAction implements Action<ChangeEmailApproveAction
     @Override
     @Transactional
     public User execute(@NonNull ChangeEmailApproveActionArgument argument) {
-        authenticationCodeService.verifyCode(argument.getEmail(), argument.getCode());
+        String converted = AuthUtils.convertUsername(argument.getEmail());
+        authenticationCodeService.verifyCode(converted, argument.getCode());
         return userService.update(argument.getId(), UpdateUserArgument.builder()
-                                                                      .email(argument.getEmail())
+                                                                      .email(converted)
                                                                       .isEmailVerified(true)
                                                                       .build());
     }
