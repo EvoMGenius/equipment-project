@@ -3,16 +3,17 @@ package org.apatrios.action.services.repair.create;
 import lombok.Builder;
 import lombok.Value;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @Value
 @Builder
 public class CreateRepairActionArgument {
-    UUID objectId;
-    Set<UUID> franchiseeIds;
-    UUID repairTypeId;
-    UUID staffId;
-    String description;
-    String comment;
+    String number;
+    UUID fixTypeId;
+    String problem;
+    UUID pointId;
+    List<UUID> photoIds;
 }

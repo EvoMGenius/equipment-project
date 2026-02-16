@@ -1,17 +1,13 @@
 package org.apatrios.model.management;
 
-import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.UserRole;
-import org.hibernate.annotations.TypeDef;
+import org.apatrios.model.services.Photo;
 
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -23,66 +19,35 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
 @Table(name = "user_account")
-@TypeDef(name = "json", typeClass = JsonType.class)
 public class User extends BaseEntity {
 
-    /** Отображаемое имя */
-    String username;
+    /** Профиль */
+    @Embedded
+    UserProfile userProfile;
 
-    /** Уникальное имя для входа в систему */
-    @Column(nullable = false)
-    String login;
+    /** Адрес электронной почты */
+    @Column(unique = true)
+    String email;
+
+    /** Номер телефона */
+    String phoneNumber;
 
     /** Пароль */
     String password;
 
-    /** Аватарка */
-    String avatarPath;
-
-    /** Роли */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    @Builder.Default
-    Set<UserRole> roles = new HashSet<>();
-
-    /** Информация пользователя */
-    @Embedded
-    UserProfile userProfile;
-
-    /** Статус пользователя */
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    UserStatus status;
-
-    @Column(nullable = false)
-    LocalDateTime lastLogin;
-
-    /** Дата и время создания */
-    @Column(nullable = false)
+    /** Дата регистрации в системе */
     LocalDateTime createDate;
 
-    /** Дата и время обновления */
-    LocalDateTime updateDate;
-
-    /** Доступен ли для входа аккаунт */
+    /** Флаг подтверждения почты */
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default true")
-    boolean enabled = true;
+    Boolean isEmailVerified = false;
 
-    /** Признак удаления */
+    /** Флаг верификации документов */
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted = false;
+    Boolean isDocVerified = false;
 
-    /** Франчайзи */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Franchisee company;
-
-    /** Сотрудник */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Staff staff;
+    /*** Аватар пользователя */
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_photo_id")
+    Photo avatar;
 }

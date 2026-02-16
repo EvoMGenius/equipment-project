@@ -10,6 +10,7 @@ import org.apatrios.model.management.UserProfile;
 import org.apatrios.service.AuthenticationService;
 import org.apatrios.service.management.user.UserService;
 import org.apatrios.service.management.user.argument.CreateUserArgument;
+import org.apatrios.util.AuthUtils;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +26,15 @@ public class CreateUserAction implements Action<CreateUserActionArgument, OAuth2
     @Override
     @Transactional
     public OAuth2AccessToken execute(@NonNull CreateUserActionArgument argument) {
+        String converted = AuthUtils.convertUsername(argument.getPhoneNumber());
         userService.create(CreateUserArgument.builder()
-                                             .login(argument.getLogin())
-                                             .password("N/A")
                                              .userProfile(UserProfile.builder()
                                                                      .firstName(argument.getUserProfile().getFirstName())
                                                                      .build())
+                                             .phoneNumber(converted)
+                                             .password("N/A")
                                              .build());
-        return authenticationService.login(argument.getLogin(), "N/A");
+
+        return authenticationService.login(converted, "N/A");
     }
 }

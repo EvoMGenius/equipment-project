@@ -38,6 +38,13 @@ public class QPredicates {
         return this;
     }
 
+    public QPredicates add(Predicate predicate) {
+        if (predicate != null) {
+            this.predicates.add(predicate);
+        }
+        return this;
+    }
+
     public Predicate buildAnd() {
         Predicate predicate = ExpressionUtils.allOf(predicates);
         if (predicate == null) {

@@ -6,14 +6,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
 import org.apatrios.model.equipment.Outfit;
-import org.apatrios.model.dictoinary.OutfitModel;
-import org.apatrios.model.management.Franchisee;
-import org.apatrios.service.dictionary.OutfitModelService;
+import org.apatrios.model.management.Tariff;
 import org.apatrios.service.equipment.outfit.OutfitService;
 import org.apatrios.service.equipment.outfit.argument.CreateOutfitArgument;
-import org.apatrios.service.management.franchisee.FranchiseeService;
+import org.apatrios.service.management.tariff.TariffService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -21,19 +21,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreateOutfitAction implements Action<CreateOutfitActionArgument, Outfit> {
 
     OutfitService outfitService;
-    OutfitModelService outfitModelService;
-    FranchiseeService franchiseeService;
+    TariffService tariffService;
 
     @Override
     @Transactional
     public Outfit execute(@NonNull CreateOutfitActionArgument argument) {
-        OutfitModel outfitModel = outfitModelService.getExisting(argument.getOutfitModelId());
-        Franchisee franchisee = franchiseeService.getExisting(argument.getFranchiseeId());
+        List<Tariff> tariffs = tariffService.getAllByIds(argument.getTariffIds());
+        Tariff tariff = tariffService.getExisting(argument.getChosenTariffId());
 
         return outfitService.create(CreateOutfitArgument.builder()
-                                                        .model(outfitModel)
-                                                        .franchisee(franchisee)
-                                                        .comment(argument.getComment())
+                                                        .chosenTariff(tariff)
+                                                        .name(argument.getName())
+                                                        .tariff(tariffs)
                                                         .build());
     }
 }

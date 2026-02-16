@@ -1,6 +1,5 @@
 package org.apatrios.service.services.repair;
 
-import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,17 +10,13 @@ import org.apatrios.model.services.RepairStatus;
 import org.apatrios.repository.services.RepairRepository;
 import org.apatrios.service.services.repair.argument.CreateRepairArgument;
 import org.apatrios.service.services.repair.argument.SearchRepairArgument;
-import org.apatrios.service.services.repair.argument.UpdateRepairArgument;
 import org.apatrios.util.QPredicates;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,39 +29,14 @@ public class RepairService {
     @Transactional
     public Repair create(@NonNull CreateRepairArgument argument) {
         return repository.save(Repair.builder()
-                                     .objectId(argument.getObjectId())
-                                     .repairType(argument.getRepairType())
-                                     .staff(argument.getStaff())
-                                     .description(argument.getDescription())
-                                     .status(RepairStatus.NEW)
+                                     .point(argument.getPoint())
+                                     .fixType(argument.getFixType())
+                                     .photos(argument.getPhotos())
+                                     .problem(argument.getProblem())
+                                     .number(argument.getNumber())
                                      .createDate(LocalDateTime.now())
-                                     .updateDate(LocalDateTime.now())
-                                     .comment(argument.getComment())
-                                     .franchiseeIds(argument.getFranchiseeIds())
+                                     .status(RepairStatus.CREATED)
                                      .build());
-    }
-
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public Repair update(@NonNull UUID id, @NonNull UpdateRepairArgument argument) {
-        Repair existing = getExisting(id);
-
-        existing.setObjectId(argument.getObjectId());
-        existing.setRepairType(argument.getRepairType());
-        existing.setStaff(argument.getStaff());
-        existing.setDescription(argument.getDescription());
-        existing.setStatus(argument.getStatus());
-        existing.setDateEnd(argument.getDateEnd());
-        existing.setComment(argument.getComment());
-        existing.setUpdateDate(LocalDateTime.now());
-        existing.setFranchiseeIds(argument.getFranchiseeIds());
-
-        return repository.save(existing);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Repair> list(@NonNull SearchRepairArgument argument, Sort sort) {
-        Predicate predicate = buildPredicate(argument);
-        return Lists.newArrayList(repository.findAll(predicate, sort));
     }
 
     @Transactional(readOnly = true)
@@ -77,36 +47,20 @@ public class RepairService {
 
     private Predicate buildPredicate(SearchRepairArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getObjectId(), qRepair.objectId::eq)
-                          .add(argument.getRepairTypeId(), qRepair.repairType.id::eq)
-                          .add(argument.getStaffId(), qRepair.staff.id::eq)
-                          .add(argument.getDescription(), qRepair.description::containsIgnoreCase)
+                          .add(argument.getProblem(), qRepair.problem::containsIgnoreCase)
+                          .add(argument.getNumber(), qRepair.number::containsIgnoreCase)
+                          .add(argument.getFixTypeId(), qRepair.fixType.id::eq)
+                          .add(argument.getPhotoIds(), qRepair.photos.any().id::in)
                           .add(argument.getStatus(), qRepair.status::eq)
-                          .add(argument.getDateEnd(), qRepair.dateEnd::loe)
-                          .add(argument.getCreateDate(), qRepair.createDate::goe)
-                          .add(argument.getUpdateDateFrom(), qRepair.updateDate::goe)
-                          .add(argument.getUpdateDateTo(), qRepair.updateDate::loe)
-                          .add(argument.isDeleted(), qRepair.isDeleted::eq)
-                          .add(argument.getComment(), qRepair.comment::containsIgnoreCase)
-                          .add(argument.getFranchiseeIds(), qRepair.franchiseeIds.any()::in)
-                          .addAnyString(argument.getSearchString(),
-                                        qRepair.repairType.name::containsIgnoreCase,
-                                        qRepair.comment::containsIgnoreCase,
-                                        qRepair.staff.staffProfile.name::containsIgnoreCase,
-                                        qRepair.description::containsIgnoreCase,
-                                        qRepair.status.stringValue()::containsIgnoreCase)
+                          .add(argument.getCreateDateTo(), qRepair.createDate::loe)
+                          .add(argument.getCreateDateFrom(), qRepair.createDate::goe)
+                          .add(argument.getPointId(), qRepair.point.id::eq)
+                          .addAnyString(argument.getSearchString(), qRepair.number::containsIgnoreCase, qRepair.problem::containsIgnoreCase)
                           .buildAnd();
     }
 
     @Transactional(readOnly = true)
     public Repair getExisting(@NonNull UUID id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Repair.notFound"));
-    }
-
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void delete(@NonNull UUID id) {
-        Repair existing = getExisting(id);
-        existing.setDeleted(true);
-        repository.save(existing);
     }
 }

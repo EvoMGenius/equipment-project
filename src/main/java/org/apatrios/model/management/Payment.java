@@ -4,16 +4,15 @@ import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.PaymentType;
+import org.apatrios.model.dictoinary.Dict;
+import org.apatrios.model.dictoinary.PurchaseType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.Map;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -27,55 +26,29 @@ import static lombok.AccessLevel.PRIVATE;
 @TypeDef(name = "json", typeClass = JsonType.class)
 public class Payment extends BaseEntity {
 
-    /** Ключ в системе платежей */
-    String externalPaymentId;
-
-    /** Ссылка подтверждения оплаты от Юкассы */
-    String confirmationUrl;
-
-    /** Ссылка для возврата после оплаты от Юкассы */
-    String returnUrl;
-
-    /** Общая сумма для оплаты */
-    @Embedded
-    Amount amount;
-
-    /** Общая сумма после оплаты */
-    @Embedded
-    IncomeAmount incomeAmount;
-
-    /** Тип оплаты */
+    /** * Тип платежа */
     @ManyToOne(fetch = FetchType.LAZY)
-    PaymentType paymentType;
+    @JoinColumn(name = "payment_type_id")
+    PurchaseType paymentType;
 
-    /** Статус оплаты */
+    /** * Тип оплачиваемой сущности */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "entity_type_id")
+    Dict entityType;
+
+    /** Валюта платежа */
+    String currency;
+
+    /** * Сумма платежа */
+    BigDecimal amount;
+
+    /** Статус */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     PaymentStatus status;
 
-    /** Внешний ключ на связанную сущность (аренда, услуга и т.д.) */
-    @Column(nullable = false)
-    UUID entityId;
-
-    /** Тип связанной сущности (например "rent", "service") */
-    @Column(nullable = false)
-    String entityType;
-
-    /** Дата и время создания */
-    @Column(nullable = false)
-    LocalDateTime createDate;
-
-    /** Дата и время обновления */
-    LocalDateTime updateDate;
-
-    /** Признак удаления */
-    @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted = false;
-
-    /** Идентификаторы франчайзи */
-    @Builder.Default
+    /** Доп данные для оплаты */
     @Type(type = "json")
     @Column(columnDefinition = "jsonb")
-    Set<UUID> franchiseeIds = new HashSet<>();
+    Map<String, String> metadata;
 }

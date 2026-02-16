@@ -4,20 +4,17 @@ import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.equipment.OutfitStatus;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Value
 @Builder
 public class SearchOutfitArgument {
-    UUID modelId;
+    String name;
+
+    List<UUID> tariffIds;
+
+    UUID chosenTariffId;
+
     OutfitStatus status;
-    String comment;
-    String searchString;
-    UUID franchiseeId;
-    LocalDateTime createDateFrom;
-    LocalDateTime createDateTo;
-    LocalDateTime updateDateFrom;
-    LocalDateTime updateDateTo;
-    boolean isDeleted;
 }

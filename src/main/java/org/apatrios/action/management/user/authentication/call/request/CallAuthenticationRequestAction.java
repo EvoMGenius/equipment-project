@@ -8,6 +8,7 @@ import org.apatrios.action.VoidAction;
 import org.apatrios.feign.call.RedSmsClient;
 import org.apatrios.feign.call.dto.RedSmsRequestDto;
 import org.apatrios.service.authentication.AuthenticationCodeService;
+import org.apatrios.util.AuthUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,11 +20,12 @@ public class CallAuthenticationRequestAction implements VoidAction<String> {
     AuthenticationCodeService authenticationCodeService;
 
     @Override
-    public void execute(@NonNull String argument) {
-        String code = authenticationCodeService.createCode(argument);
+    public void execute(@NonNull String phoneNumber) {
+        String converted = AuthUtils.convertUsername(phoneNumber);
+        String code = authenticationCodeService.createCode(converted);
         redSmsClient.sendFlashCall(RedSmsRequestDto.builder()
                                                    .route("fcall")
-                                                   .to(argument)
+                                                   .to(phoneNumber)
                                                    .text(code)
                                                    .build());
     }

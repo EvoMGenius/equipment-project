@@ -3,26 +3,26 @@ package org.apatrios.action.equipment.bike.create;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.List;
 import java.util.UUID;
 
 @Value
 @Builder
 public class CreateBikeActionArgument {
-
-    UUID iotId;
+    String invNumber;
 
     UUID modelBikeId;
 
-    UUID franchiseeId;
+    UUID telemetryId;
 
-    Integer seqNumber;
+    List<UUID> tariffIds;
 
-    Integer invNumber;
+    UUID chosenTariffId;
 
-    String vin;
+    Boolean isBlocked;
 
-    String motorWheel;
+    Boolean isAlarmOn;
 
-    String comment;
+    Boolean isHeadlightsOn;
 }
 
