@@ -62,7 +62,7 @@ public class Bike extends BaseEntity {
     Tariff chosenTariff;
 
     /** Статус */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    Status status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    BikeStatus status;
 }

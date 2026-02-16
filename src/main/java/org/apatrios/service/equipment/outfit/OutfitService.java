@@ -4,6 +4,7 @@ import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.model.equipment.Outfit;
+import org.apatrios.model.equipment.OutfitStatus;
 import org.apatrios.model.equipment.QOutfit;
 import org.apatrios.repository.equipment.OutfitRepository;
 import org.apatrios.service.equipment.outfit.argument.CreateOutfitArgument;
@@ -31,7 +32,7 @@ public class OutfitService {
         return repository.save(Outfit.builder()
                                      .chosenTariff(argument.getChosenTariff())
                                      .name(argument.getName())
-                                     .status(argument.getStatus())
+                                     .status(OutfitStatus.CREATED)
                                      .tariff(argument.getTariff())
                                      .build());
     }
@@ -45,7 +46,7 @@ public class OutfitService {
     private Predicate buildPredicate(SearchOutfitArgument argument) {
         return QPredicates.builder()
                           .add(argument.getChosenTariffId(), qOutfit.chosenTariff.id::eq)
-                          .add(argument.getStatusId(), qOutfit.status.id::eq)
+                          .add(argument.getStatus(), qOutfit.status::eq)
                           .add(argument.getName(), qOutfit.name::containsIgnoreCase)
                           .add(argument.getTariffIds(), qOutfit.tariff.any().id::in)
                           .buildAnd();

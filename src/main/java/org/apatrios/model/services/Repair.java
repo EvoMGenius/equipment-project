@@ -4,7 +4,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.Dict;
-import org.apatrios.model.equipment.Status;
 import org.apatrios.model.management.Point;
 
 import javax.persistence.*;
@@ -37,9 +36,9 @@ public class Repair extends BaseEntity {
     String problem;
 
     /** Статус */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    Status status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    RepairStatus status;
 
     /** Дата создания заявки на ремонт */
     @Column(nullable = false)

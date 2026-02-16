@@ -3,7 +3,7 @@ package org.apatrios.api.services.recruit.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.api.equipment.status.dto.StatusDto;
+import org.apatrios.model.services.RecruitStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -29,5 +29,5 @@ public class RecruitDto {
     LocalDateTime createDate;
 
     @Schema(description = "Текущий статус процесса найма")
-    StatusDto status;
+    RecruitStatus status;
 }

@@ -1,15 +1,18 @@
 package org.apatrios.model.management;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.Dict;
 import org.apatrios.model.dictoinary.PurchaseType;
-import org.apatrios.model.equipment.Status;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -20,6 +23,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class Payment extends BaseEntity {
 
     /** * Тип платежа */
@@ -39,10 +43,12 @@ public class Payment extends BaseEntity {
     BigDecimal amount;
 
     /** Статус */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    Status status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    PaymentStatus status;
 
-    @Transient
-    String paymentUrl;
+    /** Доп данные для оплаты */
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
+    Map<String, String> metadata;
 }

@@ -3,6 +3,7 @@ package org.apatrios.api.services.rent.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.services.RentStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -21,8 +22,8 @@ public class SearchRentDto {
     @Schema(description = "Поиск по номеру договора")
     String number;
 
-    @Schema(description = "Фильтр по статусу")
-    UUID statusId;
+    @Schema(description = "Текущий статус аренды")
+    RentStatus status;
 
     @Schema(description = "Фильтр по пользователю")
     UUID userId;

@@ -3,6 +3,7 @@ package org.apatrios.api.services.contract.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.services.ContactStatus;
 
 import java.util.UUID;
 
@@ -19,6 +20,6 @@ public class SearchContractDto {
     @Schema(description = "Фильтр по рекруту")
     UUID recruitId;
 
-    @Schema(description = "Фильтр по статусу")
-    UUID statusId;
+    @Schema(description = "Статус контракта (Подписан, На согласовании)")
+    ContactStatus status;
 }

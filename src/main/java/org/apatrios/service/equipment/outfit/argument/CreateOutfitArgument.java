@@ -2,7 +2,6 @@ package org.apatrios.service.equipment.outfit.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.equipment.Status;
 import org.apatrios.model.management.Tariff;
 
 import java.util.List;
@@ -15,6 +14,4 @@ public class CreateOutfitArgument {
     List<Tariff> tariff;
 
     Tariff chosenTariff;
-
-    Status status;
 }

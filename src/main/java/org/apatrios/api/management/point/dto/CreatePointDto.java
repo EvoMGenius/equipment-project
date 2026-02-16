@@ -30,7 +30,4 @@ public class CreatePointDto {
 
     @Schema(description = "График работы в текстовом формате")
     String workTime;
-
-    @Schema(description = "Идентификатор начального статуса (ссылка на сущность Status)")
-    UUID statusId;
 }

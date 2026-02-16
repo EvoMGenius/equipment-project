@@ -32,9 +32,6 @@ public class CreateBikeDto {
     @Schema(description = "Идентификатор тарифа, выбранного по умолчанию или для текущей сессии")
     UUID chosenTariffId;
 
-    @Schema(description = "Идентификатор начального статуса (например, 'Свободен')")
-    UUID statusId;
-
     @Schema(description = "Начальное состояние блокировки двигателя/колес", defaultValue = "false")
     Boolean isBlocked;
 

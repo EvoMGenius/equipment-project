@@ -3,7 +3,6 @@ package org.apatrios.model.services;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.equipment.Status;
 import org.apatrios.model.management.Document;
 
 import javax.persistence.*;
@@ -30,7 +29,7 @@ public class Contract extends BaseEntity {
     Document doc;
 
     /** Статус */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    Status status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    ContactStatus status;
 }

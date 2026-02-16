@@ -3,8 +3,8 @@ package org.apatrios.api.equipment.outfit.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.api.equipment.status.dto.StatusDto;
 import org.apatrios.api.management.tariff.dto.TariffDto;
+import org.apatrios.model.equipment.OutfitStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,5 +33,5 @@ public class OutfitDto {
     TariffDto chosenTariff;
 
     @Schema(description = "Текущий статус экипировки (например: Доступно, В аренде, Списано)")
-    StatusDto status;
+    OutfitStatus status;
 }

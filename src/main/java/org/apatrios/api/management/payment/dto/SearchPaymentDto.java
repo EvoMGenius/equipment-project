@@ -1,8 +1,9 @@
-package org.apatrios.api.management.payment.create.dto;
+package org.apatrios.api.management.payment.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.management.PaymentStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -29,6 +30,6 @@ public class SearchPaymentDto {
     @Schema(description = "Поиск платежей с конкретной суммой")
     BigDecimal amount;
 
-    @Schema(description = "Фильтр по статусу (например, поиск всех успешных)")
-    UUID statusId;
+    @Schema(description = "Текущий статус платежа (Создан, Оплачен, Отменен)")
+    PaymentStatus status;
 }

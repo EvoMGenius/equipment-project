@@ -12,5 +12,4 @@ public class CreateOutfitActionArgument {
     String name;
     List<UUID> tariffIds;
     UUID chosenTariffId;
-    UUID statusId;
 }

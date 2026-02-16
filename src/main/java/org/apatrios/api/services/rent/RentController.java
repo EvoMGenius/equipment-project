@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
-import org.apatrios.action.services.rent.create.CreateRentActionArgument;
+import org.apatrios.action.services.rent.create.argument.CreateRentActionArgument;
 import org.apatrios.api.services.rent.dto.CreateRentDto;
 import org.apatrios.api.services.rent.dto.RentDto;
 import org.apatrios.api.services.rent.dto.SearchRentDto;
@@ -26,11 +26,17 @@ import static org.apatrios.api.services.rent.mapper.RentMapper.RENT_MAPPER;
 public class RentController {
 
     RentService service;
+    Action<UUID, Rent> createExtensionRentAction;
     Action<CreateRentActionArgument, Rent> createRentAction;
 
     @PostMapping
     public RentDto create(@Valid @RequestBody CreateRentDto dto) {
         return RENT_MAPPER.toDto(createRentAction.execute(RENT_MAPPER.toCreateArgument(dto)));
+    }
+
+    @PostMapping("{id}/extension")
+    public RentDto extension(@PathVariable UUID id) {
+        return RENT_MAPPER.toDto(createExtensionRentAction.execute(id));
     }
 
     @GetMapping("{id}")

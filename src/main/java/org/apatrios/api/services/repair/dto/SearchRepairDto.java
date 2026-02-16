@@ -3,6 +3,7 @@ package org.apatrios.api.services.repair.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.services.RepairStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -21,8 +22,8 @@ public class SearchRepairDto {
     @Schema(description = "Поиск по номеру заявки")
     String number;
 
-    @Schema(description = "Фильтр по статусу")
-    UUID statusId;
+    @Schema(description = "Текущий статус ремонта")
+    RepairStatus status;
 
     @Schema(description = "Фильтр по типу ремонта")
     UUID fixTypeId;

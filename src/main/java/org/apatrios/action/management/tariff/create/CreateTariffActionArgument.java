@@ -20,6 +20,4 @@ public class CreateTariffActionArgument {
     Integer sale;
 
     BigDecimal cost;
-
-    UUID statusId;
 }

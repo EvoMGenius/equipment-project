@@ -2,6 +2,7 @@ package org.apatrios.service.management.point.argument;
 
 import lombok.Builder;
 import lombok.Value;
+import org.apatrios.model.management.PointStatus;
 
 import java.util.UUID;
 
@@ -18,5 +19,5 @@ public class SearchPointArgument {
 
     String workTime;
 
-    UUID statusId;
+    PointStatus status;
 }

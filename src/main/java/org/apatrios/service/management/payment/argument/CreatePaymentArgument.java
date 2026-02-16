@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.dictoinary.Dict;
 import org.apatrios.model.dictoinary.PurchaseType;
-import org.apatrios.model.equipment.Status;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -20,5 +19,5 @@ public class CreatePaymentArgument {
 
     BigDecimal amount;
 
-    Status status;
+    Map<String, String> metadata;
 }

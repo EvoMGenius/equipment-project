@@ -2,6 +2,7 @@ package org.apatrios.service.management.payment.argument;
 
 import lombok.Builder;
 import lombok.Value;
+import org.apatrios.model.management.PaymentStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -17,5 +18,5 @@ public class SearchPaymentArgument {
 
     BigDecimal amount;
 
-    UUID statusId;
+    PaymentStatus status;
 }

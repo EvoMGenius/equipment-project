@@ -3,7 +3,6 @@ package org.apatrios.model.services;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.equipment.Status;
 
 import javax.persistence.*;
 
@@ -29,7 +28,7 @@ public class Recruit extends BaseEntity {
     LocalDateTime createDate;
 
     /** Статус */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    Status status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    RecruitStatus status;
 }

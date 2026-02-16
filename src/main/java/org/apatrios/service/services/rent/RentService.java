@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.services.Rent;
 import org.apatrios.model.services.QRent;
+import org.apatrios.model.services.RentStatus;
 import org.apatrios.repository.services.RentRepository;
 import org.apatrios.service.services.rent.argument.CreateRentArgument;
 import org.apatrios.service.services.rent.argument.SearchRentArgument;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -35,13 +37,13 @@ public class RentService {
                                    .delayCost(argument.getDelayCost())
                                    .total(argument.getTotal())
                                    .documents(argument.getDocuments())
-                                   .endDate(argument.getEndDate())
                                    .number(argument.getNumber())
                                    .outfits(argument.getOutfits())
-                                   .startDate(argument.getStartDate())
+                                   .startDate(LocalDateTime.now())
                                    .user(argument.getUser())
-                                   .status(argument.getStatus())
+                                   .status(RentStatus.CREATED)
                                    .rentType(argument.getRentType())
+                                   .payment(argument.getPayment())
                                    .build());
     }
 
@@ -49,6 +51,14 @@ public class RentService {
     public Page<Rent> page(@NonNull SearchRentArgument argument, Pageable pageable) {
         Predicate predicate = buildPredicate(argument);
         return repository.findAll(predicate, pageable);
+    }
+
+    @Transactional
+    public Rent closeRent(@NonNull UUID id) {
+        Rent rent = getExisting(id);
+        rent.setEndDate(LocalDateTime.now());
+        rent.setStatus(RentStatus.CLOSED);
+        return repository.save(rent);
     }
 
     private Predicate buildPredicate(SearchRentArgument argument) {
@@ -59,7 +69,7 @@ public class RentService {
                           .add(argument.getDebtIds(), qRent.debts.any().id::in)
                           .add(argument.getCurrentDays(), qRent.currentDays::eq)
                           .add(argument.getDelayCost(), qRent.delayCost::eq)
-                          .add(argument.getStatusId(), qRent.status.id::eq)
+                          .add(argument.getStatus(), qRent.status::eq)
                           .add(argument.getUserId(), qRent.user.id::eq)
                           .add(argument.getTotal(), qRent.total::eq)
                           .add(argument.getStartDate(), qRent.startDate::goe)
@@ -68,6 +78,7 @@ public class RentService {
                           .add(argument.getPointId(), qRent.point.id::eq)
                           .add(argument.getDelay(), qRent.delay::eq)
                           .add(argument.getRentTypeId(), qRent.rentType.id::eq)
+                          .add(argument.getPaymentId(), qRent.payment.id::eq)
                           .addAnyString(argument.getSearchString(), qRent.number::containsIgnoreCase)
                           .buildAnd();
     }

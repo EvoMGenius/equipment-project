@@ -4,10 +4,10 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.RentType;
-import org.apatrios.model.equipment.Status;
 import org.apatrios.model.equipment.Bike;
 import org.apatrios.model.equipment.Outfit;
 import org.apatrios.model.management.Document;
+import org.apatrios.model.management.Payment;
 import org.apatrios.model.management.Point;
 import org.apatrios.model.management.User;
 
@@ -32,14 +32,19 @@ public class Rent extends BaseEntity {
     @JoinColumn(name = "rent_type_id")
     RentType rentType;
 
+    /** Последний созданный платеж для этой аренды */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id")
+    Payment payment;
+
     /** Номер аренды */
     @Column(nullable = false, unique = true)
     String number;
 
     /** Статус */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    Status status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    RentStatus status;
 
     /** Пользователь, которому принадлежит аренда */
     @ManyToOne(fetch = FetchType.LAZY)

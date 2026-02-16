@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.UUID;
 
 @Value
@@ -13,5 +14,4 @@ public class CreatePaymentActionArgument {
     UUID entityTypeId;
     String currency;
     BigDecimal amount;
-    UUID statusId;
 }

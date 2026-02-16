@@ -3,6 +3,7 @@ package org.apatrios.api.services.debt.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.services.DebtStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -26,8 +27,8 @@ public class SearchDebtDto {
     @Schema(description = "Описание за что начислена")
     String description;
 
-    @Schema(description = "ID начального статуса")
-    UUID statusId;
+    @Schema(description = "Статус (Ожидает оплаты, Оплачено, Аннулировано)")
+    DebtStatus status;
 
     @Schema(description = "ID связанного документа (если есть)")
     UUID documentId;

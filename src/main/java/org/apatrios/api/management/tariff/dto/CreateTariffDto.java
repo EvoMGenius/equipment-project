@@ -34,7 +34,4 @@ public class CreateTariffDto {
 
     @Schema(description = "Установленная стоимость")
     BigDecimal cost;
-
-    @Schema(description = "Идентификатор начального статуса")
-    UUID statusId;
 }

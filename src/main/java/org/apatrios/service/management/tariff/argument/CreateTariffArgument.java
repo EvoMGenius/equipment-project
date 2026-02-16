@@ -3,7 +3,7 @@ package org.apatrios.service.management.tariff.argument;
 import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.dictoinary.Dict;
-import org.apatrios.model.equipment.Status;
+import org.apatrios.model.management.TariffStatus;
 
 import java.math.BigDecimal;
 
@@ -21,6 +21,4 @@ public class CreateTariffArgument {
     Integer sale;
 
     BigDecimal cost;
-
-    Status status;
 }

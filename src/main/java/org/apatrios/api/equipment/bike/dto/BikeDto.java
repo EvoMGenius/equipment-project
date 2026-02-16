@@ -4,9 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.model_bike.dto.ModelBikeDto;
-import org.apatrios.api.equipment.status.dto.StatusDto;
 import org.apatrios.api.management.tariff.dto.TariffDto;
 import org.apatrios.api.management.telemetry.dto.TelemetryDto;
+import org.apatrios.model.equipment.BikeStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -50,5 +50,5 @@ public class BikeDto {
     TariffDto chosenTariff;
 
     @Schema(description = "Текущий статус велосипеда")
-    StatusDto status;
+    BikeStatus status;
 }

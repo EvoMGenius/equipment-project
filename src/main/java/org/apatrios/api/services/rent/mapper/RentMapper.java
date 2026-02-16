@@ -1,6 +1,6 @@
 package org.apatrios.api.services.rent.mapper;
 
-import org.apatrios.action.services.rent.create.CreateRentActionArgument;
+import org.apatrios.action.services.rent.create.argument.CreateRentActionArgument;
 import org.apatrios.api.services.rent.dto.CreateRentDto;
 import org.apatrios.api.services.rent.dto.RentDto;
 import org.apatrios.api.services.rent.dto.SearchRentDto;

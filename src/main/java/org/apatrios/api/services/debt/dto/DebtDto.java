@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.dict.dto.DictDto;
-import org.apatrios.api.equipment.status.dto.StatusDto;
 import org.apatrios.api.management.doc.dto.DocumentDto;
+import org.apatrios.model.services.DebtStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -33,7 +33,7 @@ public class DebtDto {
     String description;
 
     @Schema(description = "Статус (Ожидает оплаты, Оплачено, Аннулировано)")
-    StatusDto status;
+    DebtStatus status;
 
     @Schema(description = "Связанный документ (акт или счет)")
     DocumentDto document;

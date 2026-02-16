@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.dict.dto.DictDto;
-import org.apatrios.api.equipment.status.dto.StatusDto;
+import org.apatrios.model.management.TariffStatus;
 
 import java.math.BigDecimal;
 
@@ -38,5 +38,5 @@ public class TariffDto {
     BigDecimal cost;
 
     @Schema(description = "Текущий статус тарифа (Активен, Архивный)")
-    StatusDto status;
+    TariffStatus status;
 }

@@ -3,8 +3,8 @@ package org.apatrios.api.equipment.outfit.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.equipment.OutfitStatus;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,5 +28,5 @@ public class SearchOutfitDto {
     UUID chosenTariffId;
 
     @Schema(description = "Фильтр по текущему статусу экипировки")
-    UUID statusId;
+    OutfitStatus status;
 }

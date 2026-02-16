@@ -4,9 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.dict.dto.DictDto;
-import org.apatrios.api.equipment.status.dto.StatusDto;
 import org.apatrios.api.services.photo.dto.PhotoDto;
 import org.apatrios.api.services.repair.dto.RepairDto;
+import org.apatrios.model.services.SupportStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,5 +40,5 @@ public class SupportDto {
     RepairDto childRepair;
 
     @Schema(description = "Статус тикета")
-    StatusDto status;
+    SupportStatus status;
 }

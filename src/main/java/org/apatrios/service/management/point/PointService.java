@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.management.Point;
+import org.apatrios.model.management.PointStatus;
 import org.apatrios.model.management.QPoint;
 import org.apatrios.repository.managment.PointRepository;
 import org.apatrios.service.management.point.argument.CreatePointArgument;
@@ -32,7 +33,7 @@ public class PointService {
                                     .number(argument.getNumber())
                                     .address(argument.getAddress())
                                     .workTime(argument.getWorkTime())
-                                    .status(argument.getStatus())
+                                    .status(PointStatus.CREATED)
                                     .build());
     }
 
@@ -48,7 +49,7 @@ public class PointService {
                           .add(argument.getNumber(), qPoint.number::containsIgnoreCase)
                           .add(argument.getWorkTime(), qPoint.workTime::containsIgnoreCase)
                           .add(argument.getName(), qPoint.name::containsIgnoreCase)
-                          .add(argument.getStatusId(), qPoint.status.id::eq)
+                          .add(argument.getStatus(), qPoint.status::eq)
                           .add(argument.getAddress(), qPoint.address::containsIgnoreCase)
                           .buildAnd();
     }

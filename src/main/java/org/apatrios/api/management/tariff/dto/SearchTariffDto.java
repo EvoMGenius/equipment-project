@@ -3,6 +3,7 @@ package org.apatrios.api.management.tariff.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.management.TariffStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -35,6 +36,6 @@ public class SearchTariffDto {
     @Schema(description = "Фильтр по стоимости")
     BigDecimal cost;
 
-    @Schema(description = "Фильтр по идентификатору статуса")
-    UUID statusId;
+    @Schema(description = "Текущий статус тарифа (Активен, Архивный)")
+    TariffStatus status;
 }

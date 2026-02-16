@@ -3,9 +3,9 @@ package org.apatrios.api.services.contract.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.api.equipment.status.dto.StatusDto;
 import org.apatrios.api.management.doc.dto.DocumentDto;
 import org.apatrios.api.services.recruit.dto.RecruitDto;
+import org.apatrios.model.services.ContactStatus;
 
 import java.util.UUID;
 
@@ -28,5 +28,5 @@ public class ContractDto {
     DocumentDto doc;
 
     @Schema(description = "Статус контракта (Подписан, На согласовании)")
-    StatusDto status;
+    ContactStatus status;
 }

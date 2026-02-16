@@ -2,6 +2,7 @@ package org.apatrios.service.services.repair.argument;
 
 import lombok.Builder;
 import lombok.Value;
+import org.apatrios.model.services.RepairStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +15,7 @@ public class SearchRepairArgument {
     String number;
     UUID fixTypeId;
     String problem;
-    UUID statusId;
+    RepairStatus status;
     LocalDateTime createDateFrom;
     LocalDateTime createDateTo;
     UUID pointId;

@@ -19,8 +19,6 @@ public class CreateBikeActionArgument {
 
     UUID chosenTariffId;
 
-    UUID statusId;
-
     Boolean isBlocked;
 
     Boolean isAlarmOn;

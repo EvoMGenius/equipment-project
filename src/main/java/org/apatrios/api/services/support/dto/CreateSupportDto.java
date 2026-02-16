@@ -24,7 +24,4 @@ public class CreateSupportDto {
 
     @Schema(description = "ID связанного ремонта")
     UUID childRepairId;
-
-    @Schema(description = "ID начального статуса")
-    UUID statusId;
 }

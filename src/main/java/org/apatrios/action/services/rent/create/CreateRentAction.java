@@ -5,10 +5,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
+import org.apatrios.action.services.rent.create.argument.CreateRentActionArgument;
 import org.apatrios.model.dictoinary.RentType;
 import org.apatrios.model.equipment.Bike;
 import org.apatrios.model.equipment.Outfit;
-import org.apatrios.model.equipment.Status;
 import org.apatrios.model.management.Document;
 import org.apatrios.model.management.Point;
 import org.apatrios.model.management.User;
@@ -17,7 +17,6 @@ import org.apatrios.model.services.Rent;
 import org.apatrios.service.dictionary.RentTypeService;
 import org.apatrios.service.equipment.bike.BikeService;
 import org.apatrios.service.equipment.outfit.OutfitService;
-import org.apatrios.service.equipment.status.StatusService;
 import org.apatrios.service.management.document.DocumentService;
 import org.apatrios.service.management.point.PointService;
 import org.apatrios.service.management.user.UserService;
@@ -41,7 +40,6 @@ public class CreateRentAction implements Action<CreateRentActionArgument, Rent> 
     DocumentService documentService;
     OutfitService outfitService;
     UserService userService;
-    StatusService statusService;
     RentTypeService rentTypeService;
 
     @Override
@@ -54,7 +52,6 @@ public class CreateRentAction implements Action<CreateRentActionArgument, Rent> 
         List<Document> documents = documentService.getAllByIds(argument.getDocumentIds());
         List<Outfit> outfits = outfitService.getAllByIds(argument.getOutfitIds());
         User user = userService.getExisting(argument.getUserId());
-        Status status = statusService.getExisting(argument.getStatusId());
 
         return rentService.create(CreateRentArgument.builder()
                                                     .rentType(type)
@@ -66,12 +63,9 @@ public class CreateRentAction implements Action<CreateRentActionArgument, Rent> 
                                                     .delayCost(argument.getDelayCost())
                                                     .total(argument.getTotal())
                                                     .documents(documents)
-                                                    .endDate(argument.getEndDate())
                                                     .number(argument.getNumber())
                                                     .outfits(outfits)
-                                                    .startDate(argument.getStartDate())
                                                     .user(user)
-                                                    .status(status)
                                                     .build());
     }
 }

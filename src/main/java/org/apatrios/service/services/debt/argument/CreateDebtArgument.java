@@ -3,8 +3,8 @@ package org.apatrios.service.services.debt.argument;
 import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.dictoinary.Dict;
-import org.apatrios.model.equipment.Status;
 import org.apatrios.model.management.Document;
+import org.apatrios.model.services.DebtStatus;
 
 import java.math.BigDecimal;
 
@@ -16,8 +16,6 @@ public class CreateDebtArgument {
     BigDecimal total;
 
     String description;
-
-    Status status;
 
     Document document;
 }

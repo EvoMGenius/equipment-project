@@ -2,6 +2,7 @@ package org.apatrios.service.equipment.bike.argument;
 
 import lombok.Builder;
 import lombok.Value;
+import org.apatrios.model.equipment.BikeStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,5 +26,5 @@ public class SearchBikeArgument {
 
     UUID chosenTariffId;
 
-    UUID statusId;
+    BikeStatus status;
 }

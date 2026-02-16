@@ -4,7 +4,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.Dict;
-import org.apatrios.model.equipment.Status;
 
 import javax.persistence.*;
 
@@ -46,7 +45,7 @@ public class Support extends BaseEntity {
     Repair childRepairId;
 
     /** Статус */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    Status status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    SupportStatus status;
 }

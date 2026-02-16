@@ -4,9 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.dict.dto.DictDto;
-import org.apatrios.api.equipment.status.dto.StatusDto;
 import org.apatrios.api.management.point.dto.PointDto;
 import org.apatrios.api.services.photo.dto.PhotoDto;
+import org.apatrios.model.services.RepairStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,7 +36,7 @@ public class RepairDto {
     String problem;
 
     @Schema(description = "Текущий статус ремонта")
-    StatusDto status;
+    RepairStatus status;
 
     @Schema(description = "Дата и время создания заявки")
     LocalDateTime createDate;

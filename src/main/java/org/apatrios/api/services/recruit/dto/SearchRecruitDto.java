@@ -3,9 +3,9 @@ package org.apatrios.api.services.recruit.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.services.RecruitStatus;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -21,8 +21,8 @@ public class SearchRecruitDto {
     @Schema(description = "Поиск по названию компании (частичное совпадение)")
     String recruitCompanyName;
 
-    @Schema(description = "Фильтр по статусу")
-    UUID statusId;
+    @Schema(description = "Текущий статус процесса найма")
+    RecruitStatus status;
 
     @Schema(description = "Фильтр по дате создания (С)")
     LocalDateTime createDateFrom;

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.services.QSupport;
 import org.apatrios.model.services.Support;
+import org.apatrios.model.services.SupportStatus;
 import org.apatrios.repository.services.SupportRepository;
 import org.apatrios.service.services.support.argument.CreateSupportArgument;
 import org.apatrios.service.services.support.argument.SearchSupportArgument;
@@ -33,7 +34,7 @@ public class SupportService {
                                       .description(argument.getDescription())
                                       .photo(argument.getPhoto())
                                       .childRepairId(argument.getChildRepairId())
-                                      .status(argument.getStatus())
+                                      .status(SupportStatus.CREATED)
                                       .build());
     }
 
@@ -52,7 +53,7 @@ public class SupportService {
     private Predicate buildPredicate(SearchSupportArgument argument) {
         return QPredicates.builder()
                           .add(argument.getTypeId(), qSupport.type.id::eq)
-                          .add(argument.getStatusId(), qSupport.status.id::eq)
+                          .add(argument.getStatus(), qSupport.status::eq)
                           .add(argument.getDescription(), qSupport.description::containsIgnoreCase)
                           .add(argument.getChildRepairId(), qSupport.childRepairId.id::eq)
                           .add(argument.getCreateDateFrom(), qSupport.createDate::goe)

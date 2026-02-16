@@ -1,4 +1,4 @@
-package org.apatrios.api.management.payment.create.dto;
+package org.apatrios.api.management.payment.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -28,7 +28,4 @@ public class CreatePaymentDto {
 
     @Schema(description = "Сумма к оплате")
     BigDecimal amount;
-
-    @Schema(description = "ID начального статуса платежа")
-    UUID statusId;
 }

@@ -17,6 +17,4 @@ public class CreatePointActionArgument {
     String address;
 
     String workTime;
-
-    UUID statusId;
 }

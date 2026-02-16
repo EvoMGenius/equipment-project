@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.equipment.Bike;
+import org.apatrios.model.equipment.BikeStatus;
 import org.apatrios.model.equipment.QBike;
 import org.apatrios.repository.equipment.BikeRepository;
 import org.apatrios.service.equipment.bike.argument.CreateBikeArgument;
@@ -29,12 +30,12 @@ public class BikeService {
         return repository.save(Bike.builder()
                                    .invNumber(argument.getInvNumber())
                                    .modelBike(argument.getModelBike())
-                                   .status(argument.getStatus())
                                    .chosenTariff(argument.getChosenTariff())
                                    .tariff(argument.getTariff())
                                    .chosenTariff(argument.getChosenTariff())
                                    .telemetry(argument.getTelemetry())
                                    .isAlarmOn(argument.getIsAlarmOn())
+                                   .status(BikeStatus.CREATED)
                                    .isBlocked(argument.getIsBlocked())
                                    .isHeadlightsOn(argument.getIsHeadlightsOn())
                                    .build());
@@ -52,7 +53,7 @@ public class BikeService {
                           .add(argument.getChosenTariffId(), qBike.chosenTariff.id::eq)
                           .add(argument.getInvNumber(), qBike.invNumber::containsIgnoreCase)
                           .add(argument.getIsBlocked(), qBike.isBlocked::eq)
-                          .add(argument.getStatusId(), qBike.status.id::eq)
+                          .add(argument.getStatus(), qBike.status::eq)
                           .add(argument.getTelemetryId(), qBike.telemetry.id::eq)
                           .add(argument.getIsAlarmOn(), qBike.isAlarmOn::eq)
                           .add(argument.getIsHeadlightsOn(), qBike.isHeadlightsOn::eq)

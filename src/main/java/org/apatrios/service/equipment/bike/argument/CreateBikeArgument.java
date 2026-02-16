@@ -2,7 +2,6 @@ package org.apatrios.service.equipment.bike.argument;
 
 import lombok.Builder;
 import lombok.Value;
-import org.apatrios.model.equipment.Status;
 import org.apatrios.model.dictoinary.ModelBike;
 import org.apatrios.model.management.Tariff;
 import org.apatrios.model.management.Telemetry;
@@ -21,8 +20,6 @@ public class CreateBikeArgument {
     List<Tariff> tariff;
 
     Tariff chosenTariff;
-
-    Status status;
 
     Boolean isBlocked;
 

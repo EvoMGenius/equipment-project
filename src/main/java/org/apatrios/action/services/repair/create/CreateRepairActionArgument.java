@@ -14,7 +14,6 @@ public class CreateRepairActionArgument {
     String number;
     UUID fixTypeId;
     String problem;
-    UUID statusId;
     UUID pointId;
     List<UUID> photoIds;
 }

@@ -4,8 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.UUID;
-
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
@@ -19,7 +17,4 @@ public class CreateRecruitDto {
 
     @Schema(description = "Название компании", requiredMode = Schema.RequiredMode.REQUIRED)
     String recruitCompanyName;
-
-    @Schema(description = "ID начального статуса набора")
-    UUID statusId;
 }

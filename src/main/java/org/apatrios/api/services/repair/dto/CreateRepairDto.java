@@ -25,7 +25,4 @@ public class CreateRepairDto {
 
     @Schema(description = "ID сервисного центра (Point)")
     UUID pointId;
-
-    @Schema(description = "ID начального статуса")
-    UUID statusId;
 }

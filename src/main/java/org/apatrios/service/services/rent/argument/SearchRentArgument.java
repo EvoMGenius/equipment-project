@@ -3,6 +3,7 @@ package org.apatrios.service.services.rent.argument;
 import lombok.Builder;
 import lombok.Value;
 import org.apatrios.model.equipment.Outfit;
+import org.apatrios.model.services.RentStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.UUID;
 public class SearchRentArgument {
     String number;
     UUID rentTypeId;
-    UUID statusId;
+    RentStatus status;
     UUID userId;
     UUID bikeId;
     UUID pointId;
@@ -29,4 +30,5 @@ public class SearchRentArgument {
     List<UUID> outfits;
     List<UUID> documentIds;
     String searchString;
+    UUID paymentId;
 }

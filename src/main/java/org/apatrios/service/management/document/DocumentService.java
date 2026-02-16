@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.management.Document;
+import org.apatrios.model.management.DocumentStatus;
 import org.apatrios.model.management.File;
 import org.apatrios.model.management.QDocument;
 import org.apatrios.repository.managment.DocumentRepository;
@@ -31,7 +32,7 @@ public class DocumentService {
         return repository.save(Document.builder()
                                        .docType(argument.getDocType())
                                        .name(argument.getName())
-                                       .status(argument.getStatus())
+                                       .status(DocumentStatus.CREATED)
                                        .build());
     }
 
@@ -63,7 +64,7 @@ public class DocumentService {
         return QPredicates.builder()
                           .add(argument.getName(), qDocument.name::containsIgnoreCase)
                           .add(argument.getFile(), qDocument.file::eq)
-                          .add(argument.getStatusId(), qDocument.status.id::eq)
+                          .add(argument.getStatus(), qDocument.status::eq)
                           .add(argument.getDocTypeId(), qDocument.docType.id::eq)
                           .buildAnd();
     }

@@ -22,7 +22,4 @@ public class CreateDocumentDto {
 
     @Schema(description = "ID типа документа из справочника Dict")
     UUID docTypeId;
-
-    @Schema(description = "ID начального статуса")
-    UUID statusId;
 }

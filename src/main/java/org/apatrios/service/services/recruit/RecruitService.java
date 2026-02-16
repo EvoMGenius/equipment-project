@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.services.Recruit;
 import org.apatrios.model.services.QRecruit;
+import org.apatrios.model.services.RecruitStatus;
 import org.apatrios.repository.services.RecruitRepository;
 import org.apatrios.service.services.recruit.argument.CreateRecruitArgument;
 import org.apatrios.service.services.recruit.argument.SearchRecruitArgument;
@@ -30,7 +31,7 @@ public class RecruitService {
         return repository.save(Recruit.builder()
                                       .createDate(LocalDateTime.now())
                                       .recruitCompanyName(argument.getRecruitCompanyName())
-                                      .status(argument.getStatus())
+                                      .status(RecruitStatus.CREATED)
                                       .build());
     }
 
@@ -42,7 +43,7 @@ public class RecruitService {
 
     private Predicate buildPredicate(SearchRecruitArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getStatusId(), qRecruit.status.id::eq)
+                          .add(argument.getStatus(), qRecruit.status::eq)
                           .add(argument.getRecruitCompanyName(), qRecruit.recruitCompanyName::containsIgnoreCase)
                           .add(argument.getStartDate(), qRecruit.createDate::goe)
                           .add(argument.getEndDate(), qRecruit.createDate::loe)

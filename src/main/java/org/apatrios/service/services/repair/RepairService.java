@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.services.QRepair;
 import org.apatrios.model.services.Repair;
+import org.apatrios.model.services.RepairStatus;
 import org.apatrios.repository.services.RepairRepository;
 import org.apatrios.service.services.repair.argument.CreateRepairArgument;
 import org.apatrios.service.services.repair.argument.SearchRepairArgument;
@@ -34,7 +35,7 @@ public class RepairService {
                                      .problem(argument.getProblem())
                                      .number(argument.getNumber())
                                      .createDate(LocalDateTime.now())
-                                     .status(argument.getStatus())
+                                     .status(RepairStatus.CREATED)
                                      .build());
     }
 
@@ -50,7 +51,7 @@ public class RepairService {
                           .add(argument.getNumber(), qRepair.number::containsIgnoreCase)
                           .add(argument.getFixTypeId(), qRepair.fixType.id::eq)
                           .add(argument.getPhotoIds(), qRepair.photos.any().id::in)
-                          .add(argument.getStatusId(), qRepair.status.id::eq)
+                          .add(argument.getStatus(), qRepair.status::eq)
                           .add(argument.getCreateDateTo(), qRepair.createDate::loe)
                           .add(argument.getCreateDateFrom(), qRepair.createDate::goe)
                           .add(argument.getPointId(), qRepair.point.id::eq)

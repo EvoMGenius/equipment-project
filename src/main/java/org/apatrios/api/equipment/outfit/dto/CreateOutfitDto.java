@@ -25,7 +25,4 @@ public class CreateOutfitDto {
 
     @Schema(description = "Выбранный тариф")
     UUID chosenTariffId;
-
-    @Schema(description = "Статус")
-    UUID statusId;
 }

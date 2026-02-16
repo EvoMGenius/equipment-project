@@ -4,6 +4,7 @@ import com.querydsl.core.types.Predicate;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
+import org.apatrios.model.services.ContactStatus;
 import org.apatrios.model.services.Contract;
 import org.apatrios.model.services.QContract;
 import org.apatrios.repository.services.ContractRepository;
@@ -28,7 +29,7 @@ public class ContractService {
     public Contract create(@NonNull CreateContractArgument argument) {
         return repository.save(Contract.builder()
                                        .doc(argument.getDoc())
-                                       .status(argument.getStatus())
+                                       .status(ContactStatus.CREATED)
                                        .recruit(argument.getRecruit())
                                        .build());
     }
@@ -49,7 +50,7 @@ public class ContractService {
         return QPredicates.builder()
                           .add(argument.getDocId(), qContract.doc.id::eq)
                           .add(argument.getRecruitId(), qContract.recruit.id::eq)
-                          .add(argument.getStatusId(), qContract.status.id::eq)
+                          .add(argument.getStatus(), qContract.status::eq)
                           .buildAnd();
     }
 }

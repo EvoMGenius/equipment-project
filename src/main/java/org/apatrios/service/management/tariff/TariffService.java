@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.management.QTariff;
 import org.apatrios.model.management.Tariff;
+import org.apatrios.model.management.TariffStatus;
 import org.apatrios.repository.managment.TariffRepository;
 import org.apatrios.service.management.tariff.argument.CreateTariffArgument;
 import org.apatrios.service.management.tariff.argument.SearchTariffArgument;
@@ -34,7 +35,7 @@ public class TariffService {
                                      .endBorder(argument.getEndBorder())
                                      .sale(argument.getSale())
                                      .cost(argument.getCost())
-                                     .status(argument.getStatus())
+                                     .status(TariffStatus.CREATED)
                                      .build());
     }
 
@@ -61,7 +62,7 @@ public class TariffService {
                           .add(argument.getSale(), qTariff.sale::eq)
                           .add(argument.getCost(), qTariff.cost::eq)
                           .add(argument.getTariffTypeId(), qTariff.tariffType.id::eq)
-                          .add(argument.getStatusId(), qTariff.status.id::eq)
+                          .add(argument.getStatus(), qTariff.status::eq)
                           .add(argument.getStartBorder(), qTariff.startBorder::goe)
                           .add(argument.getEndBorder(), qTariff.endBorder::loe)
                           .buildAnd();

@@ -5,10 +5,10 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.equipment.bike.dto.BikeDto;
 import org.apatrios.api.equipment.outfit.dto.OutfitDto;
-import org.apatrios.api.equipment.status.dto.StatusDto;
 import org.apatrios.api.management.doc.dto.DocumentDto;
 import org.apatrios.api.management.point.dto.PointDto;
 import org.apatrios.api.services.debt.dto.DebtDto;
+import org.apatrios.model.services.RentStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -33,7 +33,7 @@ public class RentDto {
     String number;
 
     @Schema(description = "Текущий статус аренды")
-    StatusDto status;
+    RentStatus status;
 
     @Schema(description = "ID пользователя-арендатора")
     UUID userId;

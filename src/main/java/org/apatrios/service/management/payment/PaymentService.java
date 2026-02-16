@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.management.Payment;
+import org.apatrios.model.management.PaymentStatus;
 import org.apatrios.model.management.QPayment;
 import org.apatrios.repository.managment.PaymentRepository;
 import org.apatrios.service.management.payment.argument.CreatePaymentArgument;
@@ -30,10 +31,11 @@ public class PaymentService {
     public Payment create(@NonNull CreatePaymentArgument argument) {
         return repository.save(Payment.builder()
                                       .paymentType(argument.getPaymentType())
-                                      .status(argument.getStatus())
+                                      .status(PaymentStatus.CREATED)
                                       .amount(argument.getAmount())
                                       .entityType(argument.getEntityType())
                                       .currency(argument.getCurrency())
+                                      .metadata(argument.getMetadata())
                                       .build());
     }
 
@@ -46,7 +48,8 @@ public class PaymentService {
         Optional.ofNullable(argument.getPaymentType()).ifPresent(payment::setPaymentType);
         Optional.ofNullable(argument.getEntityType()).ifPresent(payment::setEntityType);
         Optional.ofNullable(argument.getCurrency()).ifPresent(payment::setCurrency);
-        Optional.ofNullable(argument.getPaymentUrl()).ifPresent(payment::setPaymentUrl);
+        Optional.ofNullable(argument.getMetadata()).ifPresent(payment::setMetadata);
+        Optional.ofNullable(argument.getStatus()).ifPresent(payment::setStatus);
 
         return repository.save(payment);
     }
@@ -60,7 +63,7 @@ public class PaymentService {
     private Predicate buildPredicate(SearchPaymentArgument argument) {
         return QPredicates.builder()
                           .add(argument.getPaymentTypeId(), qPayment.paymentType.id::eq)
-                          .add(argument.getStatusId(), qPayment.status.id::eq)
+                          .add(argument.getStatus(), qPayment.status::eq)
                           .add(argument.getCurrency(), qPayment.currency::containsIgnoreCase)
                           .add(argument.getAmount(), qPayment.amount::eq)
                           .add(argument.getEntityTypeId(), qPayment.entityType.id::eq)
@@ -69,6 +72,7 @@ public class PaymentService {
 
     @Transactional(readOnly = true)
     public Payment getExisting(@NonNull UUID id) {
-        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Payment.notFound"));
+        return repository.findById(id)
+                         .orElseThrow(() -> new EntityNotFoundException("Payment.notFound"));
     }
 }

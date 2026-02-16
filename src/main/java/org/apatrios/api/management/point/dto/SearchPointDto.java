@@ -3,6 +3,7 @@ package org.apatrios.api.management.point.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apatrios.model.management.PointStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -32,6 +33,6 @@ public class SearchPointDto {
     @Schema(description = "График работы в текстовом формате")
     String workTime;
 
-    @Schema(description = "Идентификатор начального статуса (ссылка на сущность Status)")
-    UUID statusId;
+    @Schema(description = "Текущий статус точки (Активна, Временно закрыта, Ремонт)")
+    PointStatus status;
 }

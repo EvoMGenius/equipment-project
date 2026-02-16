@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.dict.dto.DictDto;
-import org.apatrios.api.equipment.status.dto.StatusDto;
+import org.apatrios.model.management.PointStatus;
 
 import java.util.UUID;
 
@@ -37,5 +37,5 @@ public class PointDto {
     String workTime;
 
     @Schema(description = "Текущий статус точки (Активна, Временно закрыта, Ремонт)")
-    StatusDto status;
+    PointStatus status;
 }

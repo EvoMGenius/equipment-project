@@ -2,6 +2,7 @@ package org.apatrios.service.management.tariff.argument;
 
 import lombok.Builder;
 import lombok.Value;
+import org.apatrios.model.management.TariffStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -21,5 +22,5 @@ public class SearchTariffArgument {
 
     BigDecimal cost;
 
-    UUID statusId;
+    TariffStatus status;
 }

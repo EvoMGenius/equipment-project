@@ -33,10 +33,4 @@ public class CreateRentDto {
 
     @Schema(description = "Планируемая дата начала")
     LocalDateTime startDate;
-
-    @Schema(description = "Планируемая дата окончания")
-    LocalDateTime endDate;
-
-    @Schema(description = "ID начального статуса")
-    UUID statusId;
 }

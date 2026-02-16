@@ -42,7 +42,7 @@ public class Outfit extends BaseEntity {
     Tariff chosenTariff;
 
     /** Статус */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    Status status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    OutfitStatus status;
 }

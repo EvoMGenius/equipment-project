@@ -8,8 +8,6 @@ import java.util.UUID;
 @Value
 @Builder
 public class CreateDocumentActionArgument {
-    UUID statusId;
-
     String name;
 
     UUID docTypeId;

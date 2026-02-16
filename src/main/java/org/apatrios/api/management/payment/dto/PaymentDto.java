@@ -1,12 +1,13 @@
-package org.apatrios.api.management.payment.create.dto;
+package org.apatrios.api.management.payment.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.dict.dto.DictDto;
-import org.apatrios.api.equipment.status.dto.StatusDto;
+import org.apatrios.model.management.PaymentStatus;
 
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -36,8 +37,8 @@ public class PaymentDto {
     BigDecimal amount;
 
     @Schema(description = "Текущий статус платежа (Создан, Оплачен, Отменен)")
-    StatusDto status;
+    PaymentStatus status;
 
-    @Schema(description = "URL юкассы")
-    String paymentUrl;
+    @Schema(description = "Метаданные от платежки")
+    Map<String, String> metadata;
 }

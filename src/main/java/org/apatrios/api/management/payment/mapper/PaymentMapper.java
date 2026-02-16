@@ -1,7 +1,7 @@
-package org.apatrios.api.management.payment.create.mapper;
+package org.apatrios.api.management.payment.mapper;
 
 import org.apatrios.action.management.payment.create.argument.CreatePaymentActionArgument;
-import org.apatrios.api.management.payment.create.dto.*;
+import org.apatrios.api.management.payment.dto.*;
 import org.apatrios.model.management.Payment;
 import org.apatrios.service.management.payment.argument.SearchPaymentArgument;
 import org.mapstruct.Mapper;

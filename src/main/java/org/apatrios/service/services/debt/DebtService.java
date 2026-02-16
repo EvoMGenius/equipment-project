@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.services.Debt;
+import org.apatrios.model.services.DebtStatus;
 import org.apatrios.model.services.QDebt;
 import org.apatrios.repository.services.DebtRepository;
 import org.apatrios.service.services.debt.argument.CreateDebtArgument;
@@ -29,7 +30,7 @@ public class DebtService {
     public Debt create(@NonNull CreateDebtArgument argument) {
         return repository.save(Debt.builder()
                                    .debtType(argument.getDebtType())
-                                   .status(argument.getStatus())
+                                   .status(DebtStatus.CREATED)
                                    .total(argument.getTotal())
                                    .document(argument.getDocument())
                                    .description(argument.getDescription())
@@ -58,7 +59,7 @@ public class DebtService {
                           .add(argument.getDescription(), qDebt.description::containsIgnoreCase)
                           .add(argument.getTotal(), qDebt.total::eq)
                           .add(argument.getDebtTypeId(), qDebt.debtType.id::eq)
-                          .add(argument.getStatusId(), qDebt.status.id::eq)
+                          .add(argument.getStatus(), qDebt.status::eq)
                           .add(argument.getDocumentId(), qDebt.document.id::eq)
                           .addAnyString(argument.getSearchString(), qDebt.description::containsIgnoreCase)
                           .buildAnd();
