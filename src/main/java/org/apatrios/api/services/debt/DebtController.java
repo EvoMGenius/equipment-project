@@ -8,12 +8,14 @@ import org.apatrios.api.services.debt.dto.SearchDebtDto;
 import org.apatrios.service.services.debt.DebtService;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 import static org.apatrios.api.services.debt.mapper.DebtMapper.DEBT_MAPPER;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/service/debt")

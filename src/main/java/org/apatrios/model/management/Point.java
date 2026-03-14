@@ -3,9 +3,13 @@ package org.apatrios.model.management;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.Dict;
+import org.apatrios.model.dictoinary.PointType;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+
+import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -19,27 +23,41 @@ import static lombok.AccessLevel.PRIVATE;
 public class Point extends BaseEntity {
 
     /** Тип точки */
-    @Column(nullable = false)
-    Dict pointType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    PointType pointType;
 
     /** Название точки */
     @Column(nullable = false)
     String name;
 
-    /** Номер точки */
-    @Column(nullable = false)
-    String number;
-
     /** Физический адрес */
     @Column(nullable = false)
     String address;
 
-    /** График работы */
-    @Column(nullable = false)
-    String workTime;
+    /** Внешний ключ: Бизнес-объект "Компания" */
+    @ManyToOne(fetch = FetchType.LAZY)
+    Company company;
+
+    /** Географическая широта */
+    Double latitude;
+
+    /** Географическая долгота */
+    Double longitude;
 
     /** Статус */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     PointStatus status;
+
+    /** Дата и время создания записи */
+    @CreationTimestamp
+    LocalDateTime createDate;
+
+    /** Дата и время обновления записи */
+    @UpdateTimestamp
+    LocalDateTime updateDate;
+
+    /** Признак удаления */
+    @Builder.Default
+    Boolean isDeleted = false;
 }

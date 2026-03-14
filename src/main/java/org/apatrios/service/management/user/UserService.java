@@ -6,14 +6,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.exception.EntityNotFoundException;
 import org.apatrios.model.management.User;
+import org.apatrios.model.management.UserStatus;
 import org.apatrios.repository.managment.UserRepository;
 import org.apatrios.service.management.user.argument.CreateUserArgument;
 import org.apatrios.service.management.user.argument.UpdateUserArgument;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,17 +22,17 @@ import java.util.UUID;
 public class UserService {
 
     UserRepository repository;
-    PasswordEncoder encoder;
 
     @Transactional
     public User create(@NonNull CreateUserArgument argument) {
         return repository.save(User.builder()
-                                   .email(argument.getEmail())
-                                   .avatar(argument.getAvatar())
-                                   .userProfile(argument.getUserProfile())
-                                   .createDate(LocalDateTime.now())
-                                   .phoneNumber(argument.getPhoneNumber())
-                                   .password(encoder.encode(argument.getPassword()))
+                                   .email(argument.email())
+                                   .avatar(argument.avatar())
+                                   .userProfile(argument.userProfile())
+                                   .phoneNumber(argument.phoneNumber())
+                                   .authorities(argument.authorities())
+                                   .isVerified(true)
+                                   .status(UserStatus.PRE_REGISTERED)
                                    .build());
     }
 
@@ -41,12 +40,13 @@ public class UserService {
     public User update(@NonNull UUID id, @NonNull UpdateUserArgument argument) {
         User user = getExisting(id);
 
-        Optional.ofNullable(argument.getUserProfile()).ifPresent(user::setUserProfile);
-        Optional.ofNullable(argument.getPhoneNumber()).ifPresent(user::setPhoneNumber);
-        Optional.ofNullable(argument.getEmail()).ifPresent(user::setEmail);
-        Optional.ofNullable(argument.getAvatar()).ifPresent(user::setAvatar);
-        Optional.ofNullable(argument.getIsEmailVerified()).ifPresent(user::setIsEmailVerified);
-        Optional.ofNullable(argument.getIsDocVerified()).ifPresent(user::setIsDocVerified);
+        Optional.ofNullable(argument.userProfile()).ifPresent(user::setUserProfile);
+        Optional.ofNullable(argument.phoneNumber()).ifPresent(user::setPhoneNumber);
+        Optional.ofNullable(argument.email()).ifPresent(user::setEmail);
+        Optional.ofNullable(argument.avatar()).ifPresent(user::setAvatar);
+        Optional.ofNullable(argument.status()).ifPresent(user::setStatus);
+        Optional.ofNullable(argument.isEmailVerified()).ifPresent(user::setIsEmailVerified);
+        Optional.ofNullable(argument.authorities()).ifPresent(user::setAuthorities);
 
         return repository.save(user);
     }

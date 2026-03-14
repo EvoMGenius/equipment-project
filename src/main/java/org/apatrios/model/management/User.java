@@ -4,10 +4,13 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.services.Photo;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -25,6 +28,10 @@ public class User extends BaseEntity {
     @Embedded
     UserProfile userProfile;
 
+    /*** Аватар пользователя */
+    @Embedded
+    Photo avatar;
+
     /** Адрес электронной почты */
     @Column(unique = true)
     String email;
@@ -32,22 +39,36 @@ public class User extends BaseEntity {
     /** Номер телефона */
     String phoneNumber;
 
-    /** Пароль */
-    String password;
+    /** Статус */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    UserStatus status;
 
-    /** Дата регистрации в системе */
+    /** Роли */
+    @Column(name = "authority")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_authority",
+            joinColumns = @JoinColumn(name = "user_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "authority"})})
+    Set<String> authorities;
+
+    /** Дата и время создания записи */
+    @CreationTimestamp
     LocalDateTime createDate;
+
+    /** Дата и время обновления записи */
+    @UpdateTimestamp
+    LocalDateTime updateDate;
+
+    /** Признак удаления */
+    @Builder.Default
+    Boolean isDeleted = false;
+
+    /** Флаг подтверждения */
+    @Builder.Default
+    Boolean isVerified = false;
 
     /** Флаг подтверждения почты */
     @Builder.Default
     Boolean isEmailVerified = false;
-
-    /** Флаг верификации документов */
-    @Builder.Default
-    Boolean isDocVerified = false;
-
-    /*** Аватар пользователя */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "avatar_photo_id")
-    Photo avatar;
 }

@@ -16,7 +16,7 @@ public class OAuth2SecurityConfig extends ResourceServerConfigurerAdapter {
         http.csrf().disable()
             .anonymous().and()
             .authorizeRequests()
-            .antMatchers("/auth/**", "/profile/**", "/webhook/**").permitAll()
+            .antMatchers("/auth/**", "/webhook/**").permitAll()
             .antMatchers("/swagger-ui/**", "/v3/**").permitAll()
             .anyRequest().authenticated();
     }

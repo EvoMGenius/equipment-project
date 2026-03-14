@@ -1,43 +1,41 @@
 package org.apatrios.api.equipment.bike.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = PRIVATE)
 @Schema(description = "DTO для создания велосипеда")
-public class CreateBikeDto {
-    @Schema(description = "Инвентарный номер (уникальный заводской или внутренний код)", example = "BK-2026-001")
-    String invNumber;
+public record CreateBikeDto(
+        @NotNull
+        @Schema(description = "Идентификатор модели", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
+        UUID modelBikeId,
 
-    @Schema(description = "Идентификатор модели велосипеда (ссылка на справочник моделей)")
-    UUID modelBikeId;
+        @NotNull
+        @Schema(description = "Инвентарный номер", example = "12345")
+        Integer invNumber,
 
-    @Schema(description = "Идентификатор установленного телеметрического модуля")
-    UUID telemetryId;
+        @NotNull
+        @Schema(description = "Порядковый номер модели")
+        Integer seqNumber,
 
-    @Schema(description = "Список идентификаторов тарифов, доступных для этой единицы")
-    List<UUID> tariffIds;
+        @NotBlank
+        @Schema(description = "VIN номер электровелосипеда")
+        String vin,
 
-    @Schema(description = "Идентификатор тарифа, выбранного по умолчанию или для текущей сессии")
-    UUID chosenTariffId;
+        @NotBlank
+        @Schema(description = "Номер мотор-колеса")
+        String motorWheel,
 
-    @Schema(description = "Начальное состояние блокировки двигателя/колес", defaultValue = "false")
-    Boolean isBlocked;
+        @NotNull
+        @Schema(description = "Идентификатор компании")
+        UUID companyId,
 
-    @Schema(description = "Начальное состояние сигнализации", defaultValue = "false")
-    Boolean isAlarmOn;
+        @NotNull
+        @Schema(description = "Идентификатор IOT-модуля")
+        UUID iotId,
 
-    @Schema(description = "Состояние фар при создании", defaultValue = "false")
-    Boolean isHeadlightsOn;
-}
+        @Schema(description = "Комментарий")
+        String comment
+) {}

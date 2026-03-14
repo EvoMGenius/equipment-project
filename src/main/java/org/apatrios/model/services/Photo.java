@@ -1,25 +1,24 @@
 package org.apatrios.model.services;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apatrios.model.BaseEntity;
+import org.apatrios.util.FileUrlSerializer;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 
 import static lombok.AccessLevel.PRIVATE;
 
-@Entity
+@Embeddable
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class Photo extends BaseEntity {
-    @Column(nullable = false)
+public class Photo {
     String fileName;
 
-    @Column(nullable = false)
+    @JsonSerialize(using = FileUrlSerializer.class)
     String fileUrl;
 }

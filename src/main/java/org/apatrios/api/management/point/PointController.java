@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
-import org.apatrios.action.management.point.create.CreatePointActionArgument;
+import org.apatrios.action.management.point.argument.CreatePointActionArgument;
 import org.apatrios.api.management.point.dto.CreatePointDto;
 import org.apatrios.api.management.point.dto.PointDto;
 import org.apatrios.api.management.point.dto.SearchPointDto;
@@ -12,6 +12,7 @@ import org.apatrios.model.management.Point;
 import org.apatrios.service.management.point.PointService;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 import static org.apatrios.api.management.point.mapper.PointMapper.POINT_MAPPER;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/management/point")

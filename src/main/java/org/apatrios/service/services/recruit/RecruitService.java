@@ -29,8 +29,7 @@ public class RecruitService {
     @Transactional
     public Recruit create(@NonNull CreateRecruitArgument argument) {
         return repository.save(Recruit.builder()
-                                      .createDate(LocalDateTime.now())
-                                      .recruitCompanyName(argument.getRecruitCompanyName())
+                                      .recruitCompanyName(argument.recruitCompanyName())
                                       .status(RecruitStatus.CREATED)
                                       .build());
     }
@@ -43,11 +42,11 @@ public class RecruitService {
 
     private Predicate buildPredicate(SearchRecruitArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getStatus(), qRecruit.status::eq)
-                          .add(argument.getRecruitCompanyName(), qRecruit.recruitCompanyName::containsIgnoreCase)
-                          .add(argument.getStartDate(), qRecruit.createDate::goe)
-                          .add(argument.getEndDate(), qRecruit.createDate::loe)
-                          .addAnyString(argument.getSearchString(), qRecruit.recruitCompanyName::containsIgnoreCase)
+                          .add(argument.status(), qRecruit.status::eq)
+                          .add(argument.recruitCompanyName(), qRecruit.recruitCompanyName::containsIgnoreCase)
+                          .add(argument.startDate(), qRecruit.createDate::goe)
+                          .add(argument.endDate(), qRecruit.createDate::loe)
+                          .addAnyString(argument.searchString(), qRecruit.recruitCompanyName::containsIgnoreCase)
                           .buildAnd();
     }
 

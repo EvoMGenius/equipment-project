@@ -28,12 +28,13 @@ public class PointService {
     @Transactional
     public Point create(@NonNull CreatePointArgument argument) {
         return repository.save(Point.builder()
-                                    .pointType(argument.getPointType())
-                                    .name(argument.getName())
-                                    .number(argument.getNumber())
-                                    .address(argument.getAddress())
-                                    .workTime(argument.getWorkTime())
+                                    .name(argument.name())
+                                    .address(argument.address())
+                                    .company(argument.company())
+                                    .pointType(argument.pointType())
                                     .status(PointStatus.CREATED)
+                                    .latitude(argument.latitude())
+                                    .longitude(argument.longitude())
                                     .build());
     }
 
@@ -45,12 +46,16 @@ public class PointService {
 
     private Predicate buildPredicate(SearchPointArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getPointTypeId(), qPoint.pointType.id::eq)
-                          .add(argument.getNumber(), qPoint.number::containsIgnoreCase)
-                          .add(argument.getWorkTime(), qPoint.workTime::containsIgnoreCase)
-                          .add(argument.getName(), qPoint.name::containsIgnoreCase)
-                          .add(argument.getStatus(), qPoint.status::eq)
-                          .add(argument.getAddress(), qPoint.address::containsIgnoreCase)
+                          .add(argument.name(), qPoint.name::containsIgnoreCase)
+                          .add(argument.address(), qPoint.address::containsIgnoreCase)
+                          .add(argument.companyId(), qPoint.company.id::eq)
+                          .add(argument.pointTypeId(), qPoint.pointType.id::eq)
+                          .add(argument.status(), qPoint.status::eq)
+                          .add(argument.isDeleted(), qPoint.isDeleted::eq)
+                          .add(argument.createDateFrom(), qPoint.createDate::goe)
+                          .add(argument.createDateTo(), qPoint.createDate::loe)
+                          .add(argument.updateDateFrom(), qPoint.updateDate::goe)
+                          .add(argument.updateDateTo(), qPoint.updateDate::loe)
                           .buildAnd();
     }
 

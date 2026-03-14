@@ -8,12 +8,14 @@ import org.apatrios.api.services.contract.dto.SearchContractDto;
 import org.apatrios.service.services.contract.ContractService;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 import static org.apatrios.api.services.contract.mapper.ContractMapper.CONTRACT_MAPPER;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/service/contract")

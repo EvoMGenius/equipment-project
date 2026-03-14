@@ -1,35 +1,57 @@
 package org.apatrios.api.management.payment.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 import org.apatrios.model.management.PaymentStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = PRIVATE)
 @Schema(description = "DTO для поиска и фильтрации платежей")
-public class SearchPaymentDto {
-    @Schema(description = "Фильтр по способу оплаты")
-    UUID paymentTypeId;
+public record SearchPaymentDto(
 
-    @Schema(description = "Фильтр по типу сущности")
-    UUID entityTypeId;
+        @Schema(description = "ID компании, к которой относится платеж")
+        UUID companyId,
 
-    @Schema(description = "Фильтр по валюте")
-    String currency;
+        @Schema(description = "ID типа платежа (например: карта, СБП, электронный кошелек)")
+        UUID paymentTypeId,
 
-    @Schema(description = "Поиск платежей с конкретной суммой")
-    BigDecimal amount;
+        @Schema(description = "Валюта платежа", example = "RUB")
+        String currency,
 
-    @Schema(description = "Текущий статус платежа (Создан, Оплачен, Отменен)")
-    PaymentStatus status;
-}
+        @Schema(description = "Минимальная сумма платежа", example = "100.00")
+        BigDecimal amountFrom,
+
+        @Schema(description = "Максимальная сумма платежа", example = "10000.00")
+        BigDecimal amountTo,
+
+        @Schema(description = "ID оплачиваемой сущности (например аренды, штрафа или депозита)")
+        UUID entityId,
+
+        @Schema(description = "Тип оплачиваемой сущности (например RENT, FINE, DEPOSIT)")
+        String entityType,
+
+        @Schema(description = "Статус платежа (CREATED, PENDING, CANCELED, SUCCEEDED)")
+        PaymentStatus status,
+
+        @Schema(description = "Флаг мягкого удаления записи")
+        Boolean isDeleted,
+
+        @Schema(description = "Дата востребования платежа от")
+        LocalDateTime dateOfDemandFrom,
+
+        @Schema(description = "Дата востребования платежа до")
+        LocalDateTime dateOfDemandTo,
+
+        @Schema(description = "Дата создания платежа от")
+        LocalDateTime createDateFrom,
+
+        @Schema(description = "Дата создания платежа до")
+        LocalDateTime createDateTo,
+
+        @Schema(description = "Дата последнего обновления платежа от")
+        LocalDateTime updateDateFrom,
+
+        @Schema(description = "Дата последнего обновления платежа до")
+        LocalDateTime updateDateTo
+) {}

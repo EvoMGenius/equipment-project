@@ -3,7 +3,7 @@ package org.apatrios.model.services;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.Dict;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 
@@ -22,21 +22,23 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class Support extends BaseEntity {
     /** Дата создания обращения */
-    @Column(nullable = false)
+    @CreationTimestamp
     LocalDateTime createDate;
 
     /** Тип обращения */
     @Column(nullable = false)
-    Dict type;
+    String type;
 
     /** Описание проблемы */
     @Column(nullable = false)
     String description;
 
     /** * Фотографии */
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "support_id")
-    @Builder.Default
+    @ElementCollection
+    @CollectionTable(
+            name = "support_photo",
+            joinColumns = @JoinColumn(name = "support_id")
+    )
     List<Photo> photo = new ArrayList<>();
 
     /** * Идентификатор связанного ремонта */

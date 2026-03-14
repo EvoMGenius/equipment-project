@@ -29,11 +29,11 @@ public class DebtService {
     @Transactional
     public Debt create(@NonNull CreateDebtArgument argument) {
         return repository.save(Debt.builder()
-                                   .debtType(argument.getDebtType())
+                                   .debtType(argument.debtType())
                                    .status(DebtStatus.CREATED)
-                                   .total(argument.getTotal())
-                                   .document(argument.getDocument())
-                                   .description(argument.getDescription())
+                                   .total(argument.total())
+                                   .document(argument.document())
+                                   .description(argument.description())
                                    .build());
     }
 
@@ -56,12 +56,12 @@ public class DebtService {
 
     private Predicate buildPredicate(SearchDebtArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getDescription(), qDebt.description::containsIgnoreCase)
-                          .add(argument.getTotal(), qDebt.total::eq)
-                          .add(argument.getDebtTypeId(), qDebt.debtType.id::eq)
-                          .add(argument.getStatus(), qDebt.status::eq)
-                          .add(argument.getDocumentId(), qDebt.document.id::eq)
-                          .addAnyString(argument.getSearchString(), qDebt.description::containsIgnoreCase)
+                          .add(argument.description(), qDebt.description::containsIgnoreCase)
+                          .add(argument.total(), qDebt.total::eq)
+                          .add(argument.debtType(), qDebt.debtType::containsIgnoreCase)
+                          .add(argument.status(), qDebt.status::eq)
+                          .add(argument.documentId(), qDebt.document.id::eq)
+                          .addAnyString(argument.searchString(), qDebt.description::containsIgnoreCase)
                           .buildAnd();
     }
 }

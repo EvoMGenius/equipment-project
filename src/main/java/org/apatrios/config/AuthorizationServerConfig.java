@@ -41,13 +41,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                .withClient(oAuth2ClientProperties.getWeb().getClientId())
                .secret(passwordEncoder.encode(oAuth2ClientProperties.getWeb().getClientSecret()))
                .scopes(oAuth2ClientProperties.getWeb().getScope())
-               .authorizedGrantTypes("password", "refresh_token", "client_credentials")
+               .authorizedGrantTypes("passwordless", "refresh_token", "client_credentials")
 
                .and()
                .withClient(oAuth2ClientProperties.getAndroid().getClientId())
                .secret(passwordEncoder.encode(oAuth2ClientProperties.getAndroid().getClientSecret()))
                .scopes(oAuth2ClientProperties.getAndroid().getScope())
-               .authorizedGrantTypes("password", "refresh_token", "client_credentials");
+               .authorizedGrantTypes("passwordless", "refresh_token", "client_credentials");
     }
 
     @Override
@@ -61,7 +61,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.userDetailsService(userDetailsService)
-                 .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE)
+                 .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
                  .tokenStore(tokenStore)
                  .tokenServices(defaultTokenServices)
                  .authenticationManager(authenticationManager)

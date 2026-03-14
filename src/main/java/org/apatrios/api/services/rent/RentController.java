@@ -12,6 +12,7 @@ import org.apatrios.model.services.Rent;
 import org.apatrios.service.services.rent.RentService;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 import static org.apatrios.api.services.rent.mapper.RentMapper.RENT_MAPPER;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/service/rent")

@@ -6,7 +6,6 @@ import org.apatrios.api.management.user.profile.dto.UserProfileDto;
 import org.apatrios.model.management.User;
 import org.mapstruct.Mapper;
 
-
 @Mapper(componentModel = "spring")
 public interface ProfileMapper {
     UserProfileDto toDto(User user);

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.apatrios.exception.dto.ErrorDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -22,14 +21,13 @@ import java.util.stream.Collectors;
 public class ApiExceptionHandler {
 
     private final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.class);
-    private final MessageSource messageSource;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorDto handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         return buildErrorResponse(exception, HttpStatus.BAD_REQUEST.value(), exception.getBindingResult().getAllErrors().stream()
-                                                                                      .map(error -> messageSource.getMessage(error, Locale.getDefault()))
+                                                                                      .map(DefaultMessageSourceResolvable::getDefaultMessage)
                                                                                       .collect(Collectors.joining(";")));
     }
 
@@ -58,7 +56,7 @@ public class ApiExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     public ErrorDto handleEntityNotFound(EntityNotFoundException ex) {
-        return buildErrorResponse(ex, HttpStatus.NOT_FOUND.value(), messageSource.getMessage(ex.getMessage(), null, Locale.getDefault()));
+        return buildErrorResponse(ex, HttpStatus.NOT_FOUND.value(), ex.getMessage());
     }
 
     private ErrorDto buildErrorResponse(Throwable e, int code, String message) {

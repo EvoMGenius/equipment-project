@@ -1,54 +1,52 @@
 package org.apatrios.api.equipment.bike.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 import org.apatrios.api.dictionary.model_bike.dto.ModelBikeDto;
-import org.apatrios.api.management.tariff.dto.TariffDto;
-import org.apatrios.api.management.telemetry.dto.TelemetryDto;
+import org.apatrios.api.equipment.iot.dto.IotDto;
+import org.apatrios.api.management.company.dto.CompanyDto;
 import org.apatrios.model.equipment.BikeStatus;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = PRIVATE)
 @Schema(description = "DTO велосипеда")
-public class BikeDto {
+public record BikeDto(
+        @Schema(description = "Уникальный идентификатор")
+        UUID id,
 
-    @Schema(description = "Уникальный идентификатор велосипеда")
-    UUID id;
+        @Schema(description = "Модель велосипеда")
+        ModelBikeDto modelBike,
 
-    @Schema(description = "Модель велосипеда")
-    ModelBikeDto modelBike;
+        @Schema(description = "Инвентарный номер", example = "100500")
+        Integer invNumber,
 
-    @Schema(description = "Инвентарный номер устройства")
-    String invNumber;
+        @Schema(description = "Порядковый номер внутри модели")
+        Integer seqNumber,
 
-    @Schema(description = "Телеметрия")
-    TelemetryDto telemetry;
+        @Schema(description = "VIN номер")
+        String vin,
 
-    @Schema(description = "Флаг блокировки колеса/двигателя")
-    Boolean isBlocked;
+        @Schema(description = "Номер мотор-колеса")
+        String motorWheel,
 
-    @Schema(description = "Статус сигнализации")
-    Boolean isAlarmOn;
+        @Schema(description = "IOT-модуль")
+        IotDto iot,
 
-    @Schema(description = "Состояние фар")
-    Boolean isHeadlightsOn;
+        @Schema(description = "Компания")
+        CompanyDto company,
 
-    @Schema(description = "Список доступных тарифов для данного велосипеда")
-    List<TariffDto> tariff;
+        @Schema(description = "Текущий статус")
+        BikeStatus status,
 
-    @Schema(description = "Текущий выбранный тариф")
-    TariffDto chosenTariff;
+        @Schema(description = "Комментарий")
+        String comment,
 
-    @Schema(description = "Текущий статус велосипеда")
-    BikeStatus status;
-}
+        @Schema(description = "Дата создания")
+        LocalDateTime createDate,
+
+        @Schema(description = "Дата обновления")
+        LocalDateTime updateDate,
+
+        @Schema(description = "Признак удаления")
+        Boolean isDeleted
+) {}

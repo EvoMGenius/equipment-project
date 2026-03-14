@@ -30,12 +30,14 @@ public class PaymentService {
     @Transactional
     public Payment create(@NonNull CreatePaymentArgument argument) {
         return repository.save(Payment.builder()
-                                      .paymentType(argument.getPaymentType())
+                                      .paymentType(argument.paymentType())
                                       .status(PaymentStatus.CREATED)
-                                      .amount(argument.getAmount())
-                                      .entityType(argument.getEntityType())
-                                      .currency(argument.getCurrency())
-                                      .metadata(argument.getMetadata())
+                                      .amount(argument.amount())
+                                      .entityType(argument.entityType())
+                                      .entityId(argument.entityId())
+                                      .currency(argument.currency())
+                                      .company(argument.company())
+                                      .dateOfDemand(argument.dateOfDemand())
                                       .build());
     }
 
@@ -43,13 +45,15 @@ public class PaymentService {
     public Payment update(@NonNull UUID id, @NonNull UpdatePaymentArgument argument) {
         Payment payment = getExisting(id);
 
-        Optional.ofNullable(argument.getAmount()).ifPresent(payment::setAmount);
-        Optional.ofNullable(argument.getStatus()).ifPresent(payment::setStatus);
-        Optional.ofNullable(argument.getPaymentType()).ifPresent(payment::setPaymentType);
-        Optional.ofNullable(argument.getEntityType()).ifPresent(payment::setEntityType);
-        Optional.ofNullable(argument.getCurrency()).ifPresent(payment::setCurrency);
-        Optional.ofNullable(argument.getMetadata()).ifPresent(payment::setMetadata);
-        Optional.ofNullable(argument.getStatus()).ifPresent(payment::setStatus);
+        Optional.ofNullable(argument.amount()).ifPresent(payment::setAmount);
+        Optional.ofNullable(argument.status()).ifPresent(payment::setStatus);
+        Optional.ofNullable(argument.paymentType()).ifPresent(payment::setPaymentType);
+        Optional.ofNullable(argument.entityType()).ifPresent(payment::setEntityType);
+        Optional.ofNullable(argument.currency()).ifPresent(payment::setCurrency);
+        Optional.ofNullable(argument.metadata()).ifPresent(payment::setMetadata);
+        Optional.ofNullable(argument.status()).ifPresent(payment::setStatus);
+        Optional.ofNullable(argument.dateOfDemand()).ifPresent(payment::setDateOfDemand);
+        Optional.ofNullable(argument.company()).ifPresent(payment::setCompany);
 
         return repository.save(payment);
     }
@@ -62,11 +66,21 @@ public class PaymentService {
 
     private Predicate buildPredicate(SearchPaymentArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getPaymentTypeId(), qPayment.paymentType.id::eq)
-                          .add(argument.getStatus(), qPayment.status::eq)
-                          .add(argument.getCurrency(), qPayment.currency::containsIgnoreCase)
-                          .add(argument.getAmount(), qPayment.amount::eq)
-                          .add(argument.getEntityTypeId(), qPayment.entityType.id::eq)
+                          .add(argument.companyId(), qPayment.company.id::eq)
+                          .add(argument.paymentTypeId(), qPayment.paymentType.id::eq)
+                          .add(argument.status(), qPayment.status::eq)
+                          .add(argument.currency(), qPayment.currency::equalsIgnoreCase)
+                          .add(argument.amountFrom(), qPayment.amount::goe)
+                          .add(argument.amountTo(), qPayment.amount::loe)
+                          .add(argument.entityId(), qPayment.entityId::eq)
+                          .add(argument.entityType(), qPayment.entityType::containsIgnoreCase)
+                          .add(argument.dateOfDemandFrom(), qPayment.dateOfDemand::goe)
+                          .add(argument.dateOfDemandTo(), qPayment.dateOfDemand::loe)
+                          .add(argument.createDateFrom(), qPayment.createDate::goe)
+                          .add(argument.createDateTo(), qPayment.createDate::loe)
+                          .add(argument.updateDateFrom(), qPayment.updateDate::goe)
+                          .add(argument.updateDateTo(), qPayment.updateDate::loe)
+                          .add(argument.isDeleted(), qPayment.isDeleted::eq)
                           .buildAnd();
     }
 

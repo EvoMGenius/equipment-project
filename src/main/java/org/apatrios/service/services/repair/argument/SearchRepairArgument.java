@@ -1,23 +1,19 @@
 package org.apatrios.service.services.repair.argument;
 
 import lombok.Builder;
-import lombok.Value;
 import org.apatrios.model.services.RepairStatus;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
-@Value
 @Builder
-public class SearchRepairArgument {
-    String searchString;
-    String number;
-    UUID fixTypeId;
-    String problem;
-    RepairStatus status;
-    LocalDateTime createDateFrom;
-    LocalDateTime createDateTo;
-    UUID pointId;
-    List<UUID> photoIds;
-}
+public record SearchRepairArgument(
+        String searchString,
+        String number,
+        String fixType,
+        String problem,
+        RepairStatus status,
+        LocalDateTime createDateFrom,
+        LocalDateTime createDateTo,
+        UUID pointId
+) {}

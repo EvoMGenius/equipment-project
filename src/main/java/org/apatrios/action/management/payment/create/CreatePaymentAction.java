@@ -9,11 +9,11 @@ import org.apatrios.feign.payment.dto.CreateYookassaPaymentDto;
 import org.apatrios.feign.payment.dto.YookassaAmountDto;
 import org.apatrios.feign.payment.dto.YookassaConfirmationDto;
 import org.apatrios.feign.payment.dto.YookassaPaymentDto;
-import org.apatrios.model.dictoinary.Dict;
-import org.apatrios.model.dictoinary.PurchaseType;
+import org.apatrios.model.dictoinary.PaymentType;
+import org.apatrios.model.management.Company;
 import org.apatrios.model.management.Payment;
-import org.apatrios.service.dictionary.DictService;
-import org.apatrios.service.dictionary.PurchaseTypeService;
+import org.apatrios.service.dictionary.PaymentTypeService;
+import org.apatrios.service.management.company.CompanyService;
 import org.apatrios.service.management.payment.PaymentService;
 import org.apatrios.service.management.payment.argument.CreatePaymentArgument;
 import org.apatrios.service.management.payment.argument.UpdatePaymentArgument;
@@ -27,29 +27,30 @@ import java.util.Map;
 public class CreatePaymentAction implements Action<CreatePaymentActionArgument, Payment> {
 
     private final PaymentService paymentService;
-    private final PurchaseTypeService purchaseTypeService;
-    private final DictService dictService;
+    private final PaymentTypeService paymentTypeService;
+    private final CompanyService companyService;
     private final PaymentClient paymentClient;
-    @Value("${app.payment.return-url}")
-    private String returnUrl;
+    @Value("${app.host}")
+    private String appHost;
 
     @Override
     public Payment execute(@NonNull CreatePaymentActionArgument argument) {
-        PurchaseType paymentType = purchaseTypeService.getExisting(argument.getPaymentTypeId());
-        Dict entityType = dictService.getExisting(argument.getEntityTypeId());
+        PaymentType paymentType = paymentTypeService.getExisting(argument.paymentTypeId());
+        Company company = companyService.getExisting(argument.companyId());
 
         Payment payment = paymentService.create(CreatePaymentArgument.builder()
                                                                      .paymentType(paymentType)
-                                                                     .amount(argument.getAmount())
-                                                                     .entityType(entityType)
-                                                                     .currency(argument.getCurrency())
+                                                                     .amount(argument.amount())
+                                                                     .entityType(argument.entityType())
+                                                                     .entityId(argument.entityId())
+                                                                     .currency(argument.currency())
+                                                                     .company(company)
                                                                      .build());
 
         YookassaPaymentDto yookassaPayment = createYookassaPayment(payment.getId().toString(), argument);
 
         return paymentService.update(payment.getId(), UpdatePaymentArgument.builder()
-                                                                           .metadata(Map.of("external_payment_id", yookassaPayment.getId(),
-                                                                                            "confirm_url", yookassaPayment.getConfirmation().getConfirmationUrl()))
+                                                                           .metadata(Map.of("confirm_url", yookassaPayment.confirmation().confirmationUrl()))
                                                                            .build());
     }
 
@@ -57,12 +58,12 @@ public class CreatePaymentAction implements Action<CreatePaymentActionArgument, 
         return paymentClient.createYookassaPayment(paymentId, CreateYookassaPaymentDto.builder()
                                                                                       .capture(true)
                                                                                       .amount(YookassaAmountDto.builder()
-                                                                                                               .value(argument.getAmount())
-                                                                                                               .currency(argument.getCurrency())
+                                                                                                               .value(argument.amount())
+                                                                                                               .currency(argument.currency())
                                                                                                                .build())
                                                                                       .confirmation(YookassaConfirmationDto.builder()
                                                                                                                            .type("redirect")
-                                                                                                                           .returnUrl(returnUrl)
+                                                                                                                           .returnUrl(appHost)
                                                                                                                            .build())
                                                                                       .metadata(Map.of("payment_id", paymentId))
                                                                                       .build());

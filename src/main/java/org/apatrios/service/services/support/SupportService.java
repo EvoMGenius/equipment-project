@@ -29,11 +29,10 @@ public class SupportService {
     @Transactional
     public Support create(@NonNull CreateSupportArgument argument) {
         return repository.save(Support.builder()
-                                      .createDate(LocalDateTime.now())
-                                      .type(argument.getType())
-                                      .description(argument.getDescription())
-                                      .photo(argument.getPhoto())
-                                      .childRepairId(argument.getChildRepairId())
+                                      .type(argument.type())
+                                      .description(argument.description())
+                                      .photo(argument.photo())
+                                      .childRepairId(argument.childRepairId())
                                       .status(SupportStatus.CREATED)
                                       .build());
     }
@@ -52,13 +51,12 @@ public class SupportService {
 
     private Predicate buildPredicate(SearchSupportArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getTypeId(), qSupport.type.id::eq)
-                          .add(argument.getStatus(), qSupport.status::eq)
-                          .add(argument.getDescription(), qSupport.description::containsIgnoreCase)
-                          .add(argument.getChildRepairId(), qSupport.childRepairId.id::eq)
-                          .add(argument.getCreateDateFrom(), qSupport.createDate::goe)
-                          .add(argument.getCreateDateTo(), qSupport.createDate::loe)
-                          .add(argument.getPhotoIds(), qSupport.photo.any().id::in)
+                          .add(argument.type(), qSupport.type::containsIgnoreCase)
+                          .add(argument.status(), qSupport.status::eq)
+                          .add(argument.description(), qSupport.description::containsIgnoreCase)
+                          .add(argument.childRepairId(), qSupport.childRepairId.id::eq)
+                          .add(argument.createDateFrom(), qSupport.createDate::goe)
+                          .add(argument.createDateTo(), qSupport.createDate::loe)
                           .buildAnd();
     }
 }

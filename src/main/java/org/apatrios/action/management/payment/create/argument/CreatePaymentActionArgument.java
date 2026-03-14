@@ -1,17 +1,19 @@
 package org.apatrios.action.management.payment.create.argument;
 
 import lombok.Builder;
-import lombok.Value;
 
 import java.math.BigDecimal;
-import java.util.Map;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Value
 @Builder
-public class CreatePaymentActionArgument {
-    UUID paymentTypeId;
-    UUID entityTypeId;
-    String currency;
-    BigDecimal amount;
+public record CreatePaymentActionArgument(
+        UUID companyId,
+        UUID paymentTypeId,
+        String currency,
+        BigDecimal amount,
+        UUID entityId,
+        String entityType,
+        LocalDateTime dateOfDemand
+) {
 }

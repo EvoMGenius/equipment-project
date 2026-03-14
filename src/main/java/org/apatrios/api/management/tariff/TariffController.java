@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
-import org.apatrios.action.management.tariff.create.CreateTariffActionArgument;
+import org.apatrios.action.management.tariff.argument.CreateTariffActionArgument;
 import org.apatrios.api.management.tariff.dto.CreateTariffDto;
 import org.apatrios.api.management.tariff.dto.SearchTariffDto;
 import org.apatrios.api.management.tariff.dto.TariffDto;
@@ -12,6 +12,7 @@ import org.apatrios.model.management.Tariff;
 import org.apatrios.service.management.tariff.TariffService;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 import static org.apatrios.api.management.tariff.mapper.TariffMapper.TARIFF_MAPPER;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/management/tariff")

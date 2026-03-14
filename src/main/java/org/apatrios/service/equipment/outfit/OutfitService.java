@@ -30,10 +30,10 @@ public class OutfitService {
     @Transactional
     public Outfit create(@NonNull CreateOutfitArgument argument) {
         return repository.save(Outfit.builder()
-                                     .chosenTariff(argument.getChosenTariff())
-                                     .name(argument.getName())
+                                     .chosenTariff(argument.chosenTariff())
+                                     .name(argument.name())
                                      .status(OutfitStatus.CREATED)
-                                     .tariff(argument.getTariff())
+                                     .tariff(argument.tariff())
                                      .build());
     }
 
@@ -45,10 +45,10 @@ public class OutfitService {
 
     private Predicate buildPredicate(SearchOutfitArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getChosenTariffId(), qOutfit.chosenTariff.id::eq)
-                          .add(argument.getStatus(), qOutfit.status::eq)
-                          .add(argument.getName(), qOutfit.name::containsIgnoreCase)
-                          .add(argument.getTariffIds(), qOutfit.tariff.any().id::in)
+                          .add(argument.chosenTariffId(), qOutfit.chosenTariff.id::eq)
+                          .add(argument.status(), qOutfit.status::eq)
+                          .add(argument.name(), qOutfit.name::containsIgnoreCase)
+                          .add(argument.tariffIds(), qOutfit.tariff.any().id::in)
                           .buildAnd();
     }
 

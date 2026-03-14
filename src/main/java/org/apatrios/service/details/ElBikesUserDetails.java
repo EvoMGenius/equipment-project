@@ -5,7 +5,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,9 +19,8 @@ public class ElBikesUserDetails implements UserDetails {
     UUID id;
     String username;
     String password;
+    Set<? extends GrantedAuthority> authorities;
 
-    @Builder.Default
-    Set<? extends GrantedAuthority> authorities = Collections.emptySet();
     @Builder.Default
     boolean enabled = true;
     @Builder.Default

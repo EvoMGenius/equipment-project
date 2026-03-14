@@ -1,14 +1,12 @@
 package org.apatrios.service.management.document.argument;
 
 import lombok.Builder;
-import lombok.Value;
-import org.apatrios.model.dictoinary.Dict;
-import org.apatrios.model.management.DocumentStatus;
+import org.apatrios.model.dictoinary.DocType;
+import org.apatrios.model.management.File;
 
-@Value
 @Builder
-public class CreateDocumentArgument {
-    String name;
-
-    Dict docType;
-}
+public record CreateDocumentArgument(
+        String name,
+        File file,
+        DocType docType
+) {}

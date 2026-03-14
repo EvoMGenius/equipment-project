@@ -1,41 +1,44 @@
 package org.apatrios.api.management.tariff.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 import org.apatrios.model.management.TariffStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
+@Schema(description = "DTO для поиска и фильтрации тарифов")
+public record SearchTariffDto(
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = PRIVATE)
-@Schema(description = "DTO для информации о точке")
-public class SearchTariffDto {
-    @Schema(description = "Фильтр по коду тарифа (частичное совпадение)")
-    String code;
+        @Schema(description = "Уникальный код тарифа", example = "TARIFF_STANDARD")
+        String code,
 
-    @Schema(description = "Фильтр по идентификатору типа тарифа")
-    UUID tariffTypeId;
+        @Schema(description = "ID типа тарифа")
+        UUID tariffTypeId,
 
-    @Schema(description = "Поиск по нижней границе")
-    Integer startBorder;
+        @Schema(description = "Статус тарифа (например CREATED, ACTIVE, ARCHIVED)")
+        TariffStatus status,
 
-    @Schema(description = "Поиск по верхней границе")
-    Integer endBorder;
+        @Schema(description = "Частота оплат (например monthly, biweekly)", example = "monthly")
+        String paymentFrequency,
 
-    @Schema(description = "Фильтр по размеру скидки")
-    Integer sale;
+        @Schema(description = "Сумма одного платежа", example = "1500.00")
+        BigDecimal installmentAmount,
 
-    @Schema(description = "Фильтр по стоимости")
-    BigDecimal cost;
+        @Schema(description = "Количество платежей", example = "12")
+        Integer installmentCount,
 
-    @Schema(description = "Текущий статус тарифа (Активен, Архивный)")
-    TariffStatus status;
-}
+        @Schema(description = "Нижняя граница применения тарифа (в днях)", example = "0")
+        Integer startBorder,
+
+        @Schema(description = "Верхняя граница применения тарифа (в днях)", example = "365")
+        Integer endBorder,
+
+        @Schema(description = "Размер скидки за период аренды", example = "500.00")
+        BigDecimal sale,
+
+        @Schema(description = "Стоимость с учетом скидки", example = "14500.00")
+        BigDecimal cost,
+
+        @Schema(description = "Стоимость, указанная менеджером (может переопределять расчетную)", example = "14000.00")
+        BigDecimal customPrice
+) {}

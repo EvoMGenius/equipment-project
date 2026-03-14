@@ -1,28 +1,23 @@
 package org.apatrios.api.services.repair.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = PRIVATE)
 @Schema(description = "DTO для создания новой заявки на ремонт")
-public class CreateRepairDto {
+public record CreateRepairDto(
 
-    @Schema(description = "ID типа ремонта из справочника Dict")
-    UUID fixTypeId;
+        @NotBlank
+        @Schema(description = "тип ремонта")
+        String fixType,
 
-    @Schema(description = "Описание проблемы")
-    String problem;
+        @NotBlank
+        @Schema(description = "Описание проблемы")
+        String problem,
 
-    @Schema(description = "ID сервисного центра (Point)")
-    UUID pointId;
-}
+        @NotNull
+        @Schema(description = "ID сервисного центра (Point)")
+        UUID pointId
+) {}

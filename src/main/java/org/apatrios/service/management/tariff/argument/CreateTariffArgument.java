@@ -1,24 +1,20 @@
 package org.apatrios.service.management.tariff.argument;
 
 import lombok.Builder;
-import lombok.Value;
-import org.apatrios.model.dictoinary.Dict;
-import org.apatrios.model.management.TariffStatus;
+import org.apatrios.model.dictoinary.TariffType;
 
 import java.math.BigDecimal;
 
-@Value
 @Builder
-public class CreateTariffArgument {
-    String code;
-
-    Dict tariffType;
-
-    Integer startBorder;
-
-    Integer endBorder;
-
-    Integer sale;
-
-    BigDecimal cost;
-}
+public record CreateTariffArgument(
+        String code,
+        TariffType tariffType,
+        String paymentFrequency,
+        BigDecimal installmentAmount,
+        Integer installmentCount,
+        Integer startBorder,
+        Integer endBorder,
+        BigDecimal sale,
+        BigDecimal cost,
+        BigDecimal customPrice
+) {}

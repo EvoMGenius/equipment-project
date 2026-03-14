@@ -14,14 +14,17 @@ import org.apatrios.api.management.user.profile.dto.UserProfileDto;
 import org.apatrios.api.management.user.profile.mapper.ProfileMapper;
 import org.apatrios.model.management.User;
 import org.apatrios.service.management.user.UserService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("profile")
+@Validated
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserProfileController {
 
@@ -39,19 +42,19 @@ public class UserProfileController {
 
     @Operation(summary = "Отправка кода на почту")
     @PostMapping("/change_email/request")
-    public void changeEmailRequest(@RequestBody ChangeEmailRequestDto dto) {
-        changeEmailRequestAction.execute(dto.getEmail());
+    public void changeEmailRequest(@Valid @RequestBody ChangeEmailRequestDto dto) {
+        changeEmailRequestAction.execute(dto.email());
     }
 
     @Operation(summary = "Проверка кода и смена почты")
     @PostMapping("/change_email/approve")
-    public UserProfileDto changeEmailApprove(@RequestBody ChangeEmailApproveDto dto) {
+    public UserProfileDto changeEmailApprove(@Valid @RequestBody ChangeEmailApproveDto dto) {
         return mapper.toDto(changeEmailApproveAction.execute(mapper.toChangeEmailApproveArgument(dto)));
     }
 
     @Operation(summary = "Поменять аватар по айди юзера")
-    @PostMapping("change_avatar")
-    public UserProfileDto changeAvatar(@RequestParam("userId") UUID userId, @RequestParam("file") MultipartFile file) {
-        return mapper.toDto(changeAvatarAction.execute(userId, file));
+    @PostMapping("{id}/change_avatar")
+    public UserProfileDto changeAvatar(@PathVariable UUID id, @RequestParam("file") MultipartFile file) {
+        return mapper.toDto(changeAvatarAction.execute(id, file));
     }
 }

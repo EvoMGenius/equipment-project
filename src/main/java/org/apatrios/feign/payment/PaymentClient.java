@@ -6,7 +6,7 @@ import org.apatrios.feign.payment.interceptor.YookassaInterceptor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "payment-client",  url = "${yookassa.url}", configuration = YookassaInterceptor.class)
+@FeignClient(name = "payment-client",  url = "https://api.yookassa.ru/v3", configuration = YookassaInterceptor.class)
 public interface PaymentClient {
 
     @PostMapping("/payments")

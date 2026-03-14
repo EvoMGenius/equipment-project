@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
-import org.apatrios.action.services.support.create.CreateSupportActionArgument;
+import org.apatrios.action.services.support.argument.CreateSupportActionArgument;
 import org.apatrios.api.services.support.dto.SupportDto;
 import org.apatrios.api.services.support.dto.CreateSupportDto;
 import org.apatrios.api.services.support.dto.SearchSupportDto;
@@ -12,6 +12,7 @@ import org.apatrios.model.services.Support;
 import org.apatrios.service.services.support.SupportService;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 import static org.apatrios.api.services.support.mapper.SupportMapper.SUPPORT_MAPPER;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/service/support")

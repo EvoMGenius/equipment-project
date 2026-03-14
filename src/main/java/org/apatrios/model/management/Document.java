@@ -3,7 +3,7 @@ package org.apatrios.model.management;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.Dict;
+import org.apatrios.model.dictoinary.DocType;
 
 import javax.persistence.*;
 
@@ -27,8 +27,7 @@ public class Document extends BaseEntity {
 
     /** Тип документа */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doc_type_id")
-    Dict docType;
+    DocType docType;
 
     /** Информация о файле */
     @Embedded

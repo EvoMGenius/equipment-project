@@ -3,7 +3,7 @@ package org.apatrios.model.management;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.Dict;
+import org.apatrios.model.dictoinary.TariffType;
 
 import javax.persistence.*;
 
@@ -25,22 +25,36 @@ public class Tariff extends BaseEntity {
 
     /** Тип тарифа */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tariff_type_id")
-    Dict tariffType;
+    TariffType tariffType;
 
-    /** Начальная граница применения тарифа */
+    /** Частота оплат (monthly, biweekly и т.п.) */
+    @Column(nullable = false)
+    String paymentFrequency;
+
+    /** Сумма одного платежа */
+    @Column(nullable = false)
+    BigDecimal installmentAmount;
+
+    /** Общее количество платежей */
+    @Column(nullable = false)
+    Integer installmentCount;
+
+    /** Нижняя граница тарифа (дни), nullable */
     Integer startBorder;
 
-    /** Конечная граница применения тарифа */
+    /** Верхняя граница тарифа (дни), nullable */
     Integer endBorder;
 
-    /** Размер скидки в целых числах */
-    Integer sale;
+    /** Скидка предоставляемая за период аренды (в денежном виде) */
+    BigDecimal sale;
 
-    /** Стоимость */
+    /** Стоимость с учетом скидки */
     BigDecimal cost;
 
-    /** Статус */
+    /** Стоимость указанная менеджером (переопределяет расчетную) */
+    BigDecimal customPrice;
+
+    /** Статус тарифа для отображения */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     TariffStatus status;

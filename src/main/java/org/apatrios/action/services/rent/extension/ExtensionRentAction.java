@@ -23,7 +23,7 @@ public class ExtensionRentAction implements Action<UUID, Rent> {
     public Rent execute(@NonNull UUID id) {
         Rent oldRent = rentService.closeRent(id);
 
-        Payment payment = createPayment(oldRent);
+        Payment payment = createPayment(oldRent.getPayment());
 
         return rentService.create(CreateRentArgument.builder()
                                                     .rentType(oldRent.getRentType())
@@ -42,12 +42,14 @@ public class ExtensionRentAction implements Action<UUID, Rent> {
                                                     .build());
     }
 
-    private Payment createPayment(Rent rent) {
+    private Payment createPayment(Payment payment) {
         return createPaymentAction.execute(CreatePaymentActionArgument.builder()
-                                                                      .amount(rent.getPayment().getAmount())
-                                                                      .currency(rent.getPayment().getCurrency())
-                                                                      .paymentTypeId(rent.getPayment().getPaymentType().getId())
-                                                                      .entityTypeId(rent.getPayment().getEntityType().getId())
+                                                                      .paymentTypeId(payment.getPaymentType().getId())
+                                                                      .entityType(payment.getEntityType())
+                                                                      .companyId(payment.getCompany().getId())
+                                                                      .amount(payment.getAmount())
+                                                                      .entityId(payment.getEntityId())
+                                                                      .currency(payment.getCurrency())
                                                                       .build());
     }
 }

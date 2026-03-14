@@ -36,7 +36,6 @@ public class ModelBikeService extends BaseDictionaryService<ModelBike, SearchMod
                           .add(argument.getRange(), qModel.range::containsIgnoreCase)
                           .add(argument.getWeight(), qModel.weight::containsIgnoreCase)
                           .add(argument.getMaxLoad(), qModel.maxLoad::containsIgnoreCase)
-                          .add(argument.getPhotoIds(), qModel.photo.any().id::in)
                           .buildAnd();
     }
 }

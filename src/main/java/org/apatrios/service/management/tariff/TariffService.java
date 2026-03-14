@@ -29,12 +29,16 @@ public class TariffService {
     @Transactional
     public Tariff create(@NonNull CreateTariffArgument argument) {
         return repository.save(Tariff.builder()
-                                     .code(argument.getCode())
-                                     .tariffType(argument.getTariffType())
-                                     .startBorder(argument.getStartBorder())
-                                     .endBorder(argument.getEndBorder())
-                                     .sale(argument.getSale())
-                                     .cost(argument.getCost())
+                                     .code(argument.code())
+                                     .tariffType(argument.tariffType())
+                                     .paymentFrequency(argument.paymentFrequency())
+                                     .installmentAmount(argument.installmentAmount())
+                                     .installmentCount(argument.installmentCount())
+                                     .startBorder(argument.startBorder())
+                                     .endBorder(argument.endBorder())
+                                     .sale(argument.sale())
+                                     .cost(argument.cost())
+                                     .customPrice(argument.customPrice())
                                      .status(TariffStatus.CREATED)
                                      .build());
     }
@@ -58,13 +62,17 @@ public class TariffService {
 
     private Predicate buildPredicate(SearchTariffArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getCode(), qTariff.code::eq)
-                          .add(argument.getSale(), qTariff.sale::eq)
-                          .add(argument.getCost(), qTariff.cost::eq)
-                          .add(argument.getTariffTypeId(), qTariff.tariffType.id::eq)
-                          .add(argument.getStatus(), qTariff.status::eq)
-                          .add(argument.getStartBorder(), qTariff.startBorder::goe)
-                          .add(argument.getEndBorder(), qTariff.endBorder::loe)
+                          .add(argument.code(), qTariff.code::eq)
+                          .add(argument.paymentFrequency(), qTariff.paymentFrequency::eq)
+                          .add(argument.installmentAmount(), qTariff.installmentAmount::eq)
+                          .add(argument.installmentCount(), qTariff.installmentCount::eq)
+                          .add(argument.sale(), qTariff.sale::eq)
+                          .add(argument.cost(), qTariff.cost::eq)
+                          .add(argument.customPrice(), qTariff.customPrice::eq)
+                          .add(argument.tariffTypeId(), qTariff.tariffType.id::eq)
+                          .add(argument.status(), qTariff.status::eq)
+                          .add(argument.startBorder(), qTariff.startBorder::goe)
+                          .add(argument.endBorder(), qTariff.endBorder::loe)
                           .buildAnd();
     }
 }

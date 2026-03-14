@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -28,16 +29,16 @@ public class BikeService {
     @Transactional
     public Bike create(@NonNull CreateBikeArgument argument) {
         return repository.save(Bike.builder()
-                                   .invNumber(argument.getInvNumber())
-                                   .modelBike(argument.getModelBike())
-                                   .chosenTariff(argument.getChosenTariff())
-                                   .tariff(argument.getTariff())
-                                   .chosenTariff(argument.getChosenTariff())
-                                   .telemetry(argument.getTelemetry())
-                                   .isAlarmOn(argument.getIsAlarmOn())
+                                   .invNumber(argument.invNumber())
+                                   .seqNumber(argument.seqNumber())
+                                   .company(argument.company())
+                                   .motorWheel(argument.motorWheel())
+                                   .isDeleted(argument.isDeleted())
+                                   .modelBike(argument.modelBike())
+                                   .iot(argument.iot())
+                                   .vin(argument.vin())
+                                   .comment(argument.comment())
                                    .status(BikeStatus.CREATED)
-                                   .isBlocked(argument.getIsBlocked())
-                                   .isHeadlightsOn(argument.getIsHeadlightsOn())
                                    .build());
     }
 
@@ -49,15 +50,14 @@ public class BikeService {
 
     private Predicate buildPredicate(SearchBikeArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getModelBikeId(), qBike.modelBike.id::eq)
-                          .add(argument.getChosenTariffId(), qBike.chosenTariff.id::eq)
-                          .add(argument.getInvNumber(), qBike.invNumber::containsIgnoreCase)
-                          .add(argument.getIsBlocked(), qBike.isBlocked::eq)
-                          .add(argument.getStatus(), qBike.status::eq)
-                          .add(argument.getTelemetryId(), qBike.telemetry.id::eq)
-                          .add(argument.getIsAlarmOn(), qBike.isAlarmOn::eq)
-                          .add(argument.getIsHeadlightsOn(), qBike.isHeadlightsOn::eq)
-                          .add(argument.getTariffIds(), qBike.tariff.any().id::in)
+                          .add(argument.invNumber(), qBike.invNumber::eq)
+                          .add(argument.modelBikeId(), qBike.modelBike.id::eq)
+                          .add(argument.companyId(), qBike.company.id::eq)
+                          .add(argument.vin(), qBike.vin::containsIgnoreCase)
+                          .add(argument.motorWheel(), qBike.motorWheel::containsIgnoreCase)
+                          .add(argument.iotId(), qBike.iot.id::eq)
+                          .add(argument.status(), qBike.status::eq)
+                          .add(argument.isDeleted(), qBike.isDeleted::eq)
                           .buildAnd();
     }
 

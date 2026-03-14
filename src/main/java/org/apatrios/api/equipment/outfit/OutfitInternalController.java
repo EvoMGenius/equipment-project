@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
-import org.apatrios.action.equipment.outfit.create.CreateOutfitActionArgument;
+import org.apatrios.action.equipment.outfit.argument.CreateOutfitActionArgument;
 import org.apatrios.api.equipment.outfit.dto.OutfitDto;
 import org.apatrios.api.equipment.outfit.dto.CreateOutfitDto;
 import org.apatrios.api.equipment.outfit.dto.SearchOutfitDto;
@@ -12,6 +12,7 @@ import org.apatrios.model.equipment.Outfit;
 import org.apatrios.service.equipment.outfit.OutfitService;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 import static org.apatrios.api.equipment.outfit.mapper.OutfitMapper.OUTFIT_MAPPER;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/equip/outfit")

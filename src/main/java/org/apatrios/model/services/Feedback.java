@@ -3,7 +3,6 @@ package org.apatrios.model.services;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.Dict;
 
 import javax.persistence.*;
 
@@ -22,7 +21,7 @@ public class Feedback extends BaseEntity {
 
     /*** Тип родительской сущности */
     @Column(nullable = false)
-    Dict entityType;
+    String entityType;
 
     /** * ID родительской сущности */
     @Column(nullable = false)

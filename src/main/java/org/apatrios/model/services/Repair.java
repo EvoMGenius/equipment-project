@@ -3,8 +3,8 @@ package org.apatrios.model.services;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.Dict;
 import org.apatrios.model.management.Point;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 
@@ -29,7 +29,7 @@ public class Repair extends BaseEntity {
 
     /** Тип произведенного ремонта */
     @Column(nullable = false)
-    Dict fixType;
+    String fixType;
 
     /** Проблема со слов клиента */
     @Column(nullable = false)
@@ -41,7 +41,7 @@ public class Repair extends BaseEntity {
     RepairStatus status;
 
     /** Дата создания заявки на ремонт */
-    @Column(nullable = false)
+    @CreationTimestamp
     LocalDateTime createDate;
 
     /** Сервисный центр */
@@ -50,8 +50,10 @@ public class Repair extends BaseEntity {
     Point point;
 
     /** Фотографии */
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "repair_id")
-    @Builder.Default
+    @ElementCollection
+    @CollectionTable(
+            name = "repair_photo",
+            joinColumns = @JoinColumn(name = "repair_id")
+    )
     List<Photo> photos = new ArrayList<>();
 }

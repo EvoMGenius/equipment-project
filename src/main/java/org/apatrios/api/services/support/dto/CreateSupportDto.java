@@ -1,27 +1,28 @@
 package org.apatrios.api.services.support.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import org.apatrios.model.services.Photo;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = PRIVATE)
 @Schema(description = "DTO для создания обращения")
-public class CreateSupportDto {
-    @Schema(description = "ID типа обращения")
-    UUID typeId;
+public record CreateSupportDto(
+        @NotBlank
+        @Schema(description = "тип обращения")
+        String type,
 
-    @Schema(description = "Текст обращения")
-    String description;
+        @NotBlank
+        @Schema(description = "Текст обращения")
+        String description,
 
-    @Schema(description = "ID связанного ремонта")
-    UUID childRepairId;
-}
+        @NotNull
+        @Schema(description = "Фотки")
+        List<Photo> photos,
+
+        @NotNull
+        @Schema(description = "ID связанного ремонта")
+        UUID childRepairId
+) {}

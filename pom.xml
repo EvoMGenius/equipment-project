@@ -120,15 +120,6 @@
 
         <!-- endregion -->
 
-        <!-- retry -->
-
-        <dependency>
-            <groupId>org.springframework.retry</groupId>
-            <artifactId>spring-retry</artifactId>
-        </dependency>
-
-        <!-- endregion -->
-
         <!-- region QueryDSL -->
 
         <dependency>

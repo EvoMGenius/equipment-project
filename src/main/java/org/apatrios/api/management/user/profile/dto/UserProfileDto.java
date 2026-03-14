@@ -1,35 +1,47 @@
 package org.apatrios.api.management.user.profile.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 import org.apatrios.model.management.UserProfile;
+import org.apatrios.model.management.UserStatus;
 import org.apatrios.model.services.Photo;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
+@Schema(description = "DTO профиля пользователя")
+public record UserProfileDto(
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = PRIVATE)
-@Schema(description = "ДТО юзера")
-public class UserProfileDto {
+        @Schema(description = "ID")
+        UUID id,
 
-    UserProfile userProfile;
+        @Schema(description = "Профиль пользователя")
+        UserProfile userProfile,
 
-    String email;
+        @Schema(description = "Email пользователя")
+        String email,
 
-    String phoneNumber;
+        @Schema(description = "Номер телефона пользователя")
+        String phoneNumber,
 
-    LocalDateTime createDate;
+        @Schema(description = "Дата и время создания записи")
+        LocalDateTime createDate,
 
-    Boolean isEmailVerified;
+        @Schema(description = "Дата и время обновления записи")
+        LocalDateTime updateDate,
 
-    Boolean isDocVerified;
+        @Schema(description = "Признак удаления")
+        Boolean isDeleted,
 
-    Photo avatar;
-}
+        @Schema(description = "Признак верификации пользователя")
+        Boolean isVerified,
+
+        @Schema(description = "Список ролей и прав пользователя")
+        Set<String> authorities,
+
+        @Schema(description = "Статус пользователя")
+        UserStatus status,
+
+        @Schema(description = "Аватар пользователя")
+        Photo avatar
+) {}

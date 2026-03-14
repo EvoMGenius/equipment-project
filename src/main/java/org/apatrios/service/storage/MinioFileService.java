@@ -5,10 +5,10 @@ import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apatrios.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -16,6 +16,7 @@ import java.io.InputStream;
 /**
  * Сервис для работы с объектным хранилищем MinIO.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MinioFileService {
@@ -23,10 +24,7 @@ public class MinioFileService {
     private final MinioClient minioClient;
 
     @Value("${minio.bucket-name}")
-    String bucketName;
-
-    @Value("${minio.public-url}")
-    String publicUrl;
+    private String bucketName;
 
     /**
      * Загружает файл в хранилище.
@@ -47,6 +45,7 @@ public class MinioFileService {
                                                .contentType(file.getContentType())
                                                .build());
         } catch (Exception e) {
+            log.error("MinIO upload error: {}", e.getMessage(), e);
             throw new EntityNotFoundException("MinIo.upload.error");
         }
 
@@ -66,7 +65,8 @@ public class MinioFileService {
                                                       .object(path)
                                                       .build());
         } catch (Exception e) {
-            throw new EntityNotFoundException("MinIo.download.error");
+            log.error("MinIO stream error: {}", e.getMessage(), e);
+            throw new EntityNotFoundException("MinIo.stream.error");
         }
     }
 
@@ -81,26 +81,8 @@ public class MinioFileService {
                                                      .object(path)
                                                      .build());
         } catch (Exception e) {
+            log.error("MinIO delete error: {}", e.getMessage(), e);
             throw new EntityNotFoundException("MinIo.delete.error");
         }
-    }
-
-    /**
-     * Формирует абсолютную ссылку на файл для использования на фронтенде.
-     * * @param path Путь к файлу внутри бакета.
-     * @return Строка вида 'http://storage.url/bucket/folder/file.jpg'.
-     */
-    public String getFullUrl(String path) {
-        if (!StringUtils.hasText(path)) return null;
-        return String.format("%s/%s/%s", publicUrl, bucketName, path);
-    }
-
-    /**
-     * Вспомогательный метод для извлечения расширения файла (например, 'jpg' или 'pdf').
-     * * @param fileName Имя файла.
-     * @return Расширение файла без точки.
-     */
-    public String getExtension(String fileName) {
-        return StringUtils.getFilenameExtension(fileName);
     }
 }

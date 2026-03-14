@@ -10,6 +10,7 @@ import org.apatrios.model.management.Payment;
 import org.apatrios.service.management.payment.PaymentService;
 import org.apatrios.util.CollectionDto;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 import static org.apatrios.api.management.payment.mapper.PaymentMapper.PAYMENT_MAPPER;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/management/payment")

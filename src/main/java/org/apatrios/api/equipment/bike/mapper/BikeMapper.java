@@ -1,6 +1,6 @@
 package org.apatrios.api.equipment.bike.mapper;
 
-import org.apatrios.action.equipment.bike.create.CreateBikeActionArgument;
+import org.apatrios.action.equipment.bike.create.argument.CreateBikeActionArgument;
 import org.apatrios.api.equipment.bike.dto.BikeDto;
 import org.apatrios.api.equipment.bike.dto.CreateBikeDto;
 import org.apatrios.api.equipment.bike.dto.SearchBikeDto;

@@ -27,10 +27,10 @@ public class FeedbackService {
     @Transactional
     public Feedback create(@NonNull CreateFeedbackArgument argument) {
         return repository.save(Feedback.builder()
-                                       .parentEntityId(argument.getParentEntityId())
-                                       .entityType(argument.getEntityType())
-                                       .description(argument.getDescription())
-                                       .evaluation(argument.getEvaluation())
+                                       .parentEntityId(argument.parentEntityId())
+                                       .entityType(argument.entityType())
+                                       .description(argument.description())
+                                       .evaluation(argument.evaluation())
                                        .build());
     }
 
@@ -42,11 +42,11 @@ public class FeedbackService {
 
     private Predicate buildPredicate(SearchFeedbackArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getDescription(), qFeedback.description::containsIgnoreCase)
-                          .add(argument.getParentEntityId(), qFeedback.parentEntityId::eq)
-                          .add(argument.getEvaluation(), qFeedback.evaluation::eq)
-                          .add(argument.getEntityTypeId(), qFeedback.entityType.id::eq)
-                          .addAnyString(argument.getSearchString(), qFeedback.description::containsIgnoreCase)
+                          .add(argument.description(), qFeedback.description::containsIgnoreCase)
+                          .add(argument.parentEntityId(), qFeedback.parentEntityId::eq)
+                          .add(argument.evaluation(), qFeedback.evaluation::eq)
+                          .add(argument.entityType(), qFeedback.entityType::containsIgnoreCase)
+                          .addAnyString(argument.searchString(), qFeedback.description::containsIgnoreCase)
                           .buildAnd();
     }
 

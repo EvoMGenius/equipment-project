@@ -45,25 +45,26 @@ public class CreateRentAction implements Action<CreateRentActionArgument, Rent> 
     @Override
     @Transactional
     public Rent execute(@NonNull CreateRentActionArgument argument) {
-        RentType type = rentTypeService.getExisting(argument.getRentTypeId());
-        Bike bike = bikeService.getExisting(argument.getBikeId());
-        Point point = pointService.getExisting(argument.getPointId());
-        List<Debt> debts = debtService.getAllByIds(argument.getDebtIds());
-        List<Document> documents = documentService.getAllByIds(argument.getDocumentIds());
-        List<Outfit> outfits = outfitService.getAllByIds(argument.getOutfitIds());
-        User user = userService.getExisting(argument.getUserId());
+        RentType type = rentTypeService.getExisting(argument.rentTypeId());
+        Bike bike = bikeService.getExisting(argument.bikeId());
+        Point point = pointService.getExisting(argument.pointId());
+        List<Debt> debts = debtService.getAllByIds(argument.debtIds());
+        List<Document> documents = documentService.getAllByIds(argument.documentIds());
+        List<Outfit> outfits = outfitService.getAllByIds(argument.outfitIds());
+        User user = userService.getExisting(argument.userId());
 
+        // todo добавить создание платежа , данные вытаскивать из моделек когда они будут
         return rentService.create(CreateRentArgument.builder()
                                                     .rentType(type)
                                                     .bike(bike)
                                                     .point(point)
-                                                    .currentDays(argument.getCurrentDays())
+                                                    .currentDays(argument.currentDays())
                                                     .debts(debts)
-                                                    .delay(argument.getDelay())
-                                                    .delayCost(argument.getDelayCost())
-                                                    .total(argument.getTotal())
+                                                    .delay(argument.delay())
+                                                    .delayCost(argument.delayCost())
+                                                    .total(argument.total())
                                                     .documents(documents)
-                                                    .number(argument.getNumber())
+                                                    .number(argument.number())
                                                     .outfits(outfits)
                                                     .user(user)
                                                     .build());

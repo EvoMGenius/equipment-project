@@ -1,6 +1,6 @@
 package org.apatrios.api.management.tariff.mapper;
 
-import org.apatrios.action.management.tariff.create.CreateTariffActionArgument;
+import org.apatrios.action.management.tariff.argument.CreateTariffActionArgument;
 import org.apatrios.api.management.tariff.dto.CreateTariffDto;
 import org.apatrios.api.management.tariff.dto.SearchTariffDto;
 import org.apatrios.api.management.tariff.dto.TariffDto;

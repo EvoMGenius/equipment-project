@@ -1,6 +1,6 @@
 package org.apatrios.api.services.repair.mapper;
 
-import org.apatrios.action.services.repair.create.CreateRepairActionArgument;
+import org.apatrios.action.services.repair.argument.CreateRepairActionArgument;
 import org.apatrios.api.services.repair.dto.CreateRepairDto;
 import org.apatrios.api.services.repair.dto.RepairDto;
 import org.apatrios.api.services.repair.dto.SearchRepairDto;

@@ -25,11 +25,12 @@ public class ChangeEmailApproveAction implements Action<ChangeEmailApproveAction
     @Override
     @Transactional
     public User execute(@NonNull ChangeEmailApproveActionArgument argument) {
-        String converted = AuthUtils.convertUsername(argument.getEmail());
-        authenticationCodeService.verifyCode(converted, argument.getCode());
-        return userService.update(argument.getId(), UpdateUserArgument.builder()
-                                                                      .email(converted)
-                                                                      .isEmailVerified(true)
-                                                                      .build());
+        String converted = AuthUtils.convertUsername(argument.email());
+        authenticationCodeService.verifyCode(converted, argument.code());
+
+        return userService.update(argument.id(), UpdateUserArgument.builder()
+                                                                   .email(converted)
+                                                                   .isEmailVerified(true)
+                                                                   .build());
     }
 }

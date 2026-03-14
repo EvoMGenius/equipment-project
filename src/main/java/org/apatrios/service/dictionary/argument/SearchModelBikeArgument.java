@@ -15,5 +15,4 @@ public class SearchModelBikeArgument extends BaseDictionarySearchArgument {
     String maxLoad;
     String range;
     String maxSpeed;
-    List<UUID> photoIds;
 }

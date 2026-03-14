@@ -3,7 +3,6 @@ package org.apatrios.model.services;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.Dict;
 import org.apatrios.model.management.Document;
 
 import javax.persistence.*;
@@ -23,7 +22,7 @@ public class Debt extends BaseEntity {
 
     /** Тип задолженности */
     @Column(nullable = false)
-    Dict debtType;
+    String debtType;
 
     /** Сумма начисления */
     BigDecimal total;

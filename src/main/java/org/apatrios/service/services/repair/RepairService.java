@@ -29,12 +29,11 @@ public class RepairService {
     @Transactional
     public Repair create(@NonNull CreateRepairArgument argument) {
         return repository.save(Repair.builder()
-                                     .point(argument.getPoint())
-                                     .fixType(argument.getFixType())
-                                     .photos(argument.getPhotos())
-                                     .problem(argument.getProblem())
-                                     .number(argument.getNumber())
-                                     .createDate(LocalDateTime.now())
+                                     .point(argument.point())
+                                     .fixType(argument.fixType())
+                                     .photos(argument.photos())
+                                     .problem(argument.problem())
+                                     .number(argument.number())
                                      .status(RepairStatus.CREATED)
                                      .build());
     }
@@ -47,15 +46,14 @@ public class RepairService {
 
     private Predicate buildPredicate(SearchRepairArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getProblem(), qRepair.problem::containsIgnoreCase)
-                          .add(argument.getNumber(), qRepair.number::containsIgnoreCase)
-                          .add(argument.getFixTypeId(), qRepair.fixType.id::eq)
-                          .add(argument.getPhotoIds(), qRepair.photos.any().id::in)
-                          .add(argument.getStatus(), qRepair.status::eq)
-                          .add(argument.getCreateDateTo(), qRepair.createDate::loe)
-                          .add(argument.getCreateDateFrom(), qRepair.createDate::goe)
-                          .add(argument.getPointId(), qRepair.point.id::eq)
-                          .addAnyString(argument.getSearchString(), qRepair.number::containsIgnoreCase, qRepair.problem::containsIgnoreCase)
+                          .add(argument.problem(), qRepair.problem::containsIgnoreCase)
+                          .add(argument.number(), qRepair.number::containsIgnoreCase)
+                          .add(argument.fixType(), qRepair.fixType::containsIgnoreCase)
+                          .add(argument.status(), qRepair.status::eq)
+                          .add(argument.createDateTo(), qRepair.createDate::loe)
+                          .add(argument.createDateFrom(), qRepair.createDate::goe)
+                          .add(argument.pointId(), qRepair.point.id::eq)
+                          .addAnyString(argument.searchString(), qRepair.number::containsIgnoreCase, qRepair.problem::containsIgnoreCase)
                           .buildAnd();
     }
 

@@ -1,22 +1,15 @@
 package org.apatrios.service.services.support.argument;
 
 import lombok.Builder;
-import lombok.Value;
-import org.apatrios.model.dictoinary.Dict;
 import org.apatrios.model.services.Photo;
 import org.apatrios.model.services.Repair;
-import org.apatrios.model.services.SupportStatus;
 
 import java.util.List;
 
-@Value
 @Builder
-public class CreateSupportArgument {
-    Dict type;
-
-    String description;
-
-    List<Photo> photo;
-
-    Repair childRepairId;
-}
+public record CreateSupportArgument(
+        String type,
+        String description,
+        List<Photo> photo,
+        Repair childRepairId
+) {}

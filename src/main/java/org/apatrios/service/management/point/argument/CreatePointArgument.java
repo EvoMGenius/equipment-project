@@ -1,20 +1,16 @@
 package org.apatrios.service.management.point.argument;
 
 import lombok.Builder;
-import lombok.Value;
-import org.apatrios.model.dictoinary.Dict;
-import org.apatrios.model.management.PointStatus;
+import org.apatrios.model.dictoinary.PointType;
+import org.apatrios.model.management.Company;
 
-@Value
 @Builder
-public class CreatePointArgument {
-    Dict pointType;
-
-    String name;
-
-    String number;
-
-    String address;
-
-    String workTime;
+public record CreatePointArgument(
+        String name,
+        String address,
+        Company company,
+        PointType pointType,
+        Double latitude,
+        Double longitude
+) {
 }

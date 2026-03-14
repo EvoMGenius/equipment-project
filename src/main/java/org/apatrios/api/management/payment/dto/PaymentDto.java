@@ -1,44 +1,54 @@
 package org.apatrios.api.management.payment.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.apatrios.api.dictionary.dict.dto.DictDto;
+import org.apatrios.api.dictionary.payment_type.dto.PaymentTypeDto;
+import org.apatrios.api.management.company.dto.CompanyDto;
 import org.apatrios.model.management.PaymentStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = PRIVATE)
 @Schema(description = "DTO для информации об оплате")
-public class PaymentDto {
+public record PaymentDto(
 
-    @Schema(description = "ID")
-    UUID id;
+        @Schema(description = "Уникальный идентификатор платежа")
+        UUID id,
 
-    @Schema(description = "Способ оплаты (например: Картой, СБП, Электронный кошелек)")
-    DictDto paymentType;
+        @Schema(description = "Способ оплаты")
+        PaymentTypeDto paymentType,
 
-    @Schema(description = "Тип оплачиваемой сущности (например: Аренда, Штраф, Депозит)")
-    DictDto entityType;
+        @Schema(description = "Компания")
+        CompanyDto company,
 
-    @Schema(description = "Валюта платежа", example = "RUB")
-    String currency;
+        @Schema(description = "Тип оплачиваемой сущности")
+        String entityType,
 
-    @Schema(description = "Сумма платежа", example = "450.00")
-    BigDecimal amount;
+        @Schema(description = "ID оплачиваемой сущности")
+        UUID entityId,
 
-    @Schema(description = "Текущий статус платежа (Создан, Оплачен, Отменен)")
-    PaymentStatus status;
+        @Schema(description = "Валюта платежа")
+        String currency,
 
-    @Schema(description = "Метаданные от платежки")
-    Map<String, String> metadata;
-}
+        @Schema(description = "Сумма платежа")
+        BigDecimal amount,
+
+        @Schema(description = "Дата востребования платежа")
+        LocalDateTime dateOfDemand,
+
+        @Schema(description = "Текущий статус платежа (CREATED, PENDING, CANCELED, SUCCEEDED)")
+        PaymentStatus status,
+
+        @Schema(description = "Дата создания платежа")
+        LocalDateTime createDate,
+
+        @Schema(description = "Дата последнего обновления платежа")
+        LocalDateTime updateDate,
+
+        @Schema(description = "Метаданные от платежной системы (например confirm_url)")
+        Map<String, String> metadata,
+
+        @Schema(description = "Удален ли")
+        Boolean isDeleted
+) {}

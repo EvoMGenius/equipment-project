@@ -20,5 +20,4 @@ public class SearchModelBikeDto extends BaseDictionarySearchDto {
     String maxLoad;
     String range;
     String maxSpeed;
-    List<UUID> photoIds;
 }

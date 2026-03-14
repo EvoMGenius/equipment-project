@@ -1,29 +1,20 @@
 package org.apatrios.service.equipment.bike.argument;
 
 import lombok.Builder;
-import lombok.Value;
 import org.apatrios.model.dictoinary.ModelBike;
-import org.apatrios.model.management.Tariff;
-import org.apatrios.model.management.Telemetry;
+import org.apatrios.model.equipment.Iot;
+import org.apatrios.model.management.Company;
 
-import java.util.List;
-
-@Value
 @Builder
-public class CreateBikeArgument {
-    String invNumber;
-
-    ModelBike modelBike;
-
-    Telemetry telemetry;
-
-    List<Tariff> tariff;
-
-    Tariff chosenTariff;
-
-    Boolean isBlocked;
-
-    Boolean isAlarmOn;
-
-    Boolean isHeadlightsOn;
+public record CreateBikeArgument(
+        ModelBike modelBike,
+        Company company,
+        Integer seqNumber,
+        Integer invNumber,
+        String vin,
+        String motorWheel,
+        Iot iot,
+        String comment,
+        Boolean isDeleted
+) {
 }

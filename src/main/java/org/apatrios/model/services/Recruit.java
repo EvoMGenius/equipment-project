@@ -3,6 +3,7 @@ package org.apatrios.model.services;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 
@@ -24,7 +25,7 @@ public class Recruit extends BaseEntity {
     String recruitCompanyName;
 
     /** Дата начала */
-    @Column(nullable = false)
+    @CreationTimestamp
     LocalDateTime createDate;
 
     /** Статус */

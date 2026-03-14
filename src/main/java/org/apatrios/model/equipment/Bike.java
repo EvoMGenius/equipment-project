@@ -4,13 +4,12 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.ModelBike;
-import org.apatrios.model.management.Tariff;
-import org.apatrios.model.management.Telemetry;
+import org.apatrios.model.management.Company;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -23,46 +22,48 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class Bike extends BaseEntity {
 
-    /** Инвентарный номер */
-    @Column(nullable = false, unique = true)
-    String invNumber;
-
-    /** Ссылка на модель велосипеда */
+    /** Модель велосипеда — Внешний ключ. Справочник "Модели велосипедов" */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "model_id")
     ModelBike modelBike;
 
-    /** Последние данные телеметрии */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "telemetry_id")
-    Telemetry telemetry;
-
-    /** Флаг блокировки */
-    Boolean isBlocked;
-
-    /** Состояние сигнализации */
-    Boolean isAlarmOn;
-
-    /** Состояние фонарей */
-    Boolean isHeadlightsOn;
-
-    /** Список доступных тарифов для этого велосипеда */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "bike_tariffs",
-            joinColumns = @JoinColumn(name = "bike_id"),
-            inverseJoinColumns = @JoinColumn(name = "tariff_id")
-    )
-    @Builder.Default
-    List<Tariff> tariff = new ArrayList<>();
-
-    /** Текущий выбранный тариф */
+    /** ID франчайзи — Внешний ключ. Бизнес-объект "Франчайзи" */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chosen_tariff_id")
-    Tariff chosenTariff;
+    Company company;
+
+    /** Порядковый номер велосипеда внутри модели */
+    Integer seqNumber;
+
+    /** Инвентаризационный номер велосипеда внутри велопарка */
+    @Column(nullable = false)
+    Integer invNumber;
+
+    /** VIN электровелосипеда */
+    String vin;
+
+    /** № мотор-колеса */
+    String motorWheel;
+
+    /** IOT-модуль — Внешний ключ. Бизнес-объект "IOT-модули" */
+    @ManyToOne(fetch = FetchType.LAZY)
+    Iot iot;
 
     /** Статус */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     BikeStatus status;
+
+    /** Комментарий к велосипеду */
+    String comment;
+
+    /** Дата и время создания записи в реестре */
+    @CreationTimestamp
+    LocalDateTime createDate;
+
+    /** Дата и время обновления записи в реестре */
+    @UpdateTimestamp
+    LocalDateTime updateDate;
+
+    /** Признак удаления */
+    @Builder.Default
+    Boolean isDeleted = false;
 }

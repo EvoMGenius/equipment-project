@@ -1,41 +1,41 @@
 package org.apatrios.api.management.point.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.apatrios.api.dictionary.dict.dto.DictDto;
+import org.apatrios.api.dictionary.point_type.dto.PointTypeDto;
+import org.apatrios.api.management.company.dto.CompanyDto;
 import org.apatrios.model.management.PointStatus;
-
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static lombok.AccessLevel.PRIVATE;
+@Schema(description = "Информация о точке")
+public record PointDto(
+        @Schema(description = "ID точки")
+        UUID id,
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = PRIVATE)
-@Schema(description = "DTO для информации о точке")
-public class PointDto {
-    @Schema(description = "ID")
-    UUID id;
+        @Schema(description = "Название точки")
+        String name,
 
-    @Schema(description = "Тип точки")
-    DictDto pointType;
+        @Schema(description = "Физический адрес")
+        String address,
 
-    @Schema(description = "Наименование точки", example = "Парковка у ТЦ 'Центральный'")
-    String name;
+        @Schema(description = "Компания")
+        CompanyDto company,
 
-    @Schema(description = "Контактный номер телефона точки", example = "+7 (999) 000-00-00")
-    String number;
+        @Schema(description = "тип точки (из справочника)")
+        PointTypeDto pointType,
 
-    @Schema(description = "Физический адрес расположения")
-    String address;
+        @Schema(description = "Текущий статус")
+        PointStatus status,
 
-    @Schema(description = "Режим работы точки", example = "Пн-Пт: 09:00 - 21:00, Сб-Вс: выходной")
-    String workTime;
+        @Schema(description = "Широта", example = "55.7558")
+        Double latitude,
 
-    @Schema(description = "Текущий статус точки (Активна, Временно закрыта, Ремонт)")
-    PointStatus status;
-}
+        @Schema(description = "Долгота", example = "37.6173")
+        Double longitude,
+
+        @Schema(description = "Дата создания")
+        LocalDateTime createDate,
+
+        @Schema(description = "Признак удаления")
+        Boolean isDeleted
+) {}

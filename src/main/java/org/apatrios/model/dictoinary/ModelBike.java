@@ -1,7 +1,6 @@
 package org.apatrios.model.dictoinary;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.apatrios.model.services.Photo;
 
 import javax.persistence.*;
@@ -31,7 +30,10 @@ public class ModelBike extends BaseDictionary {
     String maxSpeed;
 
     /** * Список фотографий велосипеда */
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "model_bike_id")
+    @ElementCollection
+    @CollectionTable(
+            name = "model_bike_photo",
+            joinColumns = @JoinColumn(name = "model_bike_id")
+    )
     List<Photo> photo = new ArrayList<>();
 }

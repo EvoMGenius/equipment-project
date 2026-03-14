@@ -28,9 +28,9 @@ public class ContractService {
     @Transactional
     public Contract create(@NonNull CreateContractArgument argument) {
         return repository.save(Contract.builder()
-                                       .doc(argument.getDoc())
+                                       .doc(argument.doc())
                                        .status(ContactStatus.CREATED)
-                                       .recruit(argument.getRecruit())
+                                       .recruit(argument.recruit())
                                        .build());
     }
 
@@ -48,9 +48,9 @@ public class ContractService {
 
     private Predicate buildPredicate(SearchContractArgument argument) {
         return QPredicates.builder()
-                          .add(argument.getDocId(), qContract.doc.id::eq)
-                          .add(argument.getRecruitId(), qContract.recruit.id::eq)
-                          .add(argument.getStatus(), qContract.status::eq)
+                          .add(argument.docId(), qContract.doc.id::eq)
+                          .add(argument.recruitId(), qContract.recruit.id::eq)
+                          .add(argument.status(), qContract.status::eq)
                           .buildAnd();
     }
 }

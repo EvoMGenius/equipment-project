@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.apatrios.action.VoidAction;
 import org.apatrios.action.management.payment.webhook.argument.CreatePaymentWebhookActionArgument;
 import org.apatrios.api.management.payment.webhook.dto.PaymentWebhookDto;
-import org.apatrios.config.yookassa.YookassaWebhookIpChecker;
+import org.apatrios.config.YookassaWebhookIpChecker;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,7 +23,7 @@ public class PaymentWebhookController {
 
     @PostMapping("/yookassa")
     public void handleYookassaWebhook(HttpServletRequest request, @RequestBody PaymentWebhookDto dto) {
-        if (!yookassaWebhookIpChecker.isValidRequest(request)) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid webhook IP");
+   //     if (!yookassaWebhookIpChecker.isValidRequest(request)) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid webhook IP");
         createPaymentWebhookAction.execute(PAYMENT_WEBHOOK_MAPPER.toArgument(dto));
     }
 }

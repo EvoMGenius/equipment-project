@@ -1,6 +1,6 @@
 package org.apatrios.api.equipment.outfit.mapper;
 
-import org.apatrios.action.equipment.outfit.create.CreateOutfitActionArgument;
+import org.apatrios.action.equipment.outfit.argument.CreateOutfitActionArgument;
 import org.apatrios.api.equipment.outfit.dto.OutfitDto;
 import org.apatrios.api.equipment.outfit.dto.CreateOutfitDto;
 import org.apatrios.api.equipment.outfit.dto.SearchOutfitDto;
