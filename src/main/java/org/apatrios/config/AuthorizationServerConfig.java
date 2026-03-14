@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 import org.apatrios.config.properties.OAuth2ClientProperties;
 import org.apatrios.config.properties.OAuth2TokenProperties;
 import org.apatrios.exception.CustomWebExceptionTranslator;
-import org.apatrios.service.details.ElBikesUserDetailsService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,7 +26,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    ElBikesUserDetailsService userDetailsService;
     AuthenticationManager authenticationManager;
     PasswordEncoder passwordEncoder;
     TokenStore tokenStore;
@@ -60,12 +58,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.userDetailsService(userDetailsService)
-                 .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
-                 .tokenStore(tokenStore)
-                 .tokenServices(defaultTokenServices)
-                 .authenticationManager(authenticationManager)
-                 .reuseRefreshTokens(oAuth2TokenProperties.isReuseRefreshToken())
-                 .exceptionTranslator(new CustomWebExceptionTranslator());
+        endpoints
+                .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
+                .tokenStore(tokenStore)
+                .tokenServices(defaultTokenServices)
+                .authenticationManager(authenticationManager)
+                .reuseRefreshTokens(oAuth2TokenProperties.isReuseRefreshToken())
+                .exceptionTranslator(new CustomWebExceptionTranslator());
     }
 }
