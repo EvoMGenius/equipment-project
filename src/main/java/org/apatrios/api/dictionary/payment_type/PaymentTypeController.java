@@ -9,27 +9,25 @@ import org.apatrios.api.dictionary.payment_type.mapper.PaymentTypeMapper;
 import org.apatrios.model.dictoinary.PaymentType;
 import org.apatrios.service.dictionary.BaseDictionaryService;
 import org.apatrios.service.dictionary.PaymentTypeService;
-import org.apatrios.service.dictionary.argument.BaseDictionarySearchArgument;
+import org.apatrios.service.dictionary.argument.SearchPaymentTypeArgument;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("payment-type")
-public class PaymentTypeController extends BaseDictionaryController<PaymentType, BaseDictionarySearchArgument, SearchPaymentTypeDto, PaymentTypeDto> {
-
-    private final PaymentTypeService service;
+@RequestMapping("dict/paymentType")
+public class PaymentTypeController extends BaseDictionaryController<PaymentType, SearchPaymentTypeArgument, SearchPaymentTypeDto, PaymentTypeDto> {
 
     private final PaymentTypeMapper mapper;
+    private final PaymentTypeService paymentTypeService;
 
     @Override
-    protected BaseDictionaryService<PaymentType, BaseDictionarySearchArgument, ?> getService() {
-        return service;
+    protected BaseDictionaryService<PaymentType, SearchPaymentTypeArgument, ?> getService() {
+        return paymentTypeService;
     }
 
     @Override
-    protected BaseDictionaryMapper<PaymentType, PaymentTypeDto, SearchPaymentTypeDto, BaseDictionarySearchArgument> getMapper() {
+    protected BaseDictionaryMapper<PaymentType, PaymentTypeDto, SearchPaymentTypeDto, SearchPaymentTypeArgument> getMapper() {
         return mapper;
     }
-
 }

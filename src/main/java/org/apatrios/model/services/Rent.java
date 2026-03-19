@@ -1,22 +1,20 @@
 package org.apatrios.model.services;
 
-import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.Partner;
-import org.apatrios.model.dictoinary.Tariff;
+import org.apatrios.model.dictoinary.RentType;
+import org.apatrios.model.equipment.Bike;
+import org.apatrios.model.equipment.Outfit;
+import org.apatrios.model.management.Document;
 import org.apatrios.model.management.Payment;
-import org.apatrios.model.management.Staff;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.apatrios.model.management.Point;
+import org.apatrios.model.management.User;
 
 import javax.persistence.*;
-
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -27,69 +25,78 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
-@TypeDef(name = "json", typeClass = JsonType.class)
 public class Rent extends BaseEntity {
 
-    /** Администратор */
+    /** Тип аренды */
     @ManyToOne(fetch = FetchType.LAZY)
-    Staff staff;
+    @JoinColumn(name = "rent_type_id")
+    RentType rentType;
 
-    /** Тариф */
+    /** Последний созданный платеж для этой аренды */
     @ManyToOne(fetch = FetchType.LAZY)
-    Tariff tariff;
-
-    /** Партнер */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Partner partner;
-
-    /** Дата и время начала аренды */
-    @Column(nullable = false)
-    LocalDateTime rentStart;
-
-    /** Дата и время окончания аренды */
-    @Column(nullable = false)
-    LocalDateTime rentEnd;
-
-    /** Статус аренды */
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    RentStatus rentStatus;
-
-    /** Клиент */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Client client;
-
-    /** Оплата */
-    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id")
     Payment payment;
 
-    /** Комментарий */
-    @Column(columnDefinition = "text")
-    String comment;
+    /** Номер аренды */
+    @Column(nullable = false, unique = true)
+    String number;
 
-    /** Родительская аренда */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Rent parentRent;
-
-    /** Родительская заявка */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Request parentRequest;
-
-    /** Дата и время создания */
+    /** Статус */
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    LocalDateTime createDate;
+    RentStatus status;
 
-    /** Дата и время обновления */
-    LocalDateTime updateDate;
+    /** Пользователь, которому принадлежит аренда */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    User user;
 
-    /** Признак удаления */
+    /** Электровелосипед */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bike_id")
+    Bike bike;
+
+    /** Пункт выдачи */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "point_id")
+    Point point;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "rent_id")
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted = false;
+    List<Debt> debts = new ArrayList<>();
 
-    /** Идентификаторы франчайзи */
+    /** Дата начала аренды */
+    LocalDateTime startDate;
+
+    /** Дата окончания аренды */
+    LocalDateTime endDate;
+
+    /** Стоимость аренды с учетом экипировки */
+    Integer total;
+
+    /** Количество прошедших дней */
+    Integer currentDays;
+
+    /** Просрочка в днях */
+    Integer delay;
+
+    /** Стоимость просрочки */
+    BigDecimal delayCost;
+
+    /** Экипировка */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "rent_outfits",
+            joinColumns = @JoinColumn(name = "rent_id"),
+            inverseJoinColumns = @JoinColumn(name = "outfit_id")
+    )
     @Builder.Default
-    @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
-    Set<UUID> franchiseeIds = new HashSet<>();
+    List<Outfit> outfits = new ArrayList<>();
+
+    /** Документы */
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "rent_id")
+    @Builder.Default
+    List<Document> documents = new ArrayList<>();
 }

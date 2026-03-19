@@ -7,7 +7,6 @@ import org.apatrios.feign.telegram.TelegramGatewayClient;
 import org.apatrios.feign.telegram.dto.TelegramSendRequestDto;
 import org.apatrios.service.authentication.AuthenticationCodeService;
 import org.apatrios.util.AuthUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,16 +15,14 @@ public class TelegramAuthenticationRequestAction implements VoidAction<String> {
 
     private final AuthenticationCodeService authenticationCode;
     private final TelegramGatewayClient telegramGatewayClient;
-    @Value("${telegram.gateway.token}")
-    private String token;
 
     @Override
-    public void execute(@NonNull String argument) {
-        String converted = AuthUtils.convertToPhone(argument);
+    public void execute(@NonNull String phoneNumber) {
+        String converted = AuthUtils.convertUsername(phoneNumber);
         String code = authenticationCode.createCode(converted);
-        telegramGatewayClient.sendVerificationMessage("Bearer " + token, TelegramSendRequestDto.builder()
-                                                                                               .code(code)
-                                                                                               .phoneNumber(converted)
-                                                                                               .build());
+        telegramGatewayClient.sendVerificationMessage(TelegramSendRequestDto.builder()
+                                                                            .code(code)
+                                                                            .phoneNumber(converted)
+                                                                            .build());
     }
 }

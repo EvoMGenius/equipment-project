@@ -6,7 +6,7 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.flywaydb.core.internal.util.StringUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +34,13 @@ public class QPredicates {
 
         if (p != null) {
             predicates.add(p);
+        }
+        return this;
+    }
+
+    public QPredicates add(Predicate predicate) {
+        if (predicate != null) {
+            this.predicates.add(predicate);
         }
         return this;
     }

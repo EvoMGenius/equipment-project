@@ -5,23 +5,15 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.apatrios.api.dictionary.claim_type.dto.ClaimTypeDto;
-import org.apatrios.api.dictionary.component_model.dto.ComponentModelDto;
+import org.apatrios.api.dictionary.doc_type.dto.DocTypeDto;
 import org.apatrios.api.dictionary.iot_model.dto.IotModelDto;
 import org.apatrios.api.dictionary.model_bike.dto.ModelBikeDto;
-import org.apatrios.api.dictionary.outfit_model.dto.OutfitModelDto;
-import org.apatrios.api.dictionary.partner.dto.PartnerDto;
 import org.apatrios.api.dictionary.payment_type.dto.PaymentTypeDto;
-import org.apatrios.api.dictionary.point.dto.PointDto;
 import org.apatrios.api.dictionary.point_type.dto.PointTypeDto;
-import org.apatrios.api.dictionary.rejection_reason.dto.RejectionReasonDto;
-import org.apatrios.api.dictionary.repair_type.dto.RepairTypeDto;
-import org.apatrios.api.dictionary.service_dictionary.dto.ServiceDictionaryDto;
-import org.apatrios.api.dictionary.service_type.dto.ServiceTypeDto;
-import org.apatrios.api.dictionary.tariff.dto.TariffDto;
-import org.apatrios.model.dictoinary.EntityStatus;
+import org.apatrios.api.dictionary.rent_type.dto.RentTypeDto;
+import org.apatrios.api.dictionary.tariff_type.dto.TariffTypeDto;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Getter
@@ -31,33 +23,22 @@ import java.util.UUID;
 @AllArgsConstructor
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = PartnerDto.class, name = "partner"),
-        @JsonSubTypes.Type(value = TariffDto.class, name = "tariff"),
-        @JsonSubTypes.Type(value = RejectionReasonDto.class, name = "rejectionReason"),
-        @JsonSubTypes.Type(value = PointTypeDto.class, name = "pointType"),
-        @JsonSubTypes.Type(value = OutfitModelDto.class, name = "outfitModel"),
-        @JsonSubTypes.Type(value = ClaimTypeDto.class, name = "claimType"),
-        @JsonSubTypes.Type(value = ModelBikeDto.class, name = "modelBike"),
-        @JsonSubTypes.Type(value = ComponentModelDto.class, name = "componentModel"),
-        @JsonSubTypes.Type(value = IotModelDto.class, name = "iotModel"),
-        @JsonSubTypes.Type(value = PaymentTypeDto.class, name = "paymentType"),
-        @JsonSubTypes.Type(value = PointDto.class, name = "point"),
-        @JsonSubTypes.Type(value = RepairTypeDto.class, name = "repairType"),
-        @JsonSubTypes.Type(value = ServiceDictionaryDto.class, name = "service"),
-        @JsonSubTypes.Type(value = ServiceTypeDto.class, name = "serviceType"),
+        @JsonSubTypes.Type(value = ModelBikeDto.class, name = "model_bike"),
+        @JsonSubTypes.Type(value = PaymentTypeDto.class, name = "payment_type"),
+        @JsonSubTypes.Type(value = RentTypeDto.class, name = "rent_type"),
+        @JsonSubTypes.Type(value = PointTypeDto.class, name = "point_type"),
+        @JsonSubTypes.Type(value = IotModelDto.class, name = "iot_model"),
+        @JsonSubTypes.Type(value = DocTypeDto.class, name = "doc_type"),
+        @JsonSubTypes.Type(value = TariffTypeDto.class, name = "tariff_type")
 })
 @Schema(description = "Базовый DTO справочника")
 public abstract class BaseDictionaryDto {
 
+    @NonNull
     @Schema(description = "Уникальный идентификатор")
     UUID id;
 
+    @NotBlank
     @Schema(description = "Наименование")
     String name;
-
-    @Schema(description = "Статус")
-    EntityStatus status;
-
-    @Schema(description = "Дата создания")
-    LocalDateTime createDate;
 }

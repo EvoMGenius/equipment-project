@@ -12,7 +12,7 @@
 
     <groupId>org.apatrios</groupId>
     <artifactId>equipment-project</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>1.1.8</version>
     <name>equipment-project</name>
     <description>Application for equipment</description>
 
@@ -116,15 +116,6 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>${flyway.version}</version>
-        </dependency>
-
-        <!-- endregion -->
-
-        <!-- retry -->
-
-        <dependency>
-            <groupId>org.springframework.retry</groupId>
-            <artifactId>spring-retry</artifactId>
         </dependency>
 
         <!-- endregion -->

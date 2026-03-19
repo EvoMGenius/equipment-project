@@ -1,31 +1,32 @@
 package org.apatrios.service.services.rent.argument;
 
 import lombok.Builder;
-import lombok.Value;
-import org.apatrios.model.dictoinary.Partner;
-import org.apatrios.model.dictoinary.Tariff;
+import org.apatrios.model.dictoinary.RentType;
+import org.apatrios.model.equipment.Bike;
+import org.apatrios.model.equipment.Outfit;
 import org.apatrios.model.management.Payment;
-import org.apatrios.model.management.Staff;
-import org.apatrios.model.services.Client;
-import org.apatrios.model.services.Rent;
-import org.apatrios.model.services.Request;
+import org.apatrios.model.management.Point;
+import org.apatrios.model.management.User;
+import org.apatrios.model.services.Debt;
+import org.apatrios.model.management.Document;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.*;
 
-@Value
 @Builder
-public class CreateRentArgument {
-    Set<UUID> franchiseeIds;
-    Client client;
-    Staff staff;
-    LocalDateTime rentStart;
-    LocalDateTime rentEnd;
-    String comment;
-    Rent parentRent;
-    Request parentRequest;
-    Payment payment;
-    Partner partner;
-    Tariff tariff;
+public record CreateRentArgument(
+        RentType rentType,
+        String number,
+        User user,
+        Bike bike,
+        Point point,
+        List<Debt> debts,
+        Integer total,
+        Integer currentDays,
+        Integer delay,
+        BigDecimal delayCost,
+        List<Outfit> outfits,
+        List<Document> documents,
+        Payment payment
+) {
 }

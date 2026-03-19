@@ -1,51 +1,47 @@
 package org.apatrios.api.management.user.profile.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 import org.apatrios.model.management.UserProfile;
 import org.apatrios.model.management.UserStatus;
+import org.apatrios.model.services.Photo;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
-import static lombok.AccessLevel.PRIVATE;
+@Schema(description = "DTO профиля пользователя")
+public record UserProfileDto(
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = PRIVATE)
-@Schema(description = "ДТО юзера")
-public class UserProfileDto {
+        @Schema(description = "ID")
+        UUID id,
 
-    @Schema(description = "Логин", requiredMode = REQUIRED)
-    String username;
+        @Schema(description = "Профиль пользователя")
+        UserProfile userProfile,
 
-    @Schema(description = "ids франчайзи")
-    Set<UUID> franchiseeIds;
+        @Schema(description = "Email пользователя")
+        String email,
 
-    @Schema(description = "Активна ли запись", requiredMode = REQUIRED)
-    boolean enabled;
+        @Schema(description = "Номер телефона пользователя")
+        String phoneNumber,
 
-    @Schema(description = "Доступ учетной записи", requiredMode = REQUIRED)
-    Set<String> authorities;
+        @Schema(description = "Дата и время создания записи")
+        LocalDateTime createDate,
 
-    @Schema(description = "Профиль", requiredMode = REQUIRED)
-    UserProfile userProfile;
+        @Schema(description = "Дата и время обновления записи")
+        LocalDateTime updateDate,
 
-    @Schema(description = "Статус", requiredMode = REQUIRED)
-    UserStatus status;
+        @Schema(description = "Признак удаления")
+        Boolean isDeleted,
 
-    @Schema(description = "Последний вход", requiredMode = REQUIRED)
-    LocalDateTime lastLogin;
+        @Schema(description = "Признак верификации пользователя")
+        Boolean isVerified,
 
-    @Schema(description = "Дата создания", requiredMode = REQUIRED)
-    LocalDateTime createDate;
+        @Schema(description = "Список ролей и прав пользователя")
+        Set<String> authorities,
 
-    @Schema(description = "Дата обновления", requiredMode = REQUIRED)
-    LocalDateTime updateDate;
-}
+        @Schema(description = "Статус пользователя")
+        UserStatus status,
+
+        @Schema(description = "Аватар пользователя")
+        Photo avatar
+) {}

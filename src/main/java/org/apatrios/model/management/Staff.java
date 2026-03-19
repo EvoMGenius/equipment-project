@@ -3,6 +3,8 @@ package org.apatrios.model.management;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 
@@ -19,33 +21,42 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class Staff extends BaseEntity {
 
-    /** Контактная информация сотрудника */
-    @Embedded
-    StaffProfile staffProfile;
-
-    /** Должность сотрудника */
-    @Enumerated(EnumType.STRING)
+    /** Фамилия */
     @Column(nullable = false)
-    Position position;
+    String surname;
 
-    /** Франчайзинговая точка */
+    /** Имя */
+    @Column(nullable = false)
+    String name;
+
+    /** Должность */
+    @Column(nullable = false)
+    String position;
+
+    /** Внешний ключ: Бизнес-объект "Компания" */
     @ManyToOne(fetch = FetchType.LAZY)
-    Franchisee franchisee;
+    Company company;
 
-    /** Статус сотрудника */
+    /** Контактный номер */
+    String phone;
+
+    /** Рабочий email */
+    String email;
+
+    /** Cтатус */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     StaffStatus status;
 
-    /** Дата и время создания */
-    @Column(nullable = false)
+    /** Дата и время создания записи */
+    @CreationTimestamp
     LocalDateTime createDate;
 
-    /** Дата и время обновления */
+    /** Дата и время последнего обновления записи */
+    @UpdateTimestamp
     LocalDateTime updateDate;
 
-    /** Признак удаления */
+    /** Признак логического удаления */
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted = false;
+    Boolean isDeleted = false;
 }

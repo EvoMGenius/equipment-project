@@ -1,18 +1,15 @@
 package org.apatrios.model.equipment;
 
-import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.IotModel;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.apatrios.model.management.Company;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,52 +18,45 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = PRIVATE)
-@TypeDef(name = "json", typeClass = JsonType.class)
 public class Iot extends BaseEntity {
 
-    /** Справочник моделей IoT-устройств */
+    /** Модель IOT-модуля */
     @ManyToOne(fetch = FetchType.LAZY)
-    IotModel model;
+    IotModel iotModel;
 
-    /** Инвентарный номер */
-    @Column(nullable = false)
+    /** Инвентаризационный номер IOT-модуля */
     String invNumber;
 
-    /** Международный идентификатор мобильного оборудования */
-    @Column(nullable = false)
+    /** Франчайзи / Компания */
+    @ManyToOne(fetch = FetchType.LAZY)
+    Company company;
+
+    /** IMEI мобильного оборудования */
     String imei;
 
-    /** SIM-карта */
-    @OneToOne(fetch = FetchType.LAZY)
-    Sim sim;
+    /** Ссылка на сим-карту */
+    UUID simId;
 
-    /** Статус */
+    /** Текущий статус модуля */
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     IotStatus status;
 
-    /** Комментарий */
-    @Column(columnDefinition = "text")
+    /** Комментарий к запчасти / модулю */
     String comment;
 
-    /** Дата и время создания */
-    @Column(nullable = false)
+    /** Дата и время создания записи */
+    @CreationTimestamp
     LocalDateTime createDate;
 
-    /** Дата и время обновления */
+    /** Дата и время обновления записи */
+    @UpdateTimestamp
     LocalDateTime updateDate;
 
     /** Признак удаления */
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
     boolean isDeleted = false;
-
-    /** Идентификаторы франчайзи */
-    @Builder.Default
-    @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
-    Set<UUID> franchiseeIds = new HashSet<>();
 }

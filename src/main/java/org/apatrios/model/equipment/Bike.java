@@ -4,10 +4,11 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.ModelBike;
-import org.apatrios.model.management.Franchisee;
+import org.apatrios.model.management.Company;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-
 import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -21,52 +22,48 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class Bike extends BaseEntity {
 
-    /** Модель велосипеда */
+    /** Модель велосипеда — Внешний ключ. Справочник "Модели велосипедов" */
     @ManyToOne(fetch = FetchType.LAZY)
     ModelBike modelBike;
 
-    /** Франчайзи */
+    /** ID франчайзи — Внешний ключ. Бизнес-объект "Франчайзи" */
     @ManyToOne(fetch = FetchType.LAZY)
-    Franchisee franchisee;
+    Company company;
 
-    /** Порядковый номер внутри модели */
-    @Column(nullable = false)
+    /** Порядковый номер велосипеда внутри модели */
     Integer seqNumber;
 
-    /** Инвентарный номер */
+    /** Инвентаризационный номер велосипеда внутри велопарка */
     @Column(nullable = false)
     Integer invNumber;
 
-    /** VIN — уникальный идентификатор транспортного средства */
-    @Column(nullable = false)
+    /** VIN электровелосипеда */
     String vin;
 
-    /** Марка/модель моторного колеса */
-    @Column(nullable = false)
+    /** № мотор-колеса */
     String motorWheel;
 
-    /** Ссылка на SIM/IOT устройство, привязанное к этому Bike */
-    @OneToOne(fetch = FetchType.LAZY)
+    /** IOT-модуль — Внешний ключ. Бизнес-объект "IOT-модули" */
+    @ManyToOne(fetch = FetchType.LAZY)
     Iot iot;
 
-    /** Статус велосипеда */
+    /** Статус */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     BikeStatus status;
 
-    /** Комментарий */
-    @Column(columnDefinition = "text")
+    /** Комментарий к велосипеду */
     String comment;
 
-    /** Дата и время создания */
-    @Column(nullable = false)
+    /** Дата и время создания записи в реестре */
+    @CreationTimestamp
     LocalDateTime createDate;
 
-    /** Дата и время обновления */
+    /** Дата и время обновления записи в реестре */
+    @UpdateTimestamp
     LocalDateTime updateDate;
 
     /** Признак удаления */
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted = false;
+    Boolean isDeleted = false;
 }

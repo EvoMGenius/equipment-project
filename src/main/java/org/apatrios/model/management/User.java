@@ -1,16 +1,15 @@
 package org.apatrios.model.management;
 
-import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
-import org.apatrios.model.dictoinary.UserRole;
-import org.hibernate.annotations.TypeDef;
+import org.apatrios.model.services.Photo;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -23,66 +22,53 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @FieldDefaults(level = PRIVATE)
 @Table(name = "user_account")
-@TypeDef(name = "json", typeClass = JsonType.class)
 public class User extends BaseEntity {
 
-    /** Отображаемое имя */
-    String username;
-
-    /** Уникальное имя для входа в систему */
-    @Column(nullable = false)
-    String login;
-
-    /** Пароль */
-    String password;
-
-    /** Аватарка */
-    String avatarPath;
-
-    /** Роли */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    @Builder.Default
-    Set<UserRole> roles = new HashSet<>();
-
-    /** Информация пользователя */
+    /** Профиль */
     @Embedded
     UserProfile userProfile;
 
-    /** Статус пользователя */
+    /*** Аватар пользователя */
+    @Embedded
+    Photo avatar;
+
+    /** Адрес электронной почты */
+    @Column(unique = true)
+    String email;
+
+    /** Номер телефона */
+    String phoneNumber;
+
+    /** Статус */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     UserStatus status;
 
-    @Column(nullable = false)
-    LocalDateTime lastLogin;
+    /** Роли */
+    @Column(name = "authority")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_authority",
+            joinColumns = @JoinColumn(name = "user_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "authority"})})
+    Set<String> authorities;
 
-    /** Дата и время создания */
-    @Column(nullable = false)
+    /** Дата и время создания записи */
+    @CreationTimestamp
     LocalDateTime createDate;
 
-    /** Дата и время обновления */
+    /** Дата и время обновления записи */
+    @UpdateTimestamp
     LocalDateTime updateDate;
-
-    /** Доступен ли для входа аккаунт */
-    @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default true")
-    boolean enabled = true;
 
     /** Признак удаления */
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted = false;
+    Boolean isDeleted = false;
 
-    /** Франчайзи */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Franchisee company;
+    /** Флаг подтверждения */
+    @Builder.Default
+    Boolean isVerified = false;
 
-    /** Сотрудник */
-    @ManyToOne(fetch = FetchType.LAZY)
-    Staff staff;
+    /** Флаг подтверждения почты */
+    @Builder.Default
+    Boolean isEmailVerified = false;
 }

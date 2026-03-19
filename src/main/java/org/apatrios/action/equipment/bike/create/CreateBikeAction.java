@@ -4,15 +4,16 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.action.Action;
+import org.apatrios.action.equipment.bike.create.argument.CreateBikeActionArgument;
 import org.apatrios.model.equipment.Bike;
-import org.apatrios.model.equipment.Iot;
 import org.apatrios.model.dictoinary.ModelBike;
-import org.apatrios.model.management.Franchisee;
+import org.apatrios.model.equipment.Iot;
+import org.apatrios.model.management.Company;
 import org.apatrios.service.equipment.bike.BikeService;
 import org.apatrios.service.equipment.bike.argument.CreateBikeArgument;
 import org.apatrios.service.dictionary.ModelBikeService;
 import org.apatrios.service.equipment.iot.IotService;
-import org.apatrios.service.management.franchisee.FranchiseeService;
+import org.apatrios.service.management.company.CompanyService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,26 +25,26 @@ import static lombok.AccessLevel.PRIVATE;
 public class CreateBikeAction implements Action<CreateBikeActionArgument, Bike> {
 
     BikeService bikeService;
-    IotService iotService;
     ModelBikeService modelBikeService;
-    FranchiseeService franchiseeService;
+    CompanyService companyService;
+    IotService iotService;
 
     @Override
     @Transactional
     public Bike execute(@NonNull CreateBikeActionArgument argument) {
-        Iot iot = iotService.getExisting(argument.getIotId());
-        ModelBike modelBike = modelBikeService.getExisting(argument.getModelBikeId());
-        Franchisee franchisee = franchiseeService.getExisting(argument.getFranchiseeId());
+        ModelBike modelBike = modelBikeService.getExisting(argument.modelBikeId());
+        Company company = companyService.getExisting(argument.companyId());
+        Iot iot = iotService.getExisting(argument.iotId());
 
         return bikeService.create(CreateBikeArgument.builder()
-                                                    .iot(iot)
+                                                    .invNumber(argument.invNumber())
+                                                    .seqNumber(argument.seqNumber())
+                                                    .company(company)
+                                                    .motorWheel(argument.motorWheel())
                                                     .modelBike(modelBike)
-                                                    .vin(argument.getVin())
-                                                    .comment(argument.getComment())
-                                                    .invNumber(argument.getInvNumber())
-                                                    .seqNumber(argument.getSeqNumber())
-                                                    .motorWheel(argument.getMotorWheel())
-                                                    .franchisee(franchisee)
+                                                    .iot(iot)
+                                                    .vin(argument.vin())
+                                                    .comment(argument.comment())
                                                     .build());
     }
 }

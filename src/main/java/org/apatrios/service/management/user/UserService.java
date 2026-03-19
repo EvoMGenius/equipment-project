@@ -10,11 +10,9 @@ import org.apatrios.model.management.UserStatus;
 import org.apatrios.repository.managment.UserRepository;
 import org.apatrios.service.management.user.argument.CreateUserArgument;
 import org.apatrios.service.management.user.argument.UpdateUserArgument;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,22 +22,17 @@ import java.util.UUID;
 public class UserService {
 
     UserRepository repository;
-    PasswordEncoder encoder;
 
     @Transactional
     public User create(@NonNull CreateUserArgument argument) {
         return repository.save(User.builder()
-                                   .username(argument.getUsername())
-                                   .password(encoder.encode(argument.getPassword()))
-                                   .roles(argument.getUserRoles())
-                                   .status(UserStatus.ACTIVE)
-                                   .createDate(LocalDateTime.now())
-                                   .updateDate(LocalDateTime.now())
-                                   .lastLogin(LocalDateTime.now())
-                                   .userProfile(argument.getUserProfile())
-                                   .company(argument.getCompany())
-                                   .login(argument.getLogin())
-                                   .staff(argument.getStaff())
+                                   .email(argument.email())
+                                   .avatar(argument.avatar())
+                                   .userProfile(argument.userProfile())
+                                   .phoneNumber(argument.phoneNumber())
+                                   .authorities(argument.authorities())
+                                   .isVerified(true)
+                                   .status(UserStatus.PRE_REGISTERED)
                                    .build());
     }
 
@@ -47,17 +40,14 @@ public class UserService {
     public User update(@NonNull UUID id, @NonNull UpdateUserArgument argument) {
         User user = getExisting(id);
 
-        user.setUsername(argument.getEmail());
-        user.setLastLogin(LocalDateTime.now());
-        user.setUpdateDate(LocalDateTime.now());
+        Optional.ofNullable(argument.userProfile()).ifPresent(user::setUserProfile);
+        Optional.ofNullable(argument.phoneNumber()).ifPresent(user::setPhoneNumber);
+        Optional.ofNullable(argument.email()).ifPresent(user::setEmail);
+        Optional.ofNullable(argument.avatar()).ifPresent(user::setAvatar);
+        Optional.ofNullable(argument.status()).ifPresent(user::setStatus);
+        Optional.ofNullable(argument.isEmailVerified()).ifPresent(user::setIsEmailVerified);
+        Optional.ofNullable(argument.authorities()).ifPresent(user::setAuthorities);
 
-        return repository.save(user);
-    }
-
-    @Transactional
-    public User setAvatarPath(@NonNull UUID id, @NonNull String avatarPath) {
-        User user = getExisting(id);
-        user.setAvatarPath(avatarPath);
         return repository.save(user);
     }
 
@@ -68,7 +58,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<User> getByLogin(@NonNull String login) {
-        return repository.findByLogin(login);
+    public Optional<User> getByPhoneNumber(@NonNull String phoneNumber) {
+        return repository.findByPhoneNumber(phoneNumber);
     }
 }

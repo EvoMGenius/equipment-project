@@ -1,20 +1,15 @@
 package org.apatrios.service.management.staff.argument;
 
 import lombok.Builder;
-import lombok.Value;
-import org.apatrios.model.management.Franchisee;
-import org.apatrios.model.management.Position;
-import org.apatrios.model.management.StaffProfile;
-import org.apatrios.model.management.StaffStatus;
+import org.apatrios.model.management.Company;
 
-@Value
 @Builder
-public class CreateStaffArgument {
-    StaffProfile staffProfile;
-
-    Franchisee franchisee;
-
-    Position position;
-
-    StaffStatus status;
+public record CreateStaffArgument(
+        String surname,
+        String name,
+        String position,
+        Company company,
+        String phone,
+        String email
+) {
 }

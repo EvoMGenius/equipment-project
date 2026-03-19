@@ -5,14 +5,16 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apatrios.model.BaseEntity;
 import org.apatrios.model.dictoinary.PaymentType;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -27,55 +29,50 @@ import static lombok.AccessLevel.PRIVATE;
 @TypeDef(name = "json", typeClass = JsonType.class)
 public class Payment extends BaseEntity {
 
-    /** Ключ в системе платежей */
-    String externalPaymentId;
+    /** Валюта платежа */
+    @Column(nullable = false)
+    String currency;
 
-    /** Ссылка подтверждения оплаты от Юкассы */
-    String confirmationUrl;
+    /*** Сумма платежа */
+    @Column(nullable = false)
+    BigDecimal amount;
 
-    /** Ссылка для возврата после оплаты от Юкассы */
-    String returnUrl;
+    /*** Компания */
+    @ManyToOne(fetch = FetchType.LAZY)
+    Company company;
 
-    /** Общая сумма для оплаты */
-    @Embedded
-    Amount amount;
-
-    /** Общая сумма после оплаты */
-    @Embedded
-    IncomeAmount incomeAmount;
-
-    /** Тип оплаты */
+    /*** Тип платежа */
     @ManyToOne(fetch = FetchType.LAZY)
     PaymentType paymentType;
 
-    /** Статус оплаты */
+    /*** Внешний ключ на связанную сущность (аренда, услуга и т.д.) */
+    UUID entityId;
+
+    /*** Тип оплачиваемой сущности */
+    String entityType;
+
+    /** Дата востребования (используется при создании из заявки/аренды по тарифу) */
+    LocalDateTime dateOfDemand;
+
+    /** Статус */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     PaymentStatus status;
 
-    /** Внешний ключ на связанную сущность (аренда, услуга и т.д.) */
-    @Column(nullable = false)
-    UUID entityId;
-
-    /** Тип связанной сущности (например "rent", "service") */
-    @Column(nullable = false)
-    String entityType;
-
-    /** Дата и время создания */
-    @Column(nullable = false)
+    /** Дата и время создания записи */
+    @CreationTimestamp
     LocalDateTime createDate;
 
-    /** Дата и время обновления */
+    /** Дата и время обновления записи */
+    @UpdateTimestamp
     LocalDateTime updateDate;
 
     /** Признак удаления */
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    boolean isDeleted = false;
+    Boolean isDeleted = false;
 
-    /** Идентификаторы франчайзи */
-    @Builder.Default
+    /** Доп данные для оплаты */
     @Type(type = "json")
     @Column(columnDefinition = "jsonb")
-    Set<UUID> franchiseeIds = new HashSet<>();
+    Map<String, String> metadata;
 }

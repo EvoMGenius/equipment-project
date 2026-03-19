@@ -15,13 +15,12 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE)
 public class UserProfile {
-
-    /** Фамилия */
-    String lastName;
-
-    /** Имя */
+    /** Имя пользователя */
     String firstName;
 
+    /** Фамилия пользователя */
+    String lastName;
+
     /** Отчество */
-    String middleName;
+    String patronymic;
 }

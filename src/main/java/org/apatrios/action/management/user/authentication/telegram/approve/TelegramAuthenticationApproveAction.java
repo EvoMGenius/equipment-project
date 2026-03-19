@@ -9,15 +9,19 @@ import org.apatrios.action.management.user.authentication.telegram.approve.argum
 import org.apatrios.service.AuthenticationService;
 import org.apatrios.service.authentication.AuthenticationCodeService;
 import org.apatrios.service.management.user.UserService;
+import org.apatrios.service.management.user.argument.CreateUserArgument;
 import org.apatrios.util.AuthUtils;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+import java.util.Set;
+
 @Component
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class TelegramAuthenticationApproveAction implements Action<TelegramAuthenticationApproveActionArgument, OAuth2AccessToken> {
+public class TelegramAuthenticationApproveAction implements Action<TelegramAuthenticationApproveActionArgument, Optional<OAuth2AccessToken>> {
 
     AuthenticationCodeService authenticationCode;
     AuthenticationService authenticationService;
@@ -25,11 +29,18 @@ public class TelegramAuthenticationApproveAction implements Action<TelegramAuthe
 
     @Override
     @Transactional
-    public OAuth2AccessToken execute(@NonNull TelegramAuthenticationApproveActionArgument argument) {
-        String converted = AuthUtils.convertToPhone(argument.getLogin());
-        authenticationCode.verifyCode(converted, argument.getCode());
-        return userService.getByLogin(converted)
-                          .map(user -> authenticationService.login(user.getLogin(), "N/A"))
-                          .orElse(null);
+    public Optional<OAuth2AccessToken> execute(@NonNull TelegramAuthenticationApproveActionArgument argument) {
+        String converted = AuthUtils.convertUsername(argument.phoneNumber());
+        authenticationCode.verifyCode(converted, argument.code());
+
+        return userService.getByPhoneNumber(converted)
+                          .map(user -> authenticationService.login(converted))
+                          .or(() -> {
+                              userService.create(CreateUserArgument.builder()
+                                                                   .phoneNumber(converted)
+                                                                   .authorities(Set.of("USER"))
+                                                                   .build());
+                              return Optional.empty();
+                          });
     }
 }

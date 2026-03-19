@@ -1,24 +1,25 @@
 package org.apatrios.service.management.payment.argument;
 
 import lombok.Builder;
-import lombok.Value;
 import org.apatrios.model.dictoinary.PaymentType;
-import org.apatrios.model.management.Amount;
-import org.apatrios.model.management.IncomeAmount;
+import org.apatrios.model.management.Company;
 import org.apatrios.model.management.PaymentStatus;
 
-import java.util.Set;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
-@Value
 @Builder
-public class UpdatePaymentArgument {
-    PaymentType paymentType;
-    UUID entityId;
-    String entityType;
-    PaymentStatus status;
-    Set<UUID> franchiseeIds;
-    Amount amount;
-    IncomeAmount incomeAmount;
-    String returnUrl;
+public record UpdatePaymentArgument(
+        Company company,
+        PaymentType paymentType,
+        String currency,
+        BigDecimal amount,
+        UUID entityId,
+        String entityType,
+        LocalDateTime dateOfDemand,
+        PaymentStatus status,
+        Map<String, String> metadata
+) {
 }

@@ -1,14 +1,14 @@
 package org.apatrios.service.equipment.outfit.argument;
 
 import lombok.Builder;
-import lombok.Value;
-import org.apatrios.model.dictoinary.OutfitModel;
-import org.apatrios.model.management.Franchisee;
+import org.apatrios.model.management.Tariff;
 
-@Value
+import java.util.List;
+
 @Builder
-public class CreateOutfitArgument {
-    OutfitModel model;
-    String comment;
-    Franchisee franchisee;
+public record CreateOutfitArgument(
+        String name,
+        List<Tariff> tariff,
+        Tariff chosenTariff
+) {
 }

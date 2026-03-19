@@ -1,12 +1,11 @@
 package org.apatrios.service.dictionary.argument;
 
-import lombok.Builder;
-import lombok.Value;
-import org.apatrios.model.dictoinary.EntityStatus;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Value
-@Builder
-public class BaseDictionarySearchArgument {
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public abstract class BaseDictionarySearchArgument {
     String name;
-    EntityStatus status;
 }

@@ -1,18 +1,16 @@
 package org.apatrios.api.management.user.profile.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 
-import static lombok.AccessLevel.PRIVATE;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = PRIVATE)
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
+
 @Schema(description = "ДТО отправки кода на имейл")
-public class ChangeEmailRequestDto {
-    String email;
-}
+public record ChangeEmailRequestDto(
+        @NotBlank
+        @Email
+        @Schema(description = "Имейл", requiredMode = REQUIRED)
+        String email
+) {}
